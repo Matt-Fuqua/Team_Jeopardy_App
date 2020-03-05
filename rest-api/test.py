@@ -49,7 +49,12 @@ def phase3():
     # print results
     print("Printing laptop details")
     for result in cursor.stored_results():
-        print(result.fetchall())
+            for r in result:
+                resultId = r[0]
+    
+    return query = ("SELECT * FROM Dev_Game_Questions WHERE Games_Game_ID={} LIMIT 100".format(resultId))
+
+
 
 if __name__ == "__main__":
 	# app.run(host='0.0.0.0', port=5001)
