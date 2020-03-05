@@ -1,0 +1,3 @@
+export DB_USER=cs411teambfs_Development
+export DB_PASS=qdRudqFuGjMA
+export DB_DB=cs411teambfs_Admin
