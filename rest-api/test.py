@@ -1,6 +1,6 @@
 import os
 import mysql.connector 
-from flask import Flask, request, render_template
+from flask import Flask, request, render_template, jsonify
 app = Flask(__name__)
 application = app
 
@@ -52,14 +52,23 @@ def phase3():
             for r in result:
                 resultId = r[0]
     
-    query = ("SELECT * FROM Dev_Game_Questions WHERE Games_Game_ID={} LIMIT 100".format(resultId))
+    query = ("SELECT Question_Text, Answer_Text, Category FROM Dev_Game_Questions WHERE Games_Game_ID={} LIMIT 100".format(resultId))
     cursor.execute(query)
-    for tup in cursor:
-        
-     
 
+    answers = {}
+    # { "GAMES": [ {question: "This game has a queen and king", answer: "Chess"}, .... ]
+    for tup in cursor:
+        print(tup)
+        (category, question, answer) = (tup[2].decode(), tup[0].decode(), tup[1].decode())
+        t = {"question": question, "answer": answer}
+        if category in answers: answers[category].append(t)
+        else: answers[category] = [t]
+
+    cursor.close()
+    cnx.close()
+    return jsonify(answers)	
 
 if __name__ == "__main__":
-	# app.run(host='0.0.0.0', port=5001)
-    phase3()
+    app.run(host='0.0.0.0', port=5001)
+    #phase3()
     
