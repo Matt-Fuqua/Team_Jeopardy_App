@@ -40,6 +40,18 @@ def hello():
     result += "</table>"
     return result
  
+@app.route("/phase3")
+def phase3():
+    cnx = getConnection()
+    cursor = cnx.cursor()
+
+    cursor.callproc('SP_Generate_Categories', [])
+    # print results
+    print("Printing laptop details")
+    for result in cursor.stored_results():
+        print(result.fetchall())
+
 if __name__ == "__main__":
-	app.run(host='0.0.0.0', port=5001)
+	# app.run(host='0.0.0.0', port=5001)
+    phase3()
     
