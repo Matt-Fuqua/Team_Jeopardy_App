@@ -52,8 +52,11 @@ def phase3():
             for r in result:
                 resultId = r[0]
     
-    return query = ("SELECT * FROM Dev_Game_Questions WHERE Games_Game_ID={} LIMIT 100".format(resultId))
-
+    query = ("SELECT * FROM Dev_Game_Questions WHERE Games_Game_ID={} LIMIT 100".format(resultId))
+    cursor.execute(query)
+    for tup in cursor:
+        
+     
 
 
 if __name__ == "__main__":
