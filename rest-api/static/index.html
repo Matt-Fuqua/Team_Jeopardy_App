@@ -18,7 +18,7 @@
                 document.getElementById("newgame").innerHTML = "<p><em>loading...</em></p>";
 
                 var request = new XMLHttpRequest()
-                request.open('GET', '/phase3', true)
+                request.open('GET', '/rdb4/phase3', true)
                 request.onload = function() {
                     var data = JSON.parse(this.response);
                     var here = document.getElementById("newgame");
