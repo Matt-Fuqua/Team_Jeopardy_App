@@ -13,7 +13,8 @@ def getConnection():
 
 	cnx = mysql.connector.connect(user=db_user, password=db_pass, database=db_db)
 	return cnx 
- 
+
+# This is a simple query we used for testing
 @app.route("/test")
 def hello():
     cnx = getConnection()
@@ -40,6 +41,8 @@ def hello():
     result += "</table>"
     return result
  
+# This is an example endpoint we used to satisfy requirements for phase 3.
+# It calls a stored procedure that creates a new game from random categories and questions
 @app.route("/phase3")
 def phase3():
     cnx = getConnection()
@@ -69,6 +72,50 @@ def phase3():
     response = jsonify(answers)
     response.headers.add('Access-Control-Allow-Origin', '*')
     
+    return response
+
+# This is a query to get more detail from the Questions ARchive about the original quesiton
+@app.route('/archive/<questionID>')
+def archive():
+    cnx = getConnection()
+    cursor = cnx.cursor()
+
+    fields = ["Answer", "Round", "Question_Text", "Category", "Value", "Daily_Double", "Date"]
+    string = [       1,      1,                1,          1,       0,              0,      0]
+
+    cursor.execute("SELECT " + fields.join(", ") +
+                   " FROM Question_Archive WHERE Question_ID = {0}".format(questionID))
+    result = {}
+    for tup in cursor:
+        for i, f in enumerate(fields):
+            if string[i]: result[f] = tup[f].decode()
+            else: result[f] = tup[f]
+    
+    response = jsonify(result)
+    response.headers.add('Access-Control-Allow-Origin', '*')
+    return response
+
+# This is a query to get more detail from the Questions ARchive about the original quesiton
+@app.route('/category/<categoryName>')
+def archive():
+    cnx = getConnection()
+    cursor = cnx.cursor()
+
+    fields = ["Answer", "Round", "Question_Text", "Category", "Value", "Daily_Double", "Date"]
+    string = [       1,      1,                1,          1,       0,              0,      0]
+
+    cursor.execute("SELECT " + fields.join(", ") +
+                   " FROM Question_Archive WHERE LCASE(category) LIKE \"%{0}%\"".format(categoryName))
+    results = []
+    
+    for tup in cursor:
+        result = {}
+        for i, f in enumerate(fields):
+            if string[i]: result[f] = tup[f].decode()
+            else: result[f] = tup[f]
+        results.append(result)
+    response = jsonify(results)
+    response.headers.add('Access-Control-Allow-Origin', '*')
     return response
 
 if __name__ == "__main__":
