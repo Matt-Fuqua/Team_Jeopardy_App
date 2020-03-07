@@ -6,8 +6,10 @@
 
         <script>
             function prettyFormatQuestion(question) {
+                console.log(question);
                 str = "<div class=\"question\">";
                 str += "$" + question["value"] + " -- " + question["question"];
+                str += " -- <small><a href=\"javascript:detail(" + question["question_id"] + ")\">detail</a></small>";
                 str += "<span class=\"answer\">" + question["answer"] + "</span>";
                 str += "</div>"
 
@@ -18,7 +20,7 @@
                 document.getElementById("newgame").innerHTML = "<p><em>loading...</em></p>";
 
                 var request = new XMLHttpRequest()
-                request.open('GET', '/rdb4/phase3', true)
+                request.open('GET', 'http://cs411teambfs.web.illinois.edu/rdb4/phase3', true)
                 request.onload = function() {
                     var data = JSON.parse(this.response);
                     var here = document.getElementById("newgame");
@@ -32,6 +34,24 @@
                         html += "</div>";
                     });
                     html += "</div>";
+                    here.innerHTML = html;
+                }
+                request.send()
+            }
+
+            function detail(questionID) {
+                document.getElementById("detail").innerHTML = "<p><em>loading...</em></p>";
+                var request = new XMLHttpRequest()
+                request.open('GET', 'http://cs411teambfs.web.illinois.edu/rdb4/archive/' + questionID, true);
+                request.onload = function() {
+                    var data = JSON.parse(this.response);
+                    console.log(data);
+                    var here = document.getElementById("detail");
+                    var html = "<table class=\"table\">";
+                    Object.entries(data).forEach(([key, value]) => {
+                        html += "<tr><th scope=\"row\">" + key + "</th><td>" + value + "</td></tr>";
+                    });
+                    html += "</table>";
                     here.innerHTML = html;
                 }
                 request.send()
@@ -77,7 +97,7 @@
                 visibility: visible;
                 opacity: 1;
             }
-
+/*
             .list-group > .list-group {
                 display: none;
                 margin-bottom: 0;
@@ -98,18 +118,16 @@
             .list-group  > .list-group > .list-group-item {
                 padding-left: 2.5rem;
             }
+*/        
         </style>
 
     </head>
     <body>
-        <div class="container-fluid">
+        <div class="container">
             <div class="row">
-                <div class="col-md-6">
+                <div class="col-12 sticky-top">
                     <h1>CS411 Team BFS Stage 3 Static HTML test</h1>
-                </div>
-            </div>
-            <div class="row">
-                <div class="col-md-6">
+
                     <h2>Generate a New Game</h1>
                     <p>Clicking this button will create a new game in the database.  This is implemented as a stored procedure.  The middle layer calls the stored procedure and then runs a simple query to return the randomly generated categories and randomly selected questions from the historical questions.</p>
 
@@ -121,8 +139,16 @@
                 </div>
             </div>
             <div class="row">
-                <div class="col-md-6" id="newgame"></div>
+                <div class="col-6">
+                    <h3>Current Game Categories</h3>
+                    <div id="newgame"><p><em>Generate New Game to create content</em></p></div>
+                </div>
+                <div class="col-6">
+                    <h3>Question Detail</h3>
+                    <div id="detail"><p><em>Click question to load question detail</em></p></div>
+                </div>                
             </div>
+        </div>
 
         <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>

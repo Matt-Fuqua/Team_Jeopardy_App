@@ -84,7 +84,9 @@ def archive(questionID):
     string = [       1,      1,                1,          1,       0,              1,      0]
 
     cursor.execute("SELECT " + ", ".join(fields) + 
-                   " FROM Question_Archive WHERE Question_ID = {0}".format(questionID))
+                   " FROM Question_Archive A JOIN " +
+                   " (SELECT Question_Archive_ID FROM Questions WHERE Question_ID = {0}) B " +
+                   "   ON A.Question_Archive_ID = B.Question_Archive_ID".format(questionID))
     result = {}
     for tup in cursor:
         for i, f in enumerate(fields):
