@@ -1,0 +1,131 @@
+<html>
+    <head>
+        <link rel="canonical" href="https://getbootstrap.com/docs/4.3/components/collapse/">
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+        <title>CS411 - Test</title>
+
+        <script>
+            function prettyFormatQuestion(question) {
+                str = "<div class=\"question\">";
+                str += "$" + question["value"] + " -- " + question["question"];
+                str += "<span class=\"answer\">" + question["answer"] + "</span>";
+                str += "</div>"
+
+                return str;
+            }
+
+            function phase3() {
+                document.getElementById("newgame").innerHTML = "<p><em>loading...</em></p>";
+
+                var request = new XMLHttpRequest()
+                request.open('GET', '/rdb4/phase3', true)
+                request.onload = function() {
+                    var data = JSON.parse(this.response);
+                    var here = document.getElementById("newgame");
+
+                    var html = "<div class=\"list-group\">";
+                    Object.entries(data).forEach(([category, questions]) => {
+                        console.log("category", category);
+                        html += "<a href=\"#\" class=\"list-group-item\">" + category + "</a>"
+                        html += "<div class=\"category list-group\">";
+                        questions.forEach(q => html += prettyFormatQuestion(q));
+                        html += "</div>";
+                    });
+                    html += "</div>";
+                    here.innerHTML = html;
+                }
+                request.send()
+            }
+        </script>
+
+        <style>
+            .question {
+                position: relative;
+                display: inline-block;
+                border-bottom: 1px dotted black;
+            }
+
+            .question .answer {
+                visibility: hidden;
+                width: 120px;
+                background-color: #555;
+                color: #fff;
+                text-align: center;
+                border-radius: 6px;
+                padding: 5px 0;
+                position: absolute;
+                z-index: 1;
+                bottom: 125%;
+                left: 50%;
+                margin-left: -60px;
+                opacity: 0;
+                transition: opacity 0.3s;
+            }
+
+            .question .answer::after {
+                content: "";
+                position: absolute;
+                top: 100%;
+                left: 50%;
+                margin-left: -5px;
+                border-width: 5px;
+                border-style: solid;
+                border-color: #555 transparent transparent transparent;
+            }
+
+            .question:hover .answer {
+                visibility: visible;
+                opacity: 1;
+            }
+
+            .list-group > .list-group {
+                display: none;
+                margin-bottom: 0;
+            }
+            .list-group-item:focus-within + .list-group {
+                display: block;
+            }
+
+            .list-group > .list-group-item {
+                border-radius: 0;
+                border-width: 1px 0 0 0;
+            }
+
+            .list-group > .list-group-item:first-child {
+                border-top-width: 0;
+            }
+
+            .list-group  > .list-group > .list-group-item {
+                padding-left: 2.5rem;
+            }
+        </style>
+
+    </head>
+    <body>
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-md-6">
+                    <h1>CS411 Team BFS Stage 3 Static HTML test</h1>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-6">
+                    <h2>Generate a New Game</h1>
+                    <p>Clicking this button will create a new game in the database.  This is implemented as a stored procedure.  The middle layer calls the stored procedure and then runs a simple query to return the randomly generated categories and randomly selected questions from the historical questions.</p>
+
+                    <form onsubmit="return phase3();">
+                        <button type="submit">Generate New Game!</button>
+                    </form>
+
+                    <p>Maybe embed the code for the stored procedure and the query here so the TA can see it easily.</p>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-6" id="newgame"></div>
+            </div>
+
+        <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
+        <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+    </body>
+</html>
