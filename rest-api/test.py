@@ -52,15 +52,15 @@ def phase3():
             for r in result:
                 resultId = r[0]
     
-    query = ("SELECT Question_Text, Answer_Text, Category FROM Dev_Game_Questions WHERE Games_Game_ID={} LIMIT 100".format(resultId))
+    query = ("SELECT Question_Text, Answer_Text, Category, Value, Round FROM Dev_Game_Questions WHERE Games_Game_ID={} LIMIT 100".format(resultId))
     cursor.execute(query)
 
     answers = {}
     # { "GAMES": [ {question: "This game has a queen and king", answer: "Chess"}, .... ]
     for tup in cursor:
         print(tup)
-        (category, question, answer) = (tup[2].decode(), tup[0].decode(), tup[1].decode())
-        t = {"question": question, "answer": answer}
+        (category, question, answer, value, rnd) = (tup[2].decode(), tup[0].decode(), tup[1].decode(), tup[3], tup[4].decode())
+        t = {"question": question, "answer": answer, "round": rnd, "value": value}
         if category in answers: answers[category].append(t)
         else: answers[category] = [t]
 
