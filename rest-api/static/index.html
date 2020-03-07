@@ -20,7 +20,7 @@
                 document.getElementById("newgame").innerHTML = "<p><em>loading...</em></p>";
 
                 var request = new XMLHttpRequest()
-                request.open('GET', 'http://cs411teambfs.web.illinois.edu/rdb4/phase3', true)
+                request.open('GET', '../phase3', true)
                 request.onload = function() {
                     var data = JSON.parse(this.response);
                     var here = document.getElementById("newgame");
@@ -28,8 +28,8 @@
                     var html = "<div class=\"list-group\">";
                     Object.entries(data).forEach(([category, questions]) => {
                         console.log("category", category);
-                        html += "<a href=\"#\" class=\"list-group-item\">" + category + "</a>"
-                        html += "<div class=\"category list-group\">";
+                        html += "<h4>" + category + "</h4>"
+			html += "<div class=\"category list-group\">";
                         questions.forEach(q => html += prettyFormatQuestion(q));
                         html += "</div>";
                     });
@@ -42,7 +42,7 @@
             function detail(questionID) {
                 document.getElementById("detail").innerHTML = "<p><em>loading...</em></p>";
                 var request = new XMLHttpRequest()
-                request.open('GET', 'http://cs411teambfs.web.illinois.edu/rdb4/archive/' + questionID, true);
+                request.open('GET', '../archive/' + questionID, true);
                 request.onload = function() {
                     var data = JSON.parse(this.response);
                     console.log(data);
@@ -107,11 +107,9 @@
                     <h1>CS411 Team BFS Stage 3 Static HTML test</h1>
 
                     <h2>Generate a New Game</h1>
-                    <p>Clicking this button will create a new game in the database.  This is implemented as a stored procedure.  The middle layer calls the stored procedure and then runs a simple query to return the randomly generated categories and randomly selected questions from the historical questions.</p>
+                    <p>Clicking this link will create a new game in the database.  This is implemented as a stored procedure.  The middle layer calls the stored procedure and then runs a simple query to return the randomly generated categories and randomly selected questions from the historical questions.</p>
 
-                    <form onsubmit="return phase3();">
-                        <button type="submit">Generate New Game!</button>
-                    </form>
+		    <a href="javascript:phase3();">Generate New Game!</a>
 
                     <p>Maybe we embed the code for the stored procedure and the queries used here so the TA can see it easily.</p>
                 </div>
