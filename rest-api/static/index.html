@@ -5,6 +5,11 @@
         <title>CS411 - Test</title>
 
         <script>
+	    function linkClick() {
+		document.getElementById("instruction").style.display = "none";
+		phase3();
+	    }
+
             function prettyFormatQuestion(question) {
                 console.log(question);
                 str = "<div class=\"question\">";
@@ -105,11 +110,11 @@
             <div class="row">
                 <div class="col-12 sticky-top">
                     <h1>CS411 Team BFS Stage 3 Static HTML test</h1>
-
+		    <div id="instruction">
                     <h2>Generate a New Game</h1>
                     <p>Clicking this link will create a new game in the database.  This is implemented as a stored procedure.  The middle layer calls the stored procedure and then runs a simple query to return the randomly generated categories and randomly selected questions from the historical questions.</p>
-
-		    <a href="javascript:phase3();">Generate New Game!</a>
+		    </div>
+		    <a href="javascript:linkClick();">Generate New Game!</a>
 
                     <p>Maybe we embed the code for the stored procedure and the queries used here so the TA can see it easily.</p>
                 </div>
