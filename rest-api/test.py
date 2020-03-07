@@ -54,8 +54,11 @@ def phase3():
     for result in cursor.stored_results():
             for r in result:
                 resultId = r[0]
+    cursor.close()
+    cnx.commit()
+    cursor = cnx.cursor()
     
-    query = ("SELECT Question_Text, Answer_Text, Category, Value, Round, Questions_Question_ID FROM Dev_Game_Questions WHERE Games_Game_ID={} LIMIT 100".format(resultId))
+    query = ("SELECT Question_Text, Answer_Text, Category, Value, Round, Questions_Question_ID FROM Dev_Game_Questions WHERE Games_Game_ID={}".format(resultId))
     cursor.execute(query)
 
     answers = {}
