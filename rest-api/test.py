@@ -66,7 +66,6 @@ def phase3():
 
     cursor.close()
     cnx.close()
-    
     response = jsonify(answers)
     response.headers.add('Access-Control-Allow-Origin', '*')
     
