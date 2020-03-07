@@ -76,43 +76,43 @@ def phase3():
 
 # This is a query to get more detail from the Questions ARchive about the original quesiton
 @app.route('/archive/<questionID>')
-def archive():
+def archive(questionID):
     cnx = getConnection()
     cursor = cnx.cursor()
 
-    fields = ["Answer", "Round", "Question_Text", "Category", "Value", "Daily_Double", "Date"]
-    string = [       1,      1,                1,          1,       0,              0,      0]
+    fields = ["Answer", "Round", "Question_Text", "Category", "Value", "Daily_Double", "Air_Date"]
+    string = [       1,      1,                1,          1,       0,              1,      0]
 
-    cursor.execute("SELECT " + fields.join(", ") +
+    cursor.execute("SELECT " + ", ".join(fields) + 
                    " FROM Question_Archive WHERE Question_ID = {0}".format(questionID))
     result = {}
     for tup in cursor:
         for i, f in enumerate(fields):
-            if string[i]: result[f] = tup[f].decode()
-            else: result[f] = tup[f]
-    
+            if string[i]: result[f] = tup[i].decode()
+            else: result[f] = tup[i]
+    print(result) 
     response = jsonify(result)
     response.headers.add('Access-Control-Allow-Origin', '*')
     return response
 
 # This is a query to get more detail from the Questions ARchive about the original quesiton
 @app.route('/category/<categoryName>')
-def archive():
+def category(categoryName):
     cnx = getConnection()
     cursor = cnx.cursor()
 
-    fields = ["Answer", "Round", "Question_Text", "Category", "Value", "Daily_Double", "Date"]
-    string = [       1,      1,                1,          1,       0,              0,      0]
+    fields = ["Answer", "Round", "Question_Text", "Category", "Value", "Daily_Double", "Air_Date"]
+    string = [       1,      1,                1,          1,       0,              1,      0]
 
-    cursor.execute("SELECT " + fields.join(", ") +
+    cursor.execute("SELECT " + ", ".join(fields) + 
                    " FROM Question_Archive WHERE LCASE(category) LIKE \"%{0}%\"".format(categoryName))
     results = []
     
     for tup in cursor:
         result = {}
         for i, f in enumerate(fields):
-            if string[i]: result[f] = tup[f].decode()
-            else: result[f] = tup[f]
+            if string[i]: result[f] = tup[i].decode()
+            else: result[f] = tup[i]
         results.append(result)
     response = jsonify(results)
     response.headers.add('Access-Control-Allow-Origin', '*')
