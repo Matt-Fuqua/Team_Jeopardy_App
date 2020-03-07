@@ -1,0 +1,396 @@
+{
+  "phase3": {
+    "A JUNE WEDDING CATEGORY": [
+        {
+            "answer": "chapel",
+            "question": "I'm going to this place, also the term for a 2 1/2-yard-long veil, and I'm gonna get married",
+            "round": "1",
+            "value": 800
+        },
+        {
+            "answer": "the Temple",
+            "question": "When a Jewish groom breaks a glass, some say it's to commemorate the destruction of this",
+            "round": "1",
+            "value": 600
+        },
+        {
+            "answer": "the heart",
+            "question": "The placement of a wedding ring comes from a supposed connection between the ring finger & this",
+            "round": "1",
+            "value": 200
+        },
+        {
+            "answer": "broom/broomstick",
+            "question": "\"Jumping\" this object that signifies a wife's duties in the home is an African-American wedding tradition",
+            "round": "1",
+            "value": 1000
+        },
+        {
+            "answer": "recessional",
+            "question": "That famous Mendelssohn music means it's time to start this, the exit of the wedding party",
+            "round": "1",
+            "value": 400
+        }
+    ],
+    "AWARDS FOR WRITING": [
+        {
+            "answer": "the Cervantes Award",
+            "question": "Named for a 16th century luminary, this prize is awarded by the Spanish ministry of culture",
+            "round": "2",
+            "value": 1200
+        },
+        {
+            "answer": "children's writing",
+            "question": "The Newbery Medal goes to writers in this genre; Eleanor Estes won for 1952 with \"Ginger Pye\"",
+            "round": "2",
+            "value": 800
+        },
+        {
+            "answer": "the Nobel Prize in Literature",
+            "question": "Won in 2015 by Svetlana Alexievich, it's handed out annually by the Swedish Academy",
+            "round": "2",
+            "value": 400
+        },
+        {
+            "answer": "Robert Frost",
+            "question": "The Poetry Society of America's gold medal was renamed for this man; as he wrote, \"Nothing gold can stay\"",
+            "round": "2",
+            "value": 2000
+        },
+        {
+            "answer": "the Nebula Award",
+            "question": "This science fiction award is named for an interstellar gas cloud",
+            "round": "2",
+            "value": 2400
+        }
+    ],
+    "COUNTRY COOKING": [
+        {
+            "answer": "Thailand",
+            "question": "Pad see-ew",
+            "round": "1",
+            "value": 1000
+        },
+        {
+            "answer": "Greece",
+            "question": "Souvlaki",
+            "round": "1",
+            "value": 1000
+        },
+        {
+            "answer": "India",
+            "question": "Tandoori chicken",
+            "round": "1",
+            "value": 600
+        },
+        {
+            "answer": "Kung Pao Chicken",
+            "question": "Watch out for the hot peppers when partaking of this Szechwan Chinese dish made with chicken & peanuts",
+            "round": "1",
+            "value": 300
+        },
+        {
+            "answer": "Germany",
+            "question": "Hasenpfeffer",
+            "round": "1",
+            "value": 600
+        }
+    ],
+    "DUST TO DUST": [
+        {
+            "answer": "Mars",
+            "question": "In 2001 the Odyssey spacecraft observed one of the largest dust storms ever on this planet",
+            "round": "2",
+            "value": 800
+        },
+        {
+            "answer": "the serpent",
+            "question": "In Genesis \"God said unto\" this creature \"dust shalt thou eat all the days of thy life\"",
+            "round": "2",
+            "value": 1200
+        },
+        {
+            "answer": "Goneril",
+            "question": "In \"King Lear\", Albany tells her, \"You are not worth the dust which the rude wind blows in your face\"",
+            "round": "2",
+            "value": 2000
+        },
+        {
+            "answer": "the Sahara",
+            "question": "This geographic area is estimated to generate more than 60% of the Earth's airborne dust",
+            "round": "2",
+            "value": 1600
+        },
+        {
+            "answer": "the Dust Bowl",
+            "question": "During the 1930s this drought-ridden area of the Great Plains included parts of Kansas, Oklahoma & Texas",
+            "round": "2",
+            "value": 400
+        }
+    ],
+    "EIGHTS": [
+        {
+            "answer": "octagon",
+            "question": "It's an 8-side plane figure",
+            "round": "2",
+            "value": 300
+        },
+        {
+            "answer": "H",
+            "question": "August is the eighth month & this is the eighth letter of the alphabet",
+            "round": "2",
+            "value": 100
+        },
+        {
+            "answer": "Snow White and the Seven Dwarfs",
+            "question": "The only Disney feature to have exactly 8 people mentioned in the title",
+            "round": "2",
+            "value": 500
+        },
+        {
+            "answer": "rowers",
+            "question": "The boat races between Oxford & Cambridge are called eights for the number of these",
+            "round": "2",
+            "value": 400
+        },
+        {
+            "answer": "The Big 8",
+            "question": "Colorado, Nebraska, Oklahoma, Iowa St., Kansas, Kansas St., Missouri, Oklahoma St.",
+            "round": "2",
+            "value": 200
+        }
+    ],
+    "HOOP OF THE DAY": [
+        {
+            "answer": "the Detroit Pistons",
+            "question": "The non-law firm of Wallace & Wallace (Ben & Rasheed) led this team to the 2003-04 NBA Championship",
+            "round": "1",
+            "value": 1200
+        },
+        {
+            "answer": "Yao Ming",
+            "question": "At 7'6\", this center from China would be a big part of a Houston Rockets championship dynasty",
+            "round": "1",
+            "value": 400
+        },
+        {
+            "answer": "Phil Jackson",
+            "question": "As an NBA head coach, he won 6 titles with the Bulls & 3 with the Lakers",
+            "round": "1",
+            "value": 800
+        },
+        {
+            "answer": "LeBron James",
+            "question": "In 2004 he joined MJ & \"The Big O\" as the only NBA rookies to average 20 points, 5 rebounds & 5 assists",
+            "round": "1",
+            "value": 100
+        },
+        {
+            "answer": "Vince Carter",
+            "question": "Go crazy & name this Toronto Raptor whose nickname is \"Vinsanity\"",
+            "round": "1",
+            "value": 1600
+        }
+    ],
+    "LESSER-KNOWN MUSEUMS": [
+        {
+            "answer": "radiology",
+            "question": "There's an early X-ray room in the Albuquerque Museum of the ASRT, the \"R\" referring to this medical field",
+            "round": "2",
+            "value": 800
+        },
+        {
+            "answer": "sausage",
+            "question": "Berlin's Currywurst Museum is devoted to a type of this street food popular on the Platz",
+            "round": "2",
+            "value": 1200
+        },
+        {
+            "answer": "cryptozoology",
+            "question": "The International Museum of this -ology in Maine has exhibits for the Montauk Monster & the Jersey Devil",
+            "round": "2",
+            "value": 2000
+        },
+        {
+            "answer": "Tyrannosaurus rex",
+            "question": "The Tate Geological Museum in Casper, Wyoming has a cast of a skull of this dinosaur \"king\" with battle scars",
+            "round": "2",
+            "value": 400
+        },
+        {
+            "answer": "barbed wire",
+            "question": "The Devil's Rope Museum in McLean, Texas is devoted to this type of barrier",
+            "round": "2",
+            "value": 1600
+        }
+    ],
+    "MOVIES BY OSCAR-WINNING SONG": [
+        {
+            "answer": "Nashville",
+            "question": "\"I'm Easy\" (1975), written by Keith Carradine",
+            "round": "1",
+            "value": 2000
+        },
+        {
+            "answer": "Selma",
+            "question": "\"Glory\" (2014), written by the guys we know as John Legend & Common",
+            "round": "1",
+            "value": 1600
+        },
+        {
+            "answer": "Flashdance",
+            "question": "\"(This title)... What A Feeling\" (1983), written by Giorgio Moroder, Irene Cara & Keith Forsey",
+            "round": "1",
+            "value": 1200
+        },
+        {
+            "answer": "Mary Poppins",
+            "question": "\"Chim Chim Cher-ee\" (1964), written by Richard M. Sherman & Robert B. Sherman",
+            "round": "1",
+            "value": 400
+        },
+        {
+            "answer": "Slumdog Millionaire",
+            "question": "\"Jai Ho\" (2008), written by A.R. Rahman & Gulzar",
+            "round": "1",
+            "value": 800
+        }
+    ],
+    "OF AN ENGLISHMAN": [
+        {
+            "answer": "Savile Row",
+            "question": "\"Row\" in Mayfair that's home to the finest British tailors",
+            "round": "2",
+            "value": 500
+        },
+        {
+            "answer": "Valet",
+            "question": "From Latin for \"servant\", it's a gentleman's gentleman",
+            "round": "2",
+            "value": 200
+        },
+        {
+            "answer": "Edinburgh",
+            "question": "Prince Charles is the Duke of Cornwall & Prince Philip is the Duke of this",
+            "round": "2",
+            "value": 100
+        },
+        {
+            "answer": "snooker",
+            "question": "Encarta calls it \"the cue game most popular in Britain\"",
+            "round": "2",
+            "value": 300
+        },
+        {
+            "answer": "Bowler",
+            "question": "Last name of the men whose firm is credited with creating the felt hat we call the derby",
+            "round": "2",
+            "value": 1000
+        }
+    ],
+    "PAUNCH SHOPS": [
+        {
+            "answer": "Taco Bell",
+            "question": "If you're thinking outside the bun, think about the 990 calories & 1,930 mg of sodium in this chain's Volcano Nachos",
+            "round": "2",
+            "value": 600
+        },
+        {
+            "answer": "Burger King",
+            "question": "Its Triple Whopper has a whopping 1,160 calories & 205 milligrams of cholesterol",
+            "round": "2",
+            "value": 400
+        },
+        {
+            "answer": "KFC",
+            "question": "There are 290 fat calories in one of this chain's extra crispy breasts, but only 130 in the original recipe ones",
+            "round": "2",
+            "value": 200
+        },
+        {
+            "answer": "Outback",
+            "question": "The Melbourne, a porterhouse at this steakhouse chain, weighs in at over 1,000 calories",
+            "round": "2",
+            "value": 1000
+        },
+        {
+            "answer": "Denny's",
+            "question": "Hit a Grand Slam Slugger with hash browns at one of these restaurants & you've knocked in 85% of your RDV of fat",
+            "round": "2",
+            "value": 800
+        }
+    ],
+    "PETER, PETER": [
+        {
+            "answer": "Peter Straub",
+            "question": "Sir Walter Scott wrote a tale called \"The Talisman\" in 1825; Stephen King & this man, a little more recently",
+            "round": "1",
+            "value": 1000
+        },
+        {
+            "answer": "Peter Bogdanovich",
+            "question": "This director saw Cybill Shepherd on the cover of Glamour & decided she'd be perfect for \"The Last Picture Show\"",
+            "round": "1",
+            "value": 600
+        },
+        {
+            "answer": "The Brady Bunch",
+            "question": "Christopher Knight, more recently of \"Celebrity Circus\", played Peter on this classic family sitcom",
+            "round": "1",
+            "value": 400
+        },
+        {
+            "answer": "Peter Ustinov",
+            "question": "Hercule Poirot could detect that this actor won Oscars for \"Spartacus\" & \"Topkapi\"",
+            "round": "1",
+            "value": 800
+        },
+        {
+            "answer": "Peter Falk",
+            "question": "Jason Alexander & this \"Columbo\" actor co-starred in the 2000 play \"Defiled\" at L.A.'s Geffen Playhouse",
+            "round": "1",
+            "value": 200
+        }
+    ],
+    "TEEN QUEENS": [
+        {
+            "answer": "Victoria",
+            "question": "18 when she became queen in 1837, she reigned for 63 years",
+            "round": "1",
+            "value": 800
+        },
+        {
+            "answer": "France",
+            "question": "Teen-aged Mary, Queen of Scots, also became queen of this country, because she'd married the Dauphin",
+            "round": "1",
+            "value": 400
+        },
+        {
+            "answer": "Sweden",
+            "question": "In 1644 Christina turned 18 & was crowned queen of this Scandinavian country",
+            "round": "1",
+            "value": 400
+        },
+        {
+            "answer": "Victoria",
+            "question": "Like many young ladies, she kept a journal; on June 20, 1837, at age 18, she wrote in it, \"I am queen\"",
+            "round": "1",
+            "value": 1000
+        },
+        {
+            "answer": "Cleopatra",
+            "question": "This teenage Egyptian ruler gave birth to a son she claimed was Julius Caesar's",
+            "round": "1",
+            "value": 200
+        }
+    ],
+    "THE 104TH CONGRESS": [
+        {
+            "answer": "Alphonse D' Amato",
+            "question": "This New York Republican chaired the Senate Banking Committee & the special Whitewater panel",
+            "round": "F",
+            "value": null
+        }
+    ]
+  }
+}
