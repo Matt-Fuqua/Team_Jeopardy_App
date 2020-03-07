@@ -1,3 +1,4 @@
-// import { combineReducers } from "redux";
+import { combineReducers } from "redux";
+import questions from './questions';
 
-// export default combineReducers();
+export default combineReducers({ questions });
