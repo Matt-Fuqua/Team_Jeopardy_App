@@ -1,0 +1,261 @@
+<!-- HTML generated using hilite.me --><div style="background: #ffffff; overflow:auto;width:auto;border:solid gray;border-width:.1em .1em .1em .8em;padding:.2em .6em;"><table><tr><td><pre style="margin: 0; line-height: 125%">  1
+  2
+  3
+  4
+  5
+  6
+  7
+  8
+  9
+ 10
+ 11
+ 12
+ 13
+ 14
+ 15
+ 16
+ 17
+ 18
+ 19
+ 20
+ 21
+ 22
+ 23
+ 24
+ 25
+ 26
+ 27
+ 28
+ 29
+ 30
+ 31
+ 32
+ 33
+ 34
+ 35
+ 36
+ 37
+ 38
+ 39
+ 40
+ 41
+ 42
+ 43
+ 44
+ 45
+ 46
+ 47
+ 48
+ 49
+ 50
+ 51
+ 52
+ 53
+ 54
+ 55
+ 56
+ 57
+ 58
+ 59
+ 60
+ 61
+ 62
+ 63
+ 64
+ 65
+ 66
+ 67
+ 68
+ 69
+ 70
+ 71
+ 72
+ 73
+ 74
+ 75
+ 76
+ 77
+ 78
+ 79
+ 80
+ 81
+ 82
+ 83
+ 84
+ 85
+ 86
+ 87
+ 88
+ 89
+ 90
+ 91
+ 92
+ 93
+ 94
+ 95
+ 96
+ 97
+ 98
+ 99
+100
+101
+102
+103
+104
+105
+106
+107
+108
+109
+110
+111
+112
+113
+114
+115
+116
+117
+118
+119
+120
+121
+122
+123
+124
+125
+126
+127
+128
+129
+130</pre></td><td><pre style="margin: 0; line-height: 125%"><span style="color: #008800; font-weight: bold">import</span> <span style="color: #0e84b5; font-weight: bold">os</span>
+<span style="color: #008800; font-weight: bold">import</span> <span style="color: #0e84b5; font-weight: bold">mysql.connector</span>
+<span style="color: #008800; font-weight: bold">from</span> <span style="color: #0e84b5; font-weight: bold">flask</span> <span style="color: #008800; font-weight: bold">import</span> Flask, request, render_template, jsonify
+app <span style="color: #333333">=</span> Flask(__name__)
+application <span style="color: #333333">=</span> app
+
+score <span style="color: #333333">=</span> <span style="color: #0000DD; font-weight: bold">100</span>
+
+<span style="color: #008800; font-weight: bold">def</span> <span style="color: #0066BB; font-weight: bold">getConnection</span>():
+        db_user <span style="color: #333333">=</span> os<span style="color: #333333">.</span>environ<span style="color: #333333">.</span>get(<span style="background-color: #fff0f0">&#39;DB_USER&#39;</span>)
+        db_pass <span style="color: #333333">=</span> os<span style="color: #333333">.</span>environ<span style="color: #333333">.</span>get(<span style="background-color: #fff0f0">&#39;DB_PASS&#39;</span>)
+        db_db <span style="color: #333333">=</span> os<span style="color: #333333">.</span>environ<span style="color: #333333">.</span>get(<span style="background-color: #fff0f0">&#39;DB_DB&#39;</span>)
+
+        cnx <span style="color: #333333">=</span> mysql<span style="color: #333333">.</span>connector<span style="color: #333333">.</span>connect(user<span style="color: #333333">=</span>db_user, password<span style="color: #333333">=</span>db_pass, database<span style="color: #333333">=</span>db_db)
+        <span style="color: #008800; font-weight: bold">return</span> cnx
+
+<span style="color: #888888"># This is a simple query we used for testing</span>
+<span style="color: #555555; font-weight: bold">@app</span><span style="color: #333333">.</span>route(<span style="background-color: #fff0f0">&quot;/test&quot;</span>)
+<span style="color: #008800; font-weight: bold">def</span> <span style="color: #0066BB; font-weight: bold">hello</span>():
+    cnx <span style="color: #333333">=</span> getConnection()
+    cursor <span style="color: #333333">=</span> cnx<span style="color: #333333">.</span>cursor()
+    fields <span style="color: #333333">=</span> [<span style="background-color: #fff0f0">&quot;Question_ID&quot;</span>, <span style="background-color: #fff0f0">&quot;Answer&quot;</span>, <span style="background-color: #fff0f0">&quot;Round&quot;</span>, <span style="background-color: #fff0f0">&quot;Question_Text&quot;</span>, <span style="background-color: #fff0f0">&quot;Category&quot;</span>, <span style="background-color: #fff0f0">&quot;Value&quot;</span>, <span style="background-color: #fff0f0">&quot;Daily_Double&quot;</span>, <span style="background-color: #fff0f0">&quot;Air_Date&quot;</span>]
+    byteArray <span style="color: #333333">=</span> [<span style="color: #0000DD; font-weight: bold">0</span>, <span style="color: #0000DD; font-weight: bold">0</span>, <span style="color: #0000DD; font-weight: bold">0</span>, <span style="color: #0000DD; font-weight: bold">0</span>, <span style="color: #0000DD; font-weight: bold">0</span>, <span style="color: #0000DD; font-weight: bold">0</span>, <span style="color: #0000DD; font-weight: bold">0</span>, <span style="color: #0000DD; font-weight: bold">0</span>]
+<span style="color: #888888">#   query = (&quot;SELECT {0} FROM Question_Archive WHERE Value=score LIMIT 100&quot;).format( &quot;,&quot;.join(fields) )</span>
+    query <span style="color: #333333">=</span> (<span style="background-color: #fff0f0">&quot;SELECT * FROM Question_Archive WHERE Value={} LIMIT 100&quot;</span><span style="color: #333333">.</span>format(score))
+    cursor<span style="color: #333333">.</span>execute(query)
+    result <span style="color: #333333">=</span> <span style="background-color: #fff0f0">&quot;&lt;h1&gt;dumb test&lt;/h1&gt;</span><span style="color: #666666; font-weight: bold; background-color: #fff0f0">\n</span><span style="background-color: #fff0f0">&quot;</span>
+    result <span style="color: #333333">+=</span> <span style="background-color: #fff0f0">&quot;&lt;h2&gt;random 100 rows&lt;/h2&gt;</span><span style="color: #666666; font-weight: bold; background-color: #fff0f0">\n</span><span style="background-color: #fff0f0">&quot;</span>
+    result <span style="color: #333333">+=</span> <span style="background-color: #fff0f0">&quot;&lt;table&gt;&lt;tr&gt;&quot;</span>
+    <span style="color: #008800; font-weight: bold">for</span> f <span style="color: #000000; font-weight: bold">in</span> fields:
+        result <span style="color: #333333">+=</span> <span style="background-color: #fff0f0">&quot;&lt;th&gt;{0}&lt;/th&gt;&quot;</span><span style="color: #333333">.</span>format(f)
+    result <span style="color: #333333">+=</span> <span style="background-color: #fff0f0">&quot;&lt;/tr&gt;&quot;</span>
+    <span style="color: #008800; font-weight: bold">for</span> tup <span style="color: #000000; font-weight: bold">in</span> cursor:
+        result <span style="color: #333333">+=</span> <span style="background-color: #fff0f0">&quot;&lt;tr&gt;&quot;</span>
+        <span style="color: #008800; font-weight: bold">for</span> i, f <span style="color: #000000; font-weight: bold">in</span> <span style="color: #007020">enumerate</span>(fields):
+                <span style="color: #008800; font-weight: bold">if</span> byteArray[i]: result <span style="color: #333333">+=</span> <span style="background-color: #fff0f0">&quot;&lt;td&gt;&quot;</span> <span style="color: #333333">+</span> tup[i]<span style="color: #333333">.</span>decode() <span style="color: #333333">+</span> <span style="background-color: #fff0f0">&quot;&lt;/td&gt;&quot;</span>
+                <span style="color: #008800; font-weight: bold">else</span>: result <span style="color: #333333">+=</span> <span style="background-color: #fff0f0">&quot;&lt;td&gt;&quot;</span> <span style="color: #333333">+</span> <span style="color: #007020">str</span>(tup[i]) <span style="color: #333333">+</span> <span style="background-color: #fff0f0">&quot;&lt;/td&gt;&quot;</span>
+        result <span style="color: #333333">+=</span> <span style="background-color: #fff0f0">&quot;&lt;/tr&gt;</span><span style="color: #666666; font-weight: bold; background-color: #fff0f0">\n</span><span style="background-color: #fff0f0">&quot;</span>
+    cursor<span style="color: #333333">.</span>close()
+    cnx<span style="color: #333333">.</span>close()
+    result <span style="color: #333333">+=</span> <span style="background-color: #fff0f0">&quot;&lt;/table&gt;&quot;</span>
+    <span style="color: #008800; font-weight: bold">return</span> result
+
+<span style="color: #888888"># This is an example endpoint we used to satisfy requirements for phase 3.</span>
+<span style="color: #888888"># It calls a stored procedure that creates a new game from random categories and questions</span>
+<span style="color: #555555; font-weight: bold">@app</span><span style="color: #333333">.</span>route(<span style="background-color: #fff0f0">&quot;/phase3&quot;</span>)
+<span style="color: #008800; font-weight: bold">def</span> <span style="color: #0066BB; font-weight: bold">phase3</span>():
+    cnx <span style="color: #333333">=</span> getConnection()
+    cursor <span style="color: #333333">=</span> cnx<span style="color: #333333">.</span>cursor()
+
+    cursor<span style="color: #333333">.</span>callproc(<span style="background-color: #fff0f0">&#39;SP_Generate_Categories&#39;</span>, [])
+    <span style="color: #888888"># print results</span>
+    <span style="color: #007020">print</span>(<span style="background-color: #fff0f0">&quot;Printing laptop details&quot;</span>)
+    <span style="color: #008800; font-weight: bold">for</span> result <span style="color: #000000; font-weight: bold">in</span> cursor<span style="color: #333333">.</span>stored_results():
+            <span style="color: #008800; font-weight: bold">for</span> r <span style="color: #000000; font-weight: bold">in</span> result:
+                resultId <span style="color: #333333">=</span> r[<span style="color: #0000DD; font-weight: bold">0</span>]
+    cursor<span style="color: #333333">.</span>close()
+    cnx<span style="color: #333333">.</span>commit()
+    cursor <span style="color: #333333">=</span> cnx<span style="color: #333333">.</span>cursor()
+
+    query <span style="color: #333333">=</span> (<span style="background-color: #fff0f0">&quot;SELECT Question_Text, Answer_Text, Category, Value, Round, Questions_Question_ID FROM Dev_Game_Questions WHERE Games_Game_ID={}&quot;</span><span style="color: #333333">.</span>format(resultId))
+    cursor<span style="color: #333333">.</span>execute(query)
+
+    answers <span style="color: #333333">=</span> {}
+    <span style="color: #888888"># { &quot;GAMES&quot;: [ {question: &quot;This game has a queen and king&quot;, answer: &quot;Chess&quot;}, .... ]</span>
+    <span style="color: #008800; font-weight: bold">for</span> tup <span style="color: #000000; font-weight: bold">in</span> cursor:
+        <span style="color: #007020">print</span>(tup)
+        (qid, category, question, answer, value, rnd) <span style="color: #333333">=</span> (tup[<span style="color: #0000DD; font-weight: bold">5</span>], tup[<span style="color: #0000DD; font-weight: bold">2</span>]<span style="color: #333333">.</span>decode(), tup[<span style="color: #0000DD; font-weight: bold">0</span>]<span style="color: #333333">.</span>decode(), tup[<span style="color: #0000DD; font-weight: bold">1</span>]<span style="color: #333333">.</span>decode(), tup[<span style="color: #0000DD; font-weight: bold">3</span>], tup[<span style="color: #0000DD; font-weight: bold">4</span>]<span style="color: #333333">.</span>decode())
+        t <span style="color: #333333">=</span> {<span style="background-color: #fff0f0">&quot;question_id&quot;</span>: qid, <span style="background-color: #fff0f0">&quot;question&quot;</span>: question, <span style="background-color: #fff0f0">&quot;answer&quot;</span>: answer, <span style="background-color: #fff0f0">&quot;round&quot;</span>: rnd, <span style="background-color: #fff0f0">&quot;value&quot;</span>: value}
+        <span style="color: #008800; font-weight: bold">if</span> category <span style="color: #000000; font-weight: bold">in</span> answers: answers[category]<span style="color: #333333">.</span>append(t)
+        <span style="color: #008800; font-weight: bold">else</span>: answers[category] <span style="color: #333333">=</span> [t]
+
+    cursor<span style="color: #333333">.</span>close()
+    cnx<span style="color: #333333">.</span>close()
+    response <span style="color: #333333">=</span> jsonify(answers)
+    response<span style="color: #333333">.</span>headers<span style="color: #333333">.</span>add(<span style="background-color: #fff0f0">&#39;Access-Control-Allow-Origin&#39;</span>, <span style="background-color: #fff0f0">&#39;*&#39;</span>)
+
+    <span style="color: #008800; font-weight: bold">return</span> response
+
+<span style="color: #888888"># This is a query to get more detail from the Questions ARchive about the original quesiton</span>
+<span style="color: #555555; font-weight: bold">@app</span><span style="color: #333333">.</span>route(<span style="background-color: #fff0f0">&#39;/archive/&lt;questionID&gt;&#39;</span>)
+<span style="color: #008800; font-weight: bold">def</span> <span style="color: #0066BB; font-weight: bold">archive</span>(questionID):
+    cnx <span style="color: #333333">=</span> getConnection()
+    cursor <span style="color: #333333">=</span> cnx<span style="color: #333333">.</span>cursor()
+
+    fields <span style="color: #333333">=</span> [<span style="background-color: #fff0f0">&quot;Answer&quot;</span>, <span style="background-color: #fff0f0">&quot;Round&quot;</span>, <span style="background-color: #fff0f0">&quot;Question_Text&quot;</span>, <span style="background-color: #fff0f0">&quot;Category&quot;</span>, <span style="background-color: #fff0f0">&quot;Value&quot;</span>, <span style="background-color: #fff0f0">&quot;Daily_Double&quot;</span>, <span style="background-color: #fff0f0">&quot;Air_Date&quot;</span>]
+    string <span style="color: #333333">=</span> [       <span style="color: #0000DD; font-weight: bold">1</span>,      <span style="color: #0000DD; font-weight: bold">1</span>,                <span style="color: #0000DD; font-weight: bold">1</span>,          <span style="color: #0000DD; font-weight: bold">1</span>,       <span style="color: #0000DD; font-weight: bold">0</span>,              <span style="color: #0000DD; font-weight: bold">1</span>,      <span style="color: #0000DD; font-weight: bold">0</span>]
+
+<span style="color: #888888">#SELECT * FROM Question_Archive A JOIN (SELECT Question_Archive_ID FROM Questions WHERE Question_ID = 4) B ON A.Question_ID = B.Question_Archive_ID;</span>
+    query <span style="color: #333333">=</span> <span style="background-color: #fff0f0">&quot;SELECT &quot;</span> <span style="color: #333333">+</span> <span style="background-color: #fff0f0">&quot;, &quot;</span><span style="color: #333333">.</span>join(fields)
+    query <span style="color: #333333">+=</span> <span style="background-color: #fff0f0">&quot; FROM Question_Archive A JOIN &quot;</span>
+    query <span style="color: #333333">+=</span> <span style="background-color: #fff0f0">&quot; (SELECT Question_Archive_ID FROM Questions WHERE Question_ID = {0}) B &quot;</span>
+    query <span style="color: #333333">+=</span> <span style="background-color: #fff0f0">&quot;   ON A.Question_ID = B.Question_Archive_ID&quot;</span>
+    cursor<span style="color: #333333">.</span>execute(query<span style="color: #333333">.</span>format(questionID))
+    result <span style="color: #333333">=</span> {}
+    <span style="color: #008800; font-weight: bold">for</span> tup <span style="color: #000000; font-weight: bold">in</span> cursor:
+        <span style="color: #008800; font-weight: bold">for</span> i, f <span style="color: #000000; font-weight: bold">in</span> <span style="color: #007020">enumerate</span>(fields):
+            <span style="color: #008800; font-weight: bold">if</span> string[i]: result[f] <span style="color: #333333">=</span> tup[i]<span style="color: #333333">.</span>decode()
+            <span style="color: #008800; font-weight: bold">else</span>: result[f] <span style="color: #333333">=</span> tup[i]
+    <span style="color: #007020">print</span>(result)
+    response <span style="color: #333333">=</span> jsonify(result)
+    response<span style="color: #333333">.</span>headers<span style="color: #333333">.</span>add(<span style="background-color: #fff0f0">&#39;Access-Control-Allow-Origin&#39;</span>, <span style="background-color: #fff0f0">&#39;*&#39;</span>)
+    <span style="color: #008800; font-weight: bold">return</span> response
+
+<span style="color: #888888"># This is a query to get more detail from the Questions ARchive about the original quesiton</span>
+<span style="color: #555555; font-weight: bold">@app</span><span style="color: #333333">.</span>route(<span style="background-color: #fff0f0">&#39;/category/&lt;categoryName&gt;&#39;</span>)
+<span style="color: #008800; font-weight: bold">def</span> <span style="color: #0066BB; font-weight: bold">category</span>(categoryName):
+    cnx <span style="color: #333333">=</span> getConnection()
+    cursor <span style="color: #333333">=</span> cnx<span style="color: #333333">.</span>cursor()
+
+    fields <span style="color: #333333">=</span> [<span style="background-color: #fff0f0">&quot;Answer&quot;</span>, <span style="background-color: #fff0f0">&quot;Round&quot;</span>, <span style="background-color: #fff0f0">&quot;Question_Text&quot;</span>, <span style="background-color: #fff0f0">&quot;Category&quot;</span>, <span style="background-color: #fff0f0">&quot;Value&quot;</span>, <span style="background-color: #fff0f0">&quot;Daily_Double&quot;</span>, <span style="background-color: #fff0f0">&quot;Air_Date&quot;</span>]
+    string <span style="color: #333333">=</span> [       <span style="color: #0000DD; font-weight: bold">1</span>,      <span style="color: #0000DD; font-weight: bold">1</span>,                <span style="color: #0000DD; font-weight: bold">1</span>,          <span style="color: #0000DD; font-weight: bold">1</span>,       <span style="color: #0000DD; font-weight: bold">0</span>,              <span style="color: #0000DD; font-weight: bold">1</span>,      <span style="color: #0000DD; font-weight: bold">0</span>]
+
+    cursor<span style="color: #333333">.</span>execute(<span style="background-color: #fff0f0">&quot;SELECT &quot;</span> <span style="color: #333333">+</span> <span style="background-color: #fff0f0">&quot;, &quot;</span><span style="color: #333333">.</span>join(fields) <span style="color: #333333">+</span>
+                   <span style="background-color: #fff0f0">&quot; FROM Question_Archive WHERE LCASE(category) LIKE </span><span style="color: #666666; font-weight: bold; background-color: #fff0f0">\&quot;</span><span style="background-color: #fff0f0">%{0}%</span><span style="color: #666666; font-weight: bold; background-color: #fff0f0">\&quot;</span><span style="background-color: #fff0f0">&quot;</span><span style="color: #333333">.</span>format(categoryName))
+    results <span style="color: #333333">=</span> []
+
+    <span style="color: #008800; font-weight: bold">for</span> tup <span style="color: #000000; font-weight: bold">in</span> cursor:
+        result <span style="color: #333333">=</span> {}
+        <span style="color: #008800; font-weight: bold">for</span> i, f <span style="color: #000000; font-weight: bold">in</span> <span style="color: #007020">enumerate</span>(fields):
+            <span style="color: #008800; font-weight: bold">if</span> string[i]: result[f] <span style="color: #333333">=</span> tup[i]<span style="color: #333333">.</span>decode()
+            <span style="color: #008800; font-weight: bold">else</span>: result[f] <span style="color: #333333">=</span> tup[i]
+        results<span style="color: #333333">.</span>append(result)
+    response <span style="color: #333333">=</span> jsonify(results)
+    response<span style="color: #333333">.</span>headers<span style="color: #333333">.</span>add(<span style="background-color: #fff0f0">&#39;Access-Control-Allow-Origin&#39;</span>, <span style="background-color: #fff0f0">&#39;*&#39;</span>)
+    <span style="color: #008800; font-weight: bold">return</span> response
+
+<span style="color: #008800; font-weight: bold">if</span> __name__ <span style="color: #333333">==</span> <span style="background-color: #fff0f0">&quot;__main__&quot;</span>:
+    app<span style="color: #333333">.</span>run(host<span style="color: #333333">=</span><span style="background-color: #fff0f0">&#39;0.0.0.0&#39;</span>, port<span style="color: #333333">=</span><span style="color: #0000DD; font-weight: bold">5001</span>)
+    <span style="color: #888888">#phase3()</span>
+</pre></td></tr></table></div>
+

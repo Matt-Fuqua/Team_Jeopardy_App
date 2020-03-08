@@ -1,0 +1,151 @@
+<!-- HTML generated using hilite.me --><div style="background: #ffffff; overflow:auto;width:auto;border:solid gray;border-width:.1em .1em .1em .8em;padding:.2em .6em;"><table><tr><td><pre style="margin: 0; line-height: 125%"> 1
+ 2
+ 3
+ 4
+ 5
+ 6
+ 7
+ 8
+ 9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+21
+22
+23
+24
+25
+26
+27
+28
+29
+30
+31
+32
+33
+34
+35
+36
+37
+38
+39
+40
+41
+42
+43
+44
+45
+46
+47
+48
+49
+50
+51
+52
+53
+54
+55
+56
+57
+58
+59
+60
+61
+62
+63
+64
+65
+66
+67
+68
+69
+70
+71
+72
+73
+74
+75</pre></td><td><pre style="margin: 0; line-height: 125%"><span style="color: #008800; font-weight: bold">Current</span> 
+
+<span style="color: #FF0000; background-color: #FFAAAA">—</span> SP_Create_Game.  Stored <span style="color: #008800; font-weight: bold">Procedure</span> <span style="color: #008800; font-weight: bold">to</span> <span style="color: #008800; font-weight: bold">create</span> a Game entry <span style="color: #008800; font-weight: bold">in</span> the Dev_Games <span style="color: #008800; font-weight: bold">Table</span>.  <span style="color: #008800; font-weight: bold">Returns</span> the Game_ID <span style="color: #008800; font-weight: bold">of</span> the Game entry that was created.
+
+<span style="color: #008800; font-weight: bold">BEGIN</span>
+	<span style="color: #008800; font-weight: bold">INSERT</span> <span style="color: #008800; font-weight: bold">INTO</span> Dev_Games(Game_Date) <span style="color: #008800; font-weight: bold">Values</span> (<span style="color: #008800; font-weight: bold">CURRENT_TIMESTAMP</span>());
+	<span style="color: #008800; font-weight: bold">SELECT</span> LAST_INSERT_ID() <span style="color: #008800; font-weight: bold">INTO</span> new_gameid;
+<span style="color: #008800; font-weight: bold">END</span>
+
+
+
+
+<span style="color: #008800; font-weight: bold">NEW</span> <span style="color: #008800; font-weight: bold">as</span> <span style="color: #008800; font-weight: bold">of</span> <span style="color: #0000DD; font-weight: bold">3</span><span style="color: #333333">/</span><span style="color: #0000DD; font-weight: bold">7</span><span style="color: #333333">/</span><span style="color: #0000DD; font-weight: bold">2020</span> <span style="color: #0000DD; font-weight: bold">11</span>:<span style="color: #0000DD; font-weight: bold">34</span>am
+
+<span style="color: #FF0000; background-color: #FFAAAA">—</span> Centralized Stored <span style="color: #008800; font-weight: bold">Procedure</span> <span style="color: #008800; font-weight: bold">to</span> be a one stop place <span style="color: #008800; font-weight: bold">to</span> <span style="color: #008800; font-weight: bold">create</span> a <span style="color: #008800; font-weight: bold">new</span> Game entry, generate a random list <span style="color: #008800; font-weight: bold">of</span> Categories <span style="color: #008800; font-weight: bold">and</span> <span style="color: #008800; font-weight: bold">then</span> generate a random <span style="color: #008800; font-weight: bold">set</span> <span style="color: #008800; font-weight: bold">of</span> Jeopardy Questions <span style="color: #008800; font-weight: bold">from</span> those categories.  <span style="color: #008800; font-weight: bold">Returns</span> the Game_ID <span style="color: #008800; font-weight: bold">of</span> the created <span style="color: #FF0000; background-color: #FFAAAA">—</span> Game.
+
+<span style="color: #008800; font-weight: bold">BEGIN</span>
+    <span style="color: #008800; font-weight: bold">DECLARE</span> done <span style="color: #007020">BOOLEAN</span> <span style="color: #008800; font-weight: bold">DEFAULT</span> <span style="color: #0000DD; font-weight: bold">0</span>; 
+    <span style="color: #008800; font-weight: bold">DECLARE</span> catarray <span style="color: #007020">VARCHAR</span>(<span style="color: #0000DD; font-weight: bold">50</span>); 
+    <span style="color: #008800; font-weight: bold">DECLARE</span> new_gameid <span style="color: #007020">INT</span>;
+    <span style="color: #008800; font-weight: bold">DECLARE</span> i <span style="color: #007020">INT</span> <span style="color: #008800; font-weight: bold">DEFAULT</span> <span style="color: #0000DD; font-weight: bold">0</span>;
+    <span style="color: #008800; font-weight: bold">DECLARE</span> rnd <span style="color: #007020">VARCHAR</span>(<span style="color: #0000DD; font-weight: bold">1</span>);
+    <span style="color: #008800; font-weight: bold">DECLARE</span> cat_list <span style="color: #008800; font-weight: bold">CURSOR</span> <span style="color: #008800; font-weight: bold">FOR</span>
+
+<span style="color: #FF0000; background-color: #FFAAAA">—</span> Generate the Random Categories
+    
+    	<span style="color: #008800; font-weight: bold">SELECT</span> <span style="color: #008800; font-weight: bold">DISTINCT</span>
+        		category
+    	<span style="color: #008800; font-weight: bold">FROM</span>
+        		Questions
+    	<span style="color: #008800; font-weight: bold">ORDER</span> <span style="color: #008800; font-weight: bold">BY</span> RAND()
+    	<span style="color: #008800; font-weight: bold">LIMIT</span> <span style="color: #0000DD; font-weight: bold">13</span>; 
+    
+    <span style="color: #008800; font-weight: bold">DECLARE</span> <span style="color: #008800; font-weight: bold">CONTINUE</span> <span style="color: #008800; font-weight: bold">HANDLER</span> <span style="color: #008800; font-weight: bold">FOR</span> <span style="color: #008800; font-weight: bold">SQLSTATE</span> <span style="background-color: #fff0f0">&#39;02000&#39;</span> <span style="color: #008800; font-weight: bold">SET</span> done <span style="color: #333333">=</span> <span style="color: #0000DD; font-weight: bold">1</span>; 
+    <span style="color: #008800; font-weight: bold">CALL</span> SP_Create_Game(<span style="color: #333333">@</span>new_gameid);
+    
+    <span style="color: #008800; font-weight: bold">OPEN</span> cat_list; 
+    REPEAT 
+    
+    	<span style="color: #008800; font-weight: bold">FETCH</span> cat_list <span style="color: #008800; font-weight: bold">INTO</span> catarray;
+
+<span style="color: #FF0000; background-color: #FFAAAA">—</span> <span style="color: #008800; font-weight: bold">Set</span> up <span style="color: #008800; font-weight: bold">variable</span> <span style="color: #008800; font-weight: bold">for</span> what round <span style="color: #008800; font-weight: bold">to</span> use
+    	IF ( <span style="color: #333333">!</span> done ) <span style="color: #008800; font-weight: bold">THEN</span>
+		<span style="color: #008800; font-weight: bold">SET</span> i<span style="color: #333333">=</span>i<span style="color: #333333">+</span><span style="color: #0000DD; font-weight: bold">1</span>;
+		IF i <span style="color: #333333">&lt;=</span><span style="color: #0000DD; font-weight: bold">6</span> <span style="color: #008800; font-weight: bold">THEN</span>
+	   	    <span style="color: #008800; font-weight: bold">SET</span> rnd <span style="color: #333333">=</span> <span style="color: #AA6600">&quot;1&quot;</span>;
+		ELSEIF  i<span style="color: #333333">&lt;=</span><span style="color: #0000DD; font-weight: bold">12</span> <span style="color: #008800; font-weight: bold">THEN</span>
+	               <span style="color: #008800; font-weight: bold">SET</span> rnd <span style="color: #333333">=</span> <span style="color: #AA6600">&quot;2&quot;</span>;
+		ELSEIF i<span style="color: #333333">=</span><span style="color: #0000DD; font-weight: bold">13</span> <span style="color: #008800; font-weight: bold">THEN</span>
+	   	    <span style="color: #008800; font-weight: bold">SET</span> rnd <span style="color: #333333">=</span> <span style="color: #AA6600">&quot;F&quot;</span>;
+    		<span style="color: #008800; font-weight: bold">END</span> IF;
+	
+		<span style="color: #FF0000; background-color: #FFAAAA">—</span> <span style="color: #008800; font-weight: bold">Write</span> <span style="color: #008800; font-weight: bold">out</span> the <span style="color: #008800; font-weight: bold">generated</span> Categories <span style="color: #008800; font-weight: bold">to</span> the Category <span style="color: #008800; font-weight: bold">Table</span>
+	  	<span style="color: #008800; font-weight: bold">INSERT</span> <span style="color: #008800; font-weight: bold">INTO</span> Dev_Category(Category, Game_ID) <span style="color: #008800; font-weight: bold">VALUES</span>(catarray,<span style="color: #333333">@</span>new_gameid);
+ 	 
+		<span style="color: #FF0000; background-color: #FFAAAA">—</span> Generate the random questions associated <span style="color: #008800; font-weight: bold">with</span> <span style="color: #008800; font-weight: bold">each</span> Category <span style="color: #008800; font-weight: bold">and</span> <span style="color: #008800; font-weight: bold">Write</span> <span style="color: #008800; font-weight: bold">out</span> the Questions <span style="color: #008800; font-weight: bold">to</span> the Questions <span style="color: #008800; font-weight: bold">Table</span>
+		IF rnd <span style="color: #333333">&lt;&gt;</span> <span style="color: #AA6600">&quot;F&quot;</span> <span style="color: #008800; font-weight: bold">THEN</span>
+     			<span style="color: #008800; font-weight: bold">INSERT</span> <span style="color: #008800; font-weight: bold">INTO</span> Dev_Game_Questions(Games_Game_ID, Questions_Question_ID, Question_Text, Answer_Text, Category, <span style="color: #333333">`</span>Value<span style="color: #333333">`</span>, Round)
+			<span style="color: #008800; font-weight: bold">SELECT</span> <span style="color: #333333">@</span>new_gameid, Question_ID, Question_Text, Question_Answer,Questions.Category, <span style="color: #333333">`</span>Value<span style="color: #333333">`</span>, rnd
+           		<span style="color: #008800; font-weight: bold">FROM</span> Questions
+			<span style="color: #008800; font-weight: bold">WHERE</span> Questions.Category <span style="color: #333333">=</span> catarray
+           		<span style="color: #008800; font-weight: bold">ORDER</span> <span style="color: #008800; font-weight: bold">BY</span> RAND () <span style="color: #008800; font-weight: bold">LIMIT</span> <span style="color: #0000DD; font-weight: bold">5</span>;
+     		<span style="color: #008800; font-weight: bold">ELSE</span>      
+     			<span style="color: #008800; font-weight: bold">INSERT</span> <span style="color: #008800; font-weight: bold">INTO</span> Dev_Game_Questions(Games_Game_ID, Questions_Question_ID, Question_Text, Answer_Text, Category, Round)
+			<span style="color: #008800; font-weight: bold">SELECT</span> <span style="color: #333333">@</span>new_gameid, Question_ID, Question_Text, Question_Answer,Questions.Category,  rnd
+           		<span style="color: #008800; font-weight: bold">FROM</span> Questions
+			<span style="color: #008800; font-weight: bold">WHERE</span> Questions.Category <span style="color: #333333">=</span> catarray
+           		<span style="color: #008800; font-weight: bold">ORDER</span> <span style="color: #008800; font-weight: bold">BY</span> RAND () <span style="color: #008800; font-weight: bold">LIMIT</span> <span style="color: #0000DD; font-weight: bold">1</span>;
+	  	<span style="color: #008800; font-weight: bold">END</span> IF;
+	<span style="color: #008800; font-weight: bold">END</span> IF;
+    <span style="color: #008800; font-weight: bold">UNTIL</span> done <span style="color: #008800; font-weight: bold">END</span> REPEAT; 
+
+    <span style="color: #008800; font-weight: bold">CLOSE</span> cat_list;
+    <span style="color: #008800; font-weight: bold">SELECT</span> <span style="color: #333333">@</span>new_gameid;
+<span style="color: #008800; font-weight: bold">END</span>
+</pre></td></tr></table></div>
+
