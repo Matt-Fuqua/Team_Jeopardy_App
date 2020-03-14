@@ -27,6 +27,12 @@ const AppHeader = () => (
       <HeaderMenuItem id="debug-menu-item" href="/debug">
         Debug
       </HeaderMenuItem>
+      <HeaderMenuItem id="games-selection-menu-item" href="/gameSelection">
+        Game Selection
+      </HeaderMenuItem>
+      <HeaderMenuItem id="games-over-menu-item" href="/gameOver">
+        Game Over
+      </HeaderMenuItem>
     </HeaderNavigation>
     <HeaderGlobalBar>
       <HeaderGlobalAction
