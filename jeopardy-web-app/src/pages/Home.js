@@ -1,11 +1,22 @@
 import React from 'react';
+import { Grid, Row } from 'carbon-components-react';
+import { NewUser, UserLogin } from '../components';
 
 const Home = () => {
   return (
-    <>
-      <h2>Home Page</h2>
-      <div></div>
-    </>
+    <div>
+      <Grid>
+        <Row>
+          Home Page
+        </Row>
+        <Row style={{ padding: "10px" }}>
+          <UserLogin />
+        </Row>
+        <Row style={{ padding: "10px" }}>
+          <NewUser />
+        </Row>
+      </Grid>
+    </div>
   );
 };
 
