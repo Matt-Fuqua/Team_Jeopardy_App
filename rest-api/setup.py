@@ -2,6 +2,7 @@ import os
 import mysql.connector 
 import cs411_user
 import cs411_db
+import cs411_answers
 from flask import Flask, request, render_template, jsonify, abort
 
 app = Flask(__name__)
@@ -80,6 +81,16 @@ def register():
     )
     if status is False: raise InvalidUsage(userRecord["message"], 403)
     else: return jsonify(userRecord)
+
+@app.route('/randomAnswer', methods=['GET'])
+def randomAnswer():
+    return jsonify(cs411_answers.randomAnswer())
+
+@app.route('/checkQuestion/<questionID>', methods=['GET'])
+def checkAnswer(questionID):
+    questionGuess = request.args.get('questionGuess', 'FORM ERROR')
+    print("{0} {1}".format(questionID, questionGuess))
+    return jsonify(cs411_answers.checkAnswer(questionID, questionGuess))
 
 if __name__ == "__main__":
     app.run(host='0.0.0.0', port=5001)

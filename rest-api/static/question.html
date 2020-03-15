@@ -1,0 +1,90 @@
+<html>
+    <head>
+        <link rel="canonical" href="https://getbootstrap.com/docs/4.3/components/collapse/">
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+        <title>CS411 - Test</title>
+
+        <script>
+
+            function randomAnswer() {
+                var here = document.getElementById("active-answer");
+                here.innerHTML = "<p><em>loading...</em></p>";
+
+                var request = new XMLHttpRequest()
+                request.open('GET', '/randomAnswer', true)
+                request.onload = function() {
+                    var data = JSON.parse(this.response);
+                    console.log(data);
+                    var html = "<div class=\"active-answer\">";
+                    html += "<h4>" + data["Category"] + "</h4>"
+                    html += "<p>" + data["Answer"] + "</p>";
+                    html += "<p>Your Guess: <input type=\"text\" id=\"guess\" name=\"guess\"></p>";
+                    html += "<p><a href=\"javascript:checkQuestion(" + data["Question_ID"] + ");\">Check Your Answer</a>";             
+                    html += "</div>";
+                    here.innerHTML = html;
+                }
+                request.send()
+            }
+
+            function checkQuestion(questionID) {
+                var here = document.getElementById("your-question");
+                here.innerHTML = "<p><em>Loading...</em></p>";
+
+                var guess = document.getElementById("guess").value
+                var request = new XMLHttpRequest()
+
+                url = "/checkQuestion/" + questionID + "?questionGuess=" + encodeURIComponent(guess);
+                request.open('GET', url, true)
+                request.onload = function() {
+                    var data = JSON.parse(this.response);
+                    console.log(data);
+                    var html = "<div class=\"active-question\">";
+                    html += "<table class=\"table\">";
+                    Object.entries(data).forEach(([key, value]) => {
+                        html += "<tr><th scope=\"row\">" + key + "</th><td>" + value + "</td></tr>";
+                    });
+                    html += "</table>";
+                    html += "</div>";
+                    here.innerHTML = html;
+                }
+                request.send()
+            }
+        </script>
+
+        <style>
+        </style>
+
+    </head>
+    <body>
+        <div class="container">
+            <div class="row">
+                <div class="col-12 sticky-top">
+                    <h1>CS411 Team BFS Stage 4 Debugging Stuff</h1>
+		    <hr />
+
+		    <div id="instruction">
+                    <h2>Generate A Random Question</h1>
+                    <p>Clicking this link will pull a question at random form the DB.  Do it!</p>                    
+		    </div>
+		    <a href="javascript:randomAnswer();">Generate New Question!</a>
+
+                    <p>Maybe we embed the code for the stored procedure and the queries used here so the TA can see it easily.</p>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-6">
+                    <h3>Current Game Question</h3>
+                    <div id="active-answer"><p><em>Generate New Question to create content</em></p></div>
+                </div>
+                <div class="col-6">
+                    <h3>Question Detail</h3>
+                    <div id="your-question"><p><em>Guess the answer for more details here</em></p></div>
+                </div>                
+            </div>
+        </div>
+
+        <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
+        <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+    </body>
+</html>
