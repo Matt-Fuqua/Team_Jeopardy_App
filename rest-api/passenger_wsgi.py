@@ -5,5 +5,5 @@ import sys
 
 sys.path.insert(0, os.path.dirname(__file__))
 
-wsgi = imp.load_source('wsgi', 'rest-api/test.py')
+wsgi = imp.load_source('wsgi', 'setup.py')
 application = wsgi.app
