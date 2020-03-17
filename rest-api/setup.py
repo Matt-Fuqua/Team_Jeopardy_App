@@ -114,7 +114,7 @@ def newGame():
     result = cs411_game.newGame()
     return prepJSON(result)
 
-@app.route('/game/<gameID>', method=['GET'])
+@app.route('/game/<gameID>', methods=['GET'])
 def retrieveGame(gameID):
     """ Returns the Answers object for a specific game ID.
     responses:
