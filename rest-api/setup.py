@@ -3,10 +3,16 @@ import mysql.connector
 import cs411_user
 import cs411_db
 import cs411_answers
+import cs411_game
 from flask import Flask, request, render_template, jsonify, abort
 
 app = Flask(__name__)
 application = app
+
+def prepJSON(adict):
+    response = jsonify(adict)
+    response.headers.add('Access-Control-Allow-Origin', '*')
+    return response
 
 # https://flask.palletsprojects.com/en/1.1.x/patterns/apierrors/
 class InvalidUsage(Exception):
@@ -26,7 +32,7 @@ class InvalidUsage(Exception):
 
 @app.errorhandler(InvalidUsage)
 def handle_invalid_usage(error):
-    response = jsonify(error.to_dict())
+    response = prepJSON(error.to_dict())
     response.status_code = error.status_code
     return response
 
@@ -50,10 +56,9 @@ def login():
             401:
                 description: User is not authenticated.  There is no error message or explanation given.
     """
-    print(request.data)
     userRecord = cs411_user.validateLogin(request.form['username'], request.form['password'])
     if userRecord == None: raise InvalidUsage('Login failed', status_code=401)
-    else: return jsonify(userRecord)
+    else: return prepJSON(userRecord)
 
 @app.route('/register', methods=['GET', 'POST'])
 def register():
@@ -80,17 +85,60 @@ def register():
         request.form.get('ULast_Name', 'LAST NAME IS MISSING')
     )
     if status is False: raise InvalidUsage(userRecord["message"], 403)
-    else: return jsonify(userRecord)
+    else: return prepJSON(userRecord)
 
 @app.route('/randomAnswer', methods=['GET'])
 def randomAnswer():
-    return jsonify(cs411_answers.randomAnswer())
+    return prepJSON(cs411_answers.randomAnswer())
 
 @app.route('/checkQuestion/<questionID>', methods=['GET'])
 def checkAnswer(questionID):
     questionGuess = request.args.get('questionGuess', 'FORM ERROR')
     print("{0} {1}".format(questionID, questionGuess))
-    return jsonify(cs411_answers.checkAnswer(questionID, questionGuess))
+    return prepJSON(cs411_answers.checkAnswer(questionID, questionGuess))
+
+@app.route('/game/new', methods=['POST'])
+def newGame():
+    """ Create a new game --
+    post:
+        No arguments.  In the future will require user ID and potentially other fields.
+    responses:
+        200:
+            description:  A game is created.   A dictionary of the form 
+                { "Games_Game_ID" :  integer,
+                  "Answers":  { **phase3_output** }
+                }
+
+        See /game/<gameID> documentaiton for explanation of *phase3_output*
+    """
+    result = cs411_game.newGame()
+    return prepJSON(result)
+
+@app.route('/game/<gameID>', method=['GET'])
+def retrieveGame(gameID):
+    """ Returns the Answers object for a specific game ID.
+    responses:
+        200:
+            {
+                "Games_Game_ID":  The ID of the Game,
+                "categories": [ A List of Categories in the Game ]
+                "round1": [ A List of Categories in Round 1 ]
+                "round2": [ A List of Categories in Round 2 ]
+                "final":  The Final Jeopardy Category
+                "questions": [ /*  List of Categories */
+                    [ /* List of Questions of the form...  */
+                        {
+                            {'question_id': 247914,
+                             'question': '"It was a bright cold day in April, and the clocks were striking Grandma"',
+                             'round': '1',
+                             'value': 200
+                            }
+                        }]
+                ]
+            }
+    """
+    result = cs411_game.getQuestions(gameID)
+    return prepJSON(result)
 
 if __name__ == "__main__":
     app.run(host='0.0.0.0', port=5001)

@@ -82,8 +82,7 @@ def checkAnswer(questionID, questionGuess):
         "ConsideredCorrect": 'Y' if correct else 'N'
     }
     return result
-    return jsonify(result)
-
+    
 # Interactive tool to debug 
 def interactiveDebug():
     conn = cs411_db.getConnection()
