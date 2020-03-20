@@ -29,8 +29,7 @@ export const getQuestionsThunkAction = () => {
         dispatch(getQuestionsSuccess(response.data));
       })
       .catch(() => {
-        console.error('Unable to get questions data.');
         dispatch(getQuestionsFailure());
       });
-  }
-}
+  };
+};
