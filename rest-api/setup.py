@@ -39,7 +39,7 @@ def handle_invalid_usage(error):
     return response
 
 @app.route('/login', methods=['POST'])
-@cross_origin()
+@cross_origin(allow_headers=['Content-Type'])
 def login():
     """ Authenticate users
     post:
@@ -64,7 +64,7 @@ def login():
     else: return prepJSON(userRecord)
 
 @app.route('/register', methods=['GET', 'POST'])
-@cross_origin()
+@cross_origin(allow_headers=['Content-Type'])
 def register():
     """ Create a new user -- 
     post:
@@ -102,7 +102,7 @@ def checkAnswer(questionID):
     return prepJSON(cs411_answers.checkAnswer(questionID, questionGuess))
 
 @app.route('/game/new', methods=['POST'])
-@cross_origin()
+@cross_origin(allow_headers=['Content-Type'])
 def newGame():
     """ Create a new game --
     post:
