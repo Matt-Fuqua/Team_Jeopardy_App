@@ -26,7 +26,7 @@ const GameSelection = () => {
                 </Row >
                 <Row>
                     <div style={{ position: "relative", top: "50%", left: "50%" }}>
-                        <img src={JeopardyLogo} style={{ height: 300, width: 500 }} />
+                        <img alt="Jeopardy Logo" src={JeopardyLogo} style={{ height: 300, width: 500 }} />
                     </div>
                 </Row>
                 <Row style={{ padding: "20px" }}>
