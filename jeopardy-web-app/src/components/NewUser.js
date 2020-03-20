@@ -1,7 +1,23 @@
 import React from 'react';
+import { useDispatch } from 'react-redux';
+
+import { registerUserThunkAction } from '../actions/registerUser';
 import { Button, Column, Grid, Row, TextInput } from 'carbon-components-react';
 
 const NewUser = () => {
+  const dispatch = useDispatch();
+
+  // TODO: Instead of coding these values in we want to use the data from the input values below
+  const username = 'mjordan';
+  const password = 'pw';
+  const email = 'mjordan@email.com';
+  const firstName = 'Michael';
+  const lastName = 'Jordan';
+
+  const registerUserSubmit = () => {
+    dispatch(registerUserThunkAction(username, password, email, firstName, lastName));
+  }
+
   return (
     <div style={{ backgroundColor: "#C0C0C0", padding: "10px" }}>
       <Grid>
@@ -62,7 +78,7 @@ const NewUser = () => {
         <Row>
           <Button
             kind="primary"
-            onClick={()=>console.log("You tried to login")}
+            onClick={registerUserSubmit}
             type="button"
           >
             Create New User
