@@ -5,9 +5,11 @@ import cs411_db
 import cs411_answers
 import cs411_game
 from flask import Flask, request, render_template, jsonify, abort
+from flask_cors import CORS, cross_origin
 
 app = Flask(__name__)
-application = app
+app.config['CORS_HEADERS'] = 'Content-Type'
+CORS(app)
 
 def prepJSON(adict):
     response = jsonify(adict)
@@ -37,6 +39,7 @@ def handle_invalid_usage(error):
     return response
 
 @app.route('/login', methods=['POST'])
+@cross_origin()
 def login():
     """ Authenticate users
     post:
@@ -61,6 +64,7 @@ def login():
     else: return prepJSON(userRecord)
 
 @app.route('/register', methods=['GET', 'POST'])
+@cross_origin()
 def register():
     """ Create a new user -- 
     post:
@@ -98,6 +102,7 @@ def checkAnswer(questionID):
     return prepJSON(cs411_answers.checkAnswer(questionID, questionGuess))
 
 @app.route('/game/new', methods=['POST'])
+@cross_origin()
 def newGame():
     """ Create a new game --
     post:
