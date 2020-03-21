@@ -1,5 +1,5 @@
 import store from '../store';
-import axios from '../axios/instance';
+import axios from 'axios';
 
 export const getQuestionsStarted = () => {
   return {
@@ -24,6 +24,12 @@ export const getQuestionsFailure = () => {
 export const getQuestionsThunkAction = () => {
   store.dispatch(getQuestionsStarted());
   return (dispatch) => {
+
+    return axios({
+      method: 'get',
+      url: 'http://cs411teambfs.web.illinois.edu/phase3'
+    })
+
     return axios.get(`/phase3`)
       .then(response => {
         dispatch(getQuestionsSuccess(response.data));
