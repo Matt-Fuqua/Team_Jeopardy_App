@@ -62,7 +62,8 @@ def checkAnswer(questionID, questionGuess):
     curs.execute(query)
     result = curs.fetchone()
     print(result)
-    question = result[0].decode()
+    if result != None: question = result[0].decode()
+    else: question = "Question with ID {0} does not exist in the database.".format(questionID)
     curs.close()
     conn.close()
 
@@ -98,22 +99,27 @@ def submitAnswer(Games_Game_ID, GameQuestions_ID, Contestant_Coontestant_ID, que
 
     conn = cs411_db.getConnection()
     curs = conn.cursor()
-    curs.callproc("SP_Insert_Answer", (GameQuestions_ID,
+    test = curs.callproc("SP_Insert_Answer", (GameQuestions_ID,
         Contestant_Coontestant_ID,
         questionGuess,
         check["CorrectQuestion"],
         Games_Game_ID))
 
-    curs.close()
-
-    for result in cursor.stored_results():
+    success = 0
+    message = "This code has not executed" 
+    for result in curs.stored_results():
             for r in result:
-                success = r[0]
-                message = r[1].decode()
+                message = r[0]
     
-    cursor.close()
-    cnx.commit()
-    
+    curs.close()
+    conn.commit()
+
+    if r[0] == 1:
+         success = 1
+         message = ""
+    else:
+         success = 0
+
     result = {
         "status": success,
         "message": message,
