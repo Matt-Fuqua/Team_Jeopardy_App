@@ -5,9 +5,7 @@ def newGame():
     cnx = cs411_db.getConnection()
     cursor = cnx.cursor()
 
-    cursor.callproc('SP_Generate_Categories', [])
-    # print results
-    print("Printing laptop details")
+    cursor.callproc('SP_Generate_Categories_Prod', [])
     for result in cursor.stored_results():
             for r in result:
                 resultId = r[0]
@@ -23,7 +21,7 @@ def getQuestions(questionID):
     cursor = conn.cursor()
     
     query = ("""SELECT Question_Text, Category, Value, Round, Questions_Question_ID
-        FROM Dev_Game_Questions
+        FROM Game_Questions
         WHERE Games_Game_ID={}""".format(questionID))
     cursor.execute(query)
 

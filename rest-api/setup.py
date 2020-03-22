@@ -97,12 +97,48 @@ def randomAnswer():
 
 @app.route('/checkQuestion/<questionID>', methods=['GET'])
 def checkAnswer(questionID):
+    """This is a debug routine. Front shouldn't need except for debugging. """
     questionGuess = request.args.get('questionGuess', 'FORM ERROR')
     print("{0} {1}".format(questionID, questionGuess))
     return prepJSON(cs411_answers.checkAnswer(questionID, questionGuess))
 
+@app.route('/submitAnswer', methods=['POST'])
+def submitAnswer():
+    """Submits the guessed answer for a given game, question, contestant. 
+        post:
+
+        parameters:
+            Games_Game_ID
+            GameQuestions_ID
+            Contestant_Coontestant_ID
+            questionGuess
+
+    Return a dictionary containing:
+        responses:
+        200:
+            description: The question is answered.
+            schema:
+                Games_Game_ID: The ID of the Game.  (You passed this in)
+                GameQuestions_ID:  The ID of the Question asked.  (You passed this in)
+                Contestant_Contestant_ID: The ID of the Contestant. (You passed this in)
+                CorrecAnswer: The actual correct question according to the archives.
+                ConsideredCorrect: a Y or N that if the question is considered correct.
+        401:
+            description: The write to the database failed for some reason.
+            schema:
+                status: The status code returned from the database
+                message: A helpful diagnostic text message.
+    """
+    result = cs411_answers.submitAnswer(
+        request.form.get('Games_Game_ID'),
+        request.form.get('GameQuestions_ID'),
+        request.form.get('Contestant_Coontestant_ID'),
+        request.form.get('questionGuess')
+    )
+    if result["status"] != 1: raise InvalidUsage(result["message"], 403)
+    else: return prepJSON(result)
+
 @app.route('/game/new', methods=['POST'])
-@cross_origin(allow_headers=['Content-Type'])
 def newGame():
     """ Create a new game --
     post:
