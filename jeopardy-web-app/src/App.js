@@ -2,7 +2,7 @@ import React from 'react';
 import './App.css';
 import { AppHeader } from './components';
 import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
-import { About, Admin, Debug, GameOver, GameSelection, Home } from './pages';
+import { About, Admin, GameOver, GameSelection, Home } from './pages';
 import { Content } from "carbon-components-react/lib/components/UIShell";
 
 function App() {
@@ -17,9 +17,6 @@ function App() {
             </Route>
             <Route path="/admin">
               <Admin />
-            </Route>
-            <Route path="/debug">
-              <Debug />
             </Route>
             <Route path="/gameSelection">
               <GameSelection />

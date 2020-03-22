@@ -1,28 +1,29 @@
 const initialData = {
-  questionsData: {},
+  loginStatus: {},
   isFetching: false,
   isError: false,
 };
 
-const questionsReducer = (state = initialData, action) => {
+const loginReducer = (state = initialData, action) => {
   switch (action.type) {
-    case "GET_QUESTIONS_STARTED":
+    case "LOGIN_STARTED":
       return {
         ...state,
-        questionsData: {},
+        loginStatus: {},
         isFetching: true,
         isError: false
       };
-    case "GET_QUESTIONS_SUCCESS":
+    case "LOGIN_SUCCESS":
       return {
         ...state,
-        questionsData: action.data,
-        isFetching: false,
+        loginStatus: action.data,
+        ifFetching: false,
         isError: false
       };
-    case "GET_QUESTIONS_FAILURE":
+    case "LOGIN_FAILURE":
       return {
         ...state,
+        loginStatus: {},
         isFetching: false,
         isError: true
       };
@@ -31,4 +32,4 @@ const questionsReducer = (state = initialData, action) => {
   }
 };
 
-export default questionsReducer;
+export default loginReducer;

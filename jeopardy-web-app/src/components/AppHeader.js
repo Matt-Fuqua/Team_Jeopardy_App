@@ -1,10 +1,7 @@
 import React from "react";
-import Login20 from "@carbon/icons-react/lib/login/20";
 import {
   Header,
   HeaderName,
-  HeaderGlobalAction,
-  HeaderGlobalBar,
   HeaderNavigation,
   HeaderMenuItem
 } from "carbon-components-react/lib/components/UIShell";
@@ -24,9 +21,6 @@ const AppHeader = () => (
       <HeaderMenuItem id="admin-menu-item" href="/admin">
         Admin
       </HeaderMenuItem>
-      <HeaderMenuItem id="debug-menu-item" href="/debug">
-        Debug
-      </HeaderMenuItem>
       <HeaderMenuItem id="games-selection-menu-item" href="/gameSelection">
         Game Selection
       </HeaderMenuItem>
@@ -34,15 +28,6 @@ const AppHeader = () => (
         Game Over
       </HeaderMenuItem>
     </HeaderNavigation>
-    <HeaderGlobalBar>
-      <HeaderGlobalAction
-        id="login-button"
-        aria-label="Login"
-        onClick={() => {}}
-      >
-        <Login20 />
-      </HeaderGlobalAction>
-    </HeaderGlobalBar>
   </Header>
 );
 
