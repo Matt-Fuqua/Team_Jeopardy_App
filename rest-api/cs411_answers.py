@@ -56,7 +56,6 @@ def checkAnswer(questionID, questionGuess):
     conn = cs411_db.getConnection()
     curs = conn.cursor()
 
-    # Check that the user name is not already taken.
     query = """SELECT Question_Answer
         FROM Questions
         WHERE Question_ID = {0}""" .format(questionID)
@@ -83,6 +82,49 @@ def checkAnswer(questionID, questionGuess):
     }
     return result
     
+def submitAnswer(Games_Game_ID, GameQuestions_ID, Contestant_Coontestant_ID, questionGuess):
+    """Submits the guessed answer for a given ID.  Return a dictionary containing:
+
+        status: 'Y' for successful writing to database, 0 otherwise
+        message: The reason the update to database failed if applicapable
+        Games_Game_ID: The ID of the Game.  (You passed this in)
+        GameQuestions_ID:  The ID of the Question asked.  (You passed this in)
+        Contestant_Contestant_ID: The ID of the Contestant. (You passed this in)
+        CorrecAnswer: The actual correct question according to the archives.
+        ConsideredCorrect: a Y or N that if the question is considered correct.
+    """
+
+    check = checkAnswer(GameQuestions_ID, questionGuess)
+
+    conn = cs411_db.getConnection()
+    curs = conn.cursor()
+    curs.callproc("SP_Insert_Answer", (GameQuestions_ID,
+        Contestant_Coontestant_ID,
+        questionGuess,
+        check["CorrectQuestion"],
+        Games_Game_ID))
+
+    curs.close()
+
+    for result in cursor.stored_results():
+            for r in result:
+                success = r[0]
+                message = r[1].decode()
+    
+    cursor.close()
+    cnx.commit()
+    
+    result = {
+        "status": success,
+        "message": message,
+        "Games_Game_ID": Games_Game_ID,
+        "GameQuestions_ID": GameQuestions_ID,
+        "Contestant_Coontestant_ID": Contestant_Coontestant_ID,
+        "CorrectAnswer": check["CorrectQuestion"],
+        "ConsideredCorrect": check["ConsideredCorrect"]
+    }
+    return result
+
 # Interactive tool to debug 
 def interactiveDebug():
     conn = cs411_db.getConnection()

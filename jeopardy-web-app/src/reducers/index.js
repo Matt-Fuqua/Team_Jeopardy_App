@@ -1,4 +1,5 @@
 import { combineReducers } from "redux";
-import questions from './questions';
+import login from './login';
+import registerUser from './registerUser';
 
-export default combineReducers({ questions });
+export default combineReducers({ login, registerUser });
