@@ -24,14 +24,13 @@ const NewUser = () => {
   }
 
   return (
-    <div style={{ backgroundColor: "#C0C0C0", padding: "10px" }}>
+    <div style={{ backgroundColor: "#F5F5F5", borderRadius: "15px 15px 15px 15px", padding: "30px", width: 500 }}>
       <h4>Create New User</h4>
       <Form
         onSubmit={handleFormSubmit}
       >
         <FormGroup
           invalid={false}
-          legendText="General Information"
           message={false}
         >
           <TextInput

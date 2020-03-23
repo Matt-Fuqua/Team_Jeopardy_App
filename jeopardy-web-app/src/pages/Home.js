@@ -4,11 +4,8 @@ import { NewUser, UserLogin } from '../components';
 
 const Home = () => {
   return (
-    <div>
+    <div style={{ display: "flex", justifyContent: "center" }}>
       <Grid>
-        <Row>
-          Home Page
-        </Row>
         <Row style={{ padding: "10px" }}>
           <UserLogin />
         </Row>

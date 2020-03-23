@@ -3,7 +3,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { loginStatus } from '../selectors'
 
 import { loginThunkAction, setLoginDefault } from '../actions/login';
-import { Button, Form, TextInput } from 'carbon-components-react';
+import { Button, Form, FormGroup, TextInput } from 'carbon-components-react';
 
 const UserLogin = () => {
   const dispatch = useDispatch();
@@ -25,35 +25,39 @@ const UserLogin = () => {
   };
 
   return (
-    <div style={{ backgroundColor: "#C0C0C0", padding: "10px" }}>
+    <div style={{ backgroundColor: "#F5F5F5", borderRadius: "15px 15px 15px 15px", padding: "30px", width: 500 }}>
       <h4>Login</h4>
       <Form
         onSubmit={handleFormSubmit}
       >
-        <TextInput
-          id="username-login"
+        <FormGroup
           invalid={false}
-          invalidText="A valid value is required"
-          labelText="Username"
-          light={true}
-          type="text"
-          value={username}
-          onChange={e => setUsername(e.target.value)}
-        />
-        <TextInput
-          id="password-login"
-          invalid={false}
-          invalidText="A valid value is required"
-          labelText="Password"
-          light={true}
-          type="text"
-          value={password}
-          onChange={e => setPassword(e.target.value)}
-        />
+          message={false}
+        >
+          <TextInput
+            id="username-login"
+            invalid={false}
+            invalidText="A valid value is required"
+            labelText="Username"
+            light={true}
+            type="text"
+            value={username}
+            onChange={e => setUsername(e.target.value)}
+          />
+          <TextInput
+            id="password-login"
+            invalid={false}
+            invalidText="A valid value is required"
+            labelText="Password"
+            light={true}
+            type="text"
+            value={password}
+            onChange={e => setPassword(e.target.value)}
+          />
+        </FormGroup>
         <Button
           kind="primary"
           type="submit"
-          
         >
           Login
         </Button>
