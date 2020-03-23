@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { loginStatus } from '../selectors'
 
-import { loginThunkAction } from '../actions/login';
+import { loginThunkAction, setLoginDefault } from '../actions/login';
 import { Button, Form, TextInput } from 'carbon-components-react';
 
 const UserLogin = () => {
@@ -10,12 +10,18 @@ const UserLogin = () => {
 
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
+  const loginResponse = useSelector(loginStatus);
 
-  const loginAuthentication = useSelector(loginStatus);
-  console.log(loginAuthentication)
+  if(loginResponse === "error") {
+    dispatch(setLoginDefault());
+    alert("INVALID USER");
+  };
 
-  const handleFormSubmit = () => {
+  const handleFormSubmit = e => {
+    e.preventDefault();
     dispatch(loginThunkAction(username, password));
+    setUsername("");
+    setPassword("");
   };
 
   return (
@@ -46,8 +52,8 @@ const UserLogin = () => {
         />
         <Button
           kind="primary"
-          type="button"
-          onClick={handleFormSubmit}
+          type="submit"
+          
         >
           Login
         </Button>

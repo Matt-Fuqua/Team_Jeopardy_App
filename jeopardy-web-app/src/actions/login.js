@@ -44,3 +44,9 @@ export const loginThunkAction = (username, password) => {
         });
   };
 };
+
+export const setLoginDefault = () => {
+  return {
+    type: "SET_LOGIN_DEFAULT"
+  };
+};

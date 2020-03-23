@@ -23,9 +23,16 @@ const loginReducer = (state = initialData, action) => {
     case "LOGIN_FAILURE":
       return {
         ...state,
-        loginStatus: {},
+        loginStatus: "error",
         isFetching: false,
         isError: true
+      };
+    case "SET_LOGIN_DEFAULT":
+      return {
+        ...state,
+        loginStatus: {},
+        isFetching: false,
+        isError: false,
       };
     default:
       return state;

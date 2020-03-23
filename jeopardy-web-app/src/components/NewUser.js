@@ -13,8 +13,14 @@ const NewUser = () => {
   const [firstName, setFirstName] = useState("");
   const [lastName, setLastName] = useState("");
 
-  const handleFormSubmit = () => {
+  const handleFormSubmit = e => {
+    e.preventDefault();
     dispatch(registerUserThunkAction(username, password, email, firstName, lastName));
+    setUsername("");
+    setPassword("");
+    setEmail("");
+    setFirstName("");
+    setLastName("");
   }
 
   return (
