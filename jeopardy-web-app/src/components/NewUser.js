@@ -1,90 +1,97 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { useDispatch } from 'react-redux';
 
 import { registerUserThunkAction } from '../actions/registerUser';
-import { Button, Column, Grid, Row, TextInput } from 'carbon-components-react';
+import { Button, Form, FormGroup, TextInput } from 'carbon-components-react';
 
 const NewUser = () => {
   const dispatch = useDispatch();
 
-  // TODO: Instead of coding these values in we want to use the data from the input values below
-  const username = 'mjordan';
-  const password = 'pw';
-  const email = 'mjordan@email.com';
-  const firstName = 'Michael';
-  const lastName = 'Jordan';
+  const [username, setUsername] = useState("");
+  const [password, setPassword] = useState("");
+  const [email, setEmail] = useState("");
+  const [firstName, setFirstName] = useState("");
+  const [lastName, setLastName] = useState("");
 
-  const registerUserSubmit = () => {
+  const handleFormSubmit = () => {
     dispatch(registerUserThunkAction(username, password, email, firstName, lastName));
   }
 
   return (
     <div style={{ backgroundColor: "#C0C0C0", padding: "10px" }}>
-      <Grid>
-        <Row>
-          <Column>
-            <TextInput
-              id="firstname"
-              invalid={false}
-              invalidText="A valid value is required"
-              labelText="First Name"
-              light={true}
-              type="text"
-            />
-          </Column>
-          <Column>
-            <TextInput
-              id="lastname"
-              invalid={false}
-              invalidText="A valid value is required"
-              labelText="Last Name"
-              light={true}
-              type="text"
-            />
-          </Column>
-        </Row>
-        <Row>
-          <Column>
-            <TextInput
-              id="username-newuser"
-              invalid={false}
-              invalidText="A valid value is required"
-              labelText="Username"
-              light={true}
-              type="text"
-            />
-          </Column>
-          <Column>
-            <TextInput
-              id="password-newuser"
-              invalid={false}
-              invalidText="A valid value is required"
-              labelText="Password"
-              light={true}
-              type="text"
-            />
-          </Column>        
-        </Row>
-        <Row>
+      <h4>Create New User</h4>
+      <Form
+        onSubmit={handleFormSubmit}
+      >
+        <FormGroup
+          invalid={false}
+          legendText="General Information"
+          message={false}
+        >
           <TextInput
-              id="email-newuser"
-              invalid={false}
-              invalidText="A valid value is required"
-              labelText="Email"
-              light={true}
-              type="text"
+            id="firstname-newuser"
+            invalid={false}
+            invalidText="A valid value is required"
+            labelText="First Name"
+            light={true}
+            type="text"
+            value={firstName}
+            onChange={e => setFirstName(e.target.value)}
           />
-        </Row>
-        <Row>
-          <Button
-            kind="primary"
-            onClick={registerUserSubmit}
-            type="button"
-          >
-            Create New User
-          </Button>
-        </Row>
-      </Grid>
+          <TextInput
+            id="lastname-newuser"
+            invalid={false}
+            invalidText="A valid value is required"
+            labelText="Last Name"
+            light={true}
+            type="text"
+            value={lastName}
+            onChange={e => setLastName(e.target.value)}
+          />
+          <TextInput
+            id="email-newuser"
+            invalid={false}
+            invalidText="A valid value is required"
+            labelText="Email"
+            light={true}
+            type="text"
+            value={email}
+            onChange={e => setEmail(e.target.value)}
+          />
+        </FormGroup>
+        <FormGroup
+          invalid={false}
+          legendText="Credentials"
+          message={false}
+        >
+          <TextInput
+            id="username-newuser"
+            invalid={false}
+            invalidText="A valid value is required"
+            labelText="Username"
+            light={true}
+            type="text"
+            value={username}
+            onChange={e => setUsername(e.target.value)}
+          />
+          <TextInput
+            id="password-newuser"
+            invalid={false}
+            invalidText="A valid value is required"
+            labelText="Password"
+            light={true}
+            type="text"
+            value={password}
+            onChange={e => setPassword(e.target.value)}
+          />
+        </FormGroup>
+        <Button
+          kind="primary"
+          type="submit"
+        >
+          Create New User
+        </Button>
+      </Form>
     </div>
   );
 };
