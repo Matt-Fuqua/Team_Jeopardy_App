@@ -44,13 +44,15 @@ const UserLogin = () => {
             value={username}
             onChange={e => setUsername(e.target.value)}
           />
-          <TextInput
+          <TextInput.PasswordInput
+            hidePasswordLabel="Hide password"
             id="password-login"
             invalid={false}
             invalidText="A valid value is required"
             labelText="Password"
             light={true}
-            type="text"
+           // type="text"                       this causes password to show
+            showPasswordLabel="Show password"
             value={password}
             onChange={e => setPassword(e.target.value)}
           />

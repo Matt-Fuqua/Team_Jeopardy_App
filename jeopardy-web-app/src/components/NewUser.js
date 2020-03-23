@@ -63,12 +63,6 @@ const NewUser = () => {
             value={email}
             onChange={e => setEmail(e.target.value)}
           />
-        </FormGroup>
-        <FormGroup
-          invalid={false}
-          legendText="Credentials"
-          message={false}
-        >
           <TextInput
             id="username-newuser"
             invalid={false}
@@ -79,13 +73,15 @@ const NewUser = () => {
             value={username}
             onChange={e => setUsername(e.target.value)}
           />
-          <TextInput
+          <TextInput.PasswordInput
+            hidePasswordLabel="Hide password"
             id="password-newuser"
             invalid={false}
             invalidText="A valid value is required"
             labelText="Password"
             light={true}
-            type="text"
+            //type="text"       causes issue with hiding password
+            showPasswordLabel="Show password"
             value={password}
             onChange={e => setPassword(e.target.value)}
           />
