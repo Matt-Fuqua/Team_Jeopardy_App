@@ -1,45 +1,57 @@
-import React from 'react';
-import { useDispatch } from 'react-redux';
+import React, { useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { loginStatus } from '../selectors'
 
 import { loginThunkAction } from '../actions/login';
-import { Button, TextInput } from 'carbon-components-react';
+import { Button, Form, TextInput } from 'carbon-components-react';
 
 const UserLogin = () => {
   const dispatch = useDispatch();
 
-  // TODO: Instead of coding these values in we want to use the data from the input values below
-  const usernameInput = 'rfitch';
-  const passwordInput = 'pw';
+  const [username, setUsername] = useState("");
+  const [password, setPassword] = useState("");
 
-  const loginSubmit = () => {
-    dispatch(loginThunkAction(usernameInput, passwordInput));
+  const loginAuthentication = useSelector(loginStatus);
+  console.log(loginAuthentication)
+
+  const handleFormSubmit = () => {
+    dispatch(loginThunkAction(username, password));
   };
 
   return (
     <div style={{ backgroundColor: "#C0C0C0", padding: "10px" }}>
-      <TextInput
-        id="username-login"
-        invalid={false}
-        invalidText="A valid value is required"
-        labelText="Username"
-        light={true}
-        type="text"
-      />
-      <TextInput
-        id="password-login"
-        invalid={false}
-        invalidText="A valid value is required"
-        labelText="Password"
-        light={true}
-        type="text"
-      />
-      <Button
-        kind="primary"
-        onClick={loginSubmit}
-        type="button"
+      <h4>Login</h4>
+      <Form
+        onSubmit={handleFormSubmit}
       >
-        Login
-      </Button>
+        <TextInput
+          id="username-login"
+          invalid={false}
+          invalidText="A valid value is required"
+          labelText="Username"
+          light={true}
+          type="text"
+          value={username}
+          onChange={e => setUsername(e.target.value)}
+        />
+        <TextInput
+          id="password-login"
+          invalid={false}
+          invalidText="A valid value is required"
+          labelText="Password"
+          light={true}
+          type="text"
+          value={password}
+          onChange={e => setPassword(e.target.value)}
+        />
+        <Button
+          kind="primary"
+          type="button"
+          onClick={handleFormSubmit}
+        >
+          Login
+        </Button>
+      </Form>
     </div>
   );
 };
