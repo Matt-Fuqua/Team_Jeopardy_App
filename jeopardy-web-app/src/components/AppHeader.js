@@ -27,6 +27,9 @@ const AppHeader = () => (
       <HeaderMenuItem id="games-over-menu-item" href="/gameOver">
         Game Over
       </HeaderMenuItem>
+      <HeaderMenuItem id="gameboard-menu-item" href="/gameboard">
+      Game Board
+      </HeaderMenuItem>
     </HeaderNavigation>
   </Header>
 );
