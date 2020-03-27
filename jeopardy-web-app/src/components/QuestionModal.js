@@ -2,13 +2,13 @@ import React, { useState } from 'react';
 import { Form, FormGroup, Modal, TextInput } from 'carbon-components-react';
 
 const QuestionModal = () => {
-
   const [answerInput, setAnswerInput] = useState();
 
   const handleFormSubmit = e => {
     e.preventDefault();
     // dispatch action - submit answer to api middle layer
     setAnswerInput("");
+    
   }
 
   return (
@@ -16,16 +16,19 @@ const QuestionModal = () => {
       hasScrollingContent={false}
       iconDescription="Close the modal"
       modalAriaLabel="A label to be read by screen readers on the modal root node"
-      modalHeading="Modal heading"
+      modalHeading="Modal heading A label to be read by screen readers on the modal root node A label to be read by screen readers on the modal root node"
+
+    
+      
       // onClick={function noRefCheck(){}}
       onRequestClose={() => console.log('on request close')}
       onRequestSubmit={() => console.log('on request submit')}
       onSecondarySubmit={() => console.log('on secondary input')}
-      open
+      open={false}
       passiveModal={false}
       primaryButtonDisabled={false}
-      primaryButtonText="Primary Button"
-      secondaryButtonText="Secondary Button"
+      primaryButtonText="Submit"
+      secondaryButtonText="Guess"
       selectorPrimaryFocus="[data-modal-primary-focus]"
       size={undefined}
     >
@@ -49,7 +52,9 @@ const QuestionModal = () => {
           />
         </FormGroup>
       </Form>
+      
     </Modal>
+
   );
 };
 

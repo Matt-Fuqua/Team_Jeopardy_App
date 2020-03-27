@@ -10,7 +10,8 @@ const Gameboard = () => {
             <Grid>
                 <Row style={{ padding: "50px", margin :"auto", textAlign: "right" }}>
                     <Column>
-                        <QuestionButton />
+                        <QuestionButton enabled={true} value="500"/>
+
                         <QuestionModal />
                     </Column>
                 </Row>
