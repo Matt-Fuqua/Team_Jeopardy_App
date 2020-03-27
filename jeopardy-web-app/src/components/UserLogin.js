@@ -33,6 +33,7 @@ const UserLogin = () => {
         <FormGroup
           invalid={false}
           message={false}
+          legendText=""
         >
           <TextInput
             id="username-login"

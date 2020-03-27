@@ -21,7 +21,7 @@ const NewUser = () => {
     setEmail("");
     setFirstName("");
     setLastName("");
-  }
+  };
 
   return (
     <div style={{ backgroundColor: "#F5F5F5", borderRadius: "15px 15px 15px 15px", padding: "30px", width: 500 }}>
@@ -32,6 +32,7 @@ const NewUser = () => {
         <FormGroup
           invalid={false}
           message={false}
+          legendText=""
         >
           <TextInput
             id="firstname-newuser"
