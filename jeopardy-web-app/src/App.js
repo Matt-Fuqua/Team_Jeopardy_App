@@ -2,9 +2,9 @@ import React from 'react';
 import './App.css';
 import { AppHeader } from './components';
 import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
-import { About, Admin, GameOver, GameSelection, Home } from './pages';
+import { About, Admin, GamePlay, GameOver, GameSelection, Home } from './pages';
 import { Content } from "carbon-components-react/lib/components/UIShell";
-import Gameboard from './pages/Gameboard';
+import Gameboard from './components/Gameboard';
 
 function App() {
   return (
@@ -25,8 +25,8 @@ function App() {
             <Route path="/gameOver">
               <GameOver />
             </Route>
-            <Route path="/gameboard">
-              <Gameboard />
+            <Route path="/gamePlay">
+              <GamePlay />
             </Route>
             <Route path="/">
               <Home />

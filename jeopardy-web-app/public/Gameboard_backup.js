@@ -1,7 +1,7 @@
 
 import React from 'react';
 import { Column, Grid, Row } from 'carbon-components-react';
-import { QuestionButton, QuestionModal } from '../components';
+import { QuestionButton, QuestionModal } from '.';
 
 const Gameboard = () => {
 
