@@ -4,7 +4,6 @@ import { AppHeader } from './components';
 import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
 import { About, Admin, GamePlay, GameOver, GameSelection, Home } from './pages';
 import { Content } from "carbon-components-react/lib/components/UIShell";
-import Gameboard from './components/Gameboard';
 
 function App() {
   return (
