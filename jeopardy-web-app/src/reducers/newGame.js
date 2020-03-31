@@ -1,7 +1,6 @@
 const initialData = {
-  // gameData: {},
   gameId: '',
-  categories: {},
+  categories: [],
   final: '',
   questions: {},
   roundOne: [],
@@ -16,12 +15,11 @@ const newGameReducer = (state = initialData, action) => {
       return {
         ...state,
         gameId: '',
-        categories: {},
+        categories: [],
         final: '',
         questions: {},
         roundOne: [],
         roundTwo: [],
-        // gameData: {},
         isFetching: true,
         isError: false
       };
@@ -34,7 +32,6 @@ const newGameReducer = (state = initialData, action) => {
         questions: action.data.questions,
         roundOne: action.data.round1,
         roundTwo: action.data.round2,
-        // gameData: action.data,
         isFetching: false,
         isError: false
       };
@@ -42,12 +39,11 @@ const newGameReducer = (state = initialData, action) => {
       return {
         ...state,
         gameId: '',
-        categories: {},
+        categories: [],
         final: '',
         questions: {},
         roundOne: [],
         roundTwo: [],
-        // gameData: {},
         isFetching: false,
         isError: true
       };
