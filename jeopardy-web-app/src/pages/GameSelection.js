@@ -1,9 +1,14 @@
 import React from 'react';
+import { useDispatch } from 'react-redux';
+
+import { newGameThunkAction } from '../actions/newGame'
 import { Button, Column, Grid, Row } from 'carbon-components-react';
 import JeopardyLogo from "../images/jeopardyLogo.jpg";
 
 
 const GameSelection = () => {
+    const dispatch = useDispatch();
+
     return (
         <div style={{ padding: "20px" }}>
             <Grid>
@@ -16,7 +21,7 @@ const GameSelection = () => {
                             disabled={false}
                             iconDescription="admin button"
                             kind="primary"
-                            onClick={() => console.log("admin button clicked")} 
+                            onClick={() => dispatch(newGameThunkAction())} 
                             size="default"
                             type="button"
                         >
@@ -35,7 +40,7 @@ const GameSelection = () => {
                             disabled={false}
                             iconDescription="easy button"
                             kind="primary"
-                            onClick={() => console.log("easy button clicked")} 
+                            onClick={() => dispatch(newGameThunkAction)} 
                             size="default"
                             type="button"
                         >
@@ -47,7 +52,7 @@ const GameSelection = () => {
                             disabled={false}
                             iconDescription="medium button"
                             kind="primary"
-                            onClick={() => console.log("medium button clicked")} 
+                            onClick={() => dispatch(newGameThunkAction)} 
                             size="default"
                             type="button"
                         >
@@ -59,7 +64,7 @@ const GameSelection = () => {
                             disabled={false}
                             iconDescription="difficult button"
                             kind="primary"
-                            onClick={() => console.log("difficult button clicked")} 
+                            onClick={() => dispatch(newGameThunkAction())} 
                             size="default"
                             type="button"
                         >
