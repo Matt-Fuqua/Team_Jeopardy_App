@@ -1,10 +1,10 @@
 import React from 'react';
 
-const Player = () => {
+const PlayerDetails = () => {
   return (
     <h1> Player </h1>
   );
 
 };
 
-export default Player;
+export default PlayerDetails;
