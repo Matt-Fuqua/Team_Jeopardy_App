@@ -1,6 +1,6 @@
 import React from 'react';
 import { Column, Grid, Row } from 'carbon-components-react';
-import { Gameboard, Player, QuestionModal } from '../components';
+import { Gameboard, PlayerDetails, QuestionModal } from '../components';
 
 const GamePlay = () => {
   return (
@@ -15,10 +15,10 @@ const GamePlay = () => {
         </Row>
         <Row>
           <Column>
-            <Player />
+            <PlayerDetails />
           </Column>
           <Column>
-            <Player />
+            <PlayerDetails />
           </Column>
         </Row>
       </Grid>
