@@ -8,6 +8,7 @@ const QuestionButton = props => {
     <button
       style={{ backgroundColor: buttonColor, color: '#FFD700', fontSize: 'medium', fontWeight: 'bold', height: 90, width: 150 }}
       type="button" 
+      onClick={() => console.log(props.questionId)}
     >
       {props.value}
     </button>
