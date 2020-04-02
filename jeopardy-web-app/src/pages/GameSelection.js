@@ -21,7 +21,7 @@ const GameSelection = () => {
                             disabled={false}
                             iconDescription="admin button"
                             kind="primary"
-                            onClick={() => dispatch(newGameThunkAction())} 
+                            onClick={() => console.log('admin button clicked')} 
                             size="default"
                             type="button"
                         >
@@ -40,7 +40,7 @@ const GameSelection = () => {
                             disabled={false}
                             iconDescription="easy button"
                             kind="primary"
-                            onClick={() => dispatch(newGameThunkAction)} 
+                            onClick={() => dispatch(newGameThunkAction())} 
                             size="default"
                             type="button"
                         >
@@ -52,7 +52,7 @@ const GameSelection = () => {
                             disabled={false}
                             iconDescription="medium button"
                             kind="primary"
-                            onClick={() => dispatch(newGameThunkAction)} 
+                            onClick={() => dispatch(newGameThunkAction())} 
                             size="default"
                             type="button"
                         >
