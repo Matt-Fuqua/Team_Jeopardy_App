@@ -1,13 +1,34 @@
 import React from 'react';
-import { Column, Grid, Row } from 'carbon-components-react';
+import { useDispatch } from 'react-redux';
+
+import { Button, Column, Grid, Row } from 'carbon-components-react';
 import { Gameboard, PlayerDetails, QuestionModal } from '../components';
 
+import { newGameThunkAction } from '../actions/newGame';
+
+
 const GamePlay = () => {
+  const dispatch = useDispatch();
+
   return (
     <div>
       <Grid>
         <Row>
-          <h1> LETS GET READY TO RUMBLE !!! </h1>
+          <Column>
+            <h1> LETS GET READY TO RUMBLE !!! </h1>
+          </Column>
+          <Column>
+            <Button 
+              disabled={false}
+              iconDescription="medium button"
+              kind="primary"
+              onClick={() => dispatch(newGameThunkAction())} 
+              size="default"
+              type="button"
+            >
+              Start Game
+            </Button>
+          </Column>
         </Row>
         <Row>
           <Gameboard />
