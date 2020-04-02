@@ -1,19 +1,34 @@
 
 import React from 'react';
+import { useSelector } from 'react-redux';
 import { Column, Grid, Row } from 'carbon-components-react';
-import { QuestionButton } from '.';
-
-let buttonValue1 = "100";
-let buttonValue2 = "200";
-let buttonValue3 = "300";
-let buttonValue4 = "400";
-let buttonValue5 = "500";
+import QuestionButton from './QuestionButton';
+import {
+    newGameQuestions
+} from '../selectors';
 
 const Gameboard = () => {
+    const questions = useSelector(newGameQuestions);
+    
+    let buttons = [];
+
+    Object.values(questions).forEach(object => {
+        Object.values(object).forEach(question => {
+            let questionValue = "";
+            if(question.value === null) {
+                questionValue = "0";
+            } else {
+                questionValue = question.value.toString();
+            }
+            buttons.push(<QuestionButton enabled={true} value={questionValue} questionId={question.question_id.toString()} />);
+        });
+    })
+
     return (
         <div>
             <Grid style = {{ padding: "100px" }}>
-                <Row>
+                {buttons}
+                {/* <Row>
                     <Column>  
                         <Row>
                             Cat 1
@@ -134,7 +149,7 @@ const Gameboard = () => {
                             <QuestionButton />   
                         </Row>
                     </Column>
-                </Row>
+                </Row> */}
             </Grid>
         </div>
     );
