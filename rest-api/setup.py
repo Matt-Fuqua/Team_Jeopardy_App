@@ -65,6 +65,28 @@ def login():
     if userRecord == None: raise InvalidUsage('Login failed', status_code=401)
     else: return prepJSON(userRecord)
 
+@app.route('/password', methods=['POST'])
+def password():
+    """ Authenticate users
+    post:
+        parameters:
+            username
+            password
+            newpassword
+
+        responses:
+            200:
+                description: password was changed successfully
+            401:
+                description: password change failed.
+                could be user ID doesnt exist or that current password was wrong
+    """
+    changed = cs411_user.changePassword(request.form['username'], 
+        request.form['password'],
+        request.form['newpassword'])
+    if (changed == 1): return prepJSON({"message": "success"})
+    else: raise InvalidUsage('Password Change Failed', status_code = 401)
+
 @app.route('/register', methods=['GET', 'POST'])
 def register():
     """ Create a new user -- 

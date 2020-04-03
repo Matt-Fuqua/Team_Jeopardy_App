@@ -14,6 +14,8 @@ def validateLogin(username, password):
 
     curs.execute(query, {"username": username, "password": password})
     result = curs.fetchone()
+    curs.close()
+    conn.close()
 
     if result is None: return None
     else:
@@ -25,6 +27,27 @@ def validateLogin(username, password):
             "ULast_Name": result[3].decode(),
             "Email": result[4].decode()
         }
+
+def changePassword(username, password, newpassword):
+    """Returns 0 on failure or a 1 on a success."""
+    conn = cs411_db.getConnection()
+    curs = conn.cursor()
+
+    query = """UPDATE Users
+                  SET Password = %(newpassword)s            
+                WHERE Account_Active = 'Y'
+                  AND User_ID = %(username)s
+                  AND Password = %(password)s"""
+    curs.execute(query, {
+        "username": username,
+        "password": password,
+        "newpassword": newpassword}
+    )
+    conn.commit()
+    affected_rows = curs.rowcount
+    curs.close()
+    conn.close()
+    return affected_rows
 
 def registerUser(username, password, email, first, last):
     """Returns a tuple (SuccessfulRegisteration, Dictionary).
@@ -58,4 +81,5 @@ def registerUser(username, password, email, first, last):
     curs.callproc("SP_Insert_Users", (username, password, first, last, email))
     curs.close()
     conn.commit()
+    conn.close()
     return (True, validateLogin(username, password))
