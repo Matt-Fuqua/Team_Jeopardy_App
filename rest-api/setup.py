@@ -182,6 +182,24 @@ def retrieveGame(gameID):
     result = cs411_game.getQuestions(gameID)
     return prepJSON(result)
 
+@app.route('/games', methods=['GET'])
+def retrieveGames():
+    """Returns a complete dump of the Games relation.
+    responses:
+        200:
+            {
+                "Game_ID": The ID of the game,
+                "Gamescol": I have no idea,
+                "Game_Date": The creation date of the game,
+                "Game_End_Date" The conclusion of the game, or NULL if in progress
+                "Contestants_Contestant_ID_Winner": The winning Contestant_ID of the game
+                "GameCreation_Type": unused
+                "GameCreation_Options": unused
+            }
+    """
+    result = cs411_game.getGames()
+    return prepJSON(result)
+
 if __name__ == "__main__":
     app.run(host='0.0.0.0', port=5001)
     

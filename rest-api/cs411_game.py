@@ -15,6 +15,29 @@ def newGame():
 
     return getQuestions(resultId)
 
+# Exposes a read-only view of the Games table
+def getGames():
+    conn = cs411_db.getConnection()
+    cursor = conn.cursor()
+    
+    query = ("""SELECT Game_ID, Gamescol, Game_Date, Game_End_Date, 
+        Contestants_Contestant_ID_Winner, GameCreation_Type, GameCreation_Options
+        FROM Games""")
+    cursor.execute(query)
+    results = []
+    for game in cursor:
+        gameDict = { "Game_ID": game[0],
+                     "Gamescol": game[1],
+                     "Game_Date": game[2],
+                     "Game_End_Date": game[3], 
+                     "Contestants_Contestant_ID_Winner": game[4],
+                     "GameCreation_Type": game[5],
+                     "GameCreation_Options": game[6] }
+        results.append(gameDict)
+    cursor.close()
+    conn.close()
+    return results
+
 # Return questions for a specific game
 def getQuestions(questionID):
     conn = cs411_db.getConnection()
