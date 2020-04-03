@@ -1,6 +1,15 @@
 DELIMITER $$
 --
 -- Procedures
+
+DROP PROCEDURE IF EXISTS `SP_Game_DELETE_Candidates_PROD`$$
+CREATE PROCEDURE `SP_Game_DELETE_Candidates_PROD` () BEGIN
+	SELECT Game_ID, Game_Date
+	FROM View_Delete_Canidates;
+END$$
+
+-- TEST
+
 --
 DROP PROCEDURE IF EXISTS `SP_Create_Game`$$
 CREATE PROCEDURE `SP_Create_Game` (OUT `new_gameid` INT)  BEGIN
@@ -149,4 +158,20 @@ CREATE PROCEDURE `SP_Validate_User` (IN `uid` VARCHAR(50), IN `pw` VARCHAR(50)) 
 
 	SELECT EXISTS(SELECT * FROM Users WHERE Users.User_ID = uid AND Users.Password = pw);
 
+END$$
+
+DROP PROCEDURE IF EXISTS `SP_Delete_All_Game_Records`$$
+CREATE PROCEDURE `SP_Delete_All_Game_Records` () BEGIN
+	SET AUTOCOMMIT = 0 ;
+	SET FOREIGN_KEY_CHECKS = 0;
+	START TRANSACTION;
+	DELETE FROM `Game_Answers` WHERE `Games_Game_ID` IN(SELECT `Game_ID` FROM `View_Delete_Candidates`) ;
+	DELETE FROM `Game_Questions` WHERE `Games_Game_ID` IN(SELECT `Game_ID` FROM `View_Delete_Candidates`) ;
+	DELETE FROM `Game_Contestants` WHERE `Games_Game_ID` IN(SELECT `Game_ID` FROM `View_Delete_Candidates`) ;
+	DELETE FROM `Dev_Category` WHERE `Game_ID` IN(SELECT `Game_ID` FROM `View_Delete_Candidates`) ;
+	DELETE FROM `Games` WHERE `Game_End_Date` IS NULL and TIMESTAMPDIFF(HOUR,`Game_Date`, NOW()) > 2;
+	SET FOREIGN_KEY_CHECKS = ON;
+	COMMIT;
+	SET AUTOCOMMIT = 1;
+	SELECT 1;
 END$$
