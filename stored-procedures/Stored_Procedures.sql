@@ -2,12 +2,6 @@ DELIMITER $$
 --
 -- Procedures
 
-DROP PROCEDURE IF EXISTS `SP_Game_DELETE_Candidates_PROD`$$
-CREATE PROCEDURE `SP_Game_DELETE_Candidates_PROD` () BEGIN
-	SELECT Game_ID, Game_Date
-	FROM View_Delete_Canidates;
-END$$
-
 -- TEST
 
 --
@@ -159,6 +153,13 @@ CREATE PROCEDURE `SP_Validate_User` (IN `uid` VARCHAR(50), IN `pw` VARCHAR(50)) 
 	SELECT EXISTS(SELECT * FROM Users WHERE Users.User_ID = uid AND Users.Password = pw);
 
 END$$
+
+DROP PROCEDURE IF EXISTS `SP_Game_DELETE_Candidates_PROD`$$
+CREATE PROCEDURE `SP_Game_DELETE_Candidates_PROD` () BEGIN
+	SELECT Game_ID, Game_Date
+	FROM View_Delete_Candidates;
+END$$
+
 
 DROP PROCEDURE IF EXISTS `SP_Delete_All_Game_Records`$$
 CREATE PROCEDURE `SP_Delete_All_Game_Records` () BEGIN
