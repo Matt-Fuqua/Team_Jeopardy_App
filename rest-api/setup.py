@@ -185,21 +185,12 @@ def retrieveGame(gameID):
         200:
             {
                 "Games_Game_ID":  The ID of the Game,
-                "categories": [ A List of Categories in the Game ]
-                "round1": [ A List of Categories in Round 1 ]
-                "round2": [ A List of Categories in Round 2 ]
-                "final":  The Final Jeopardy Category
-                "questions": [ /*  List of Categories */
-                    [ /* List of Questions of the form...  */
-                        {
-                            {'question_id': 247914,
-                             'question': '"It was a bright cold day in April, and the clocks were striking Grandma"',
-                             'round': '1',
-                             'value': 200
-                            }
-                        }]
-                ]
+                "round1": [ { "category": "....", "questions": [ ... ] } ]
+                "round2": [ { "category": "....", "questions": [ ... ] } ]
+                "final":  [ { "category": "....", "questions": [ . ] } ]            
             }
+            
+            each 
     """
     result = cs411_game.getQuestions(gameID)
     return prepJSON(result)

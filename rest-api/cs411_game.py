@@ -74,6 +74,33 @@ def getQuestions(questionID):
         elif (answers[c][0]["round"] == '2'): result["round2"].append(c)
         else: result["final"] = c
 
+    new_round_1 = []
+    for cat in result["round1"]:
+        r = { "category": cat, "questions": [] }
+        for q in result["questions"][cat]:
+            r["questions"].append(q)
+        new_round_1.append(r)
+
+    new_round_2 = []
+    for cat in result["round2"]:
+        r = { "category": cat, "questions": [] }
+        for q in result["questions"][cat]:
+            r["questions"].append(q)
+        new_round_2.append(r)
+
+    print(result["final"])
+    print(result["questions"])
+    new_final = { "category": result["final"],
+        "questions": [ result["questions"][result["final"]] ]
+    }
+
+    new_result = {
+        "Games_Game_ID": questionID,
+        "round1": new_round_1,
+        "round2": new_round_2,
+        "final": new_final
+    }
+
     cursor.close()
     conn.close()
-    return result
+    return new_result
