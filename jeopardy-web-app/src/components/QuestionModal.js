@@ -1,14 +1,24 @@
 import React, { useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 import { Form, FormGroup, Modal, TextInput } from 'carbon-components-react';
 
+import { closeQuestionModal } from '../actions/questionDisplay';
+import { questionDisplayOpen, questionDisplayQuestion, /* questionDisplayQuestionId, questionDisplayValue */ } from '../selectors/index';
+
 const QuestionModal = () => {
+  const dispatch = useDispatch();
+
+  const modalOpen = useSelector(questionDisplayOpen);
+  const modalQuestion = useSelector(questionDisplayQuestion);
+  // const modalQuestionId = useSelector(questionDisplayQuestionId);
+  // const modalQuestionValue = useSelector(questionDisplayValue);
+
   const [answerInput, setAnswerInput] = useState();
 
   const handleFormSubmit = e => {
     e.preventDefault();
     // dispatch action - submit answer to api middle layer
     setAnswerInput("");
-    
   }
 
   return (
@@ -16,21 +26,16 @@ const QuestionModal = () => {
       hasScrollingContent={false}
       iconDescription="Close the modal"
       modalAriaLabel="A label to be read by screen readers on the modal root node"
-      modalHeading="Modal heading A label to be read by screen readers on the modal root node A label to be read by screen readers on the modal root node"
-
-    
-      
-      // onClick={function noRefCheck(){}}
-      onRequestClose={() => console.log('on request close')}
+      modalHeading={modalQuestion}
+      onRequestClose={() => dispatch(closeQuestionModal())}
       onRequestSubmit={() => console.log('on request submit')}
       onSecondarySubmit={() => console.log('on secondary input')}
-      open={false}
+      open={modalOpen}
       passiveModal={false}
       primaryButtonDisabled={false}
       primaryButtonText="Submit"
       secondaryButtonText="Guess"
       selectorPrimaryFocus="[data-modal-primary-focus]"
-      size={undefined}
     >
       <Form
         onSubmit={handleFormSubmit}
@@ -52,7 +57,6 @@ const QuestionModal = () => {
           />
         </FormGroup>
       </Form>
-      
     </Modal>
 
   );
