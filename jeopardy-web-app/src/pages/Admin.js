@@ -1,9 +1,10 @@
 import React from 'react';
 import { useDispatch } from 'react-redux';
-import { Button, Column, Grid, Row } from 'carbon-components-react';
+import { Button, Grid, Row } from 'carbon-components-react';
 
 import { retrieveGamesThunkAction } from '../actions/retrieveGames';
 import { deleteGamesThunkAction } from '../actions/deleteGames';
+import { GamesTable } from '../components';
 
 
 const Admin = () => {
@@ -28,8 +29,10 @@ const Admin = () => {
             onClick={() => dispatch(deleteGamesThunkAction())} 
           >
           Delete Games
-          
         </Button>
+        </Row>
+        <Row>
+          <GamesTable />
         </Row>
       </Grid>
     </div>

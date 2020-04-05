@@ -1,8 +1,5 @@
 const initialData = {
-    gameID:'',
-    gameStart:'',
-    gameEnd:'',
-    gameWinner: '',
+    gamesData: [],
     ifFetching: false,
     isError: false,
   };
@@ -12,30 +9,22 @@ const initialData = {
       case "RETRIEVE_GAMES_STARTED":
         return {
           ...state,
-          gameID:'',
-          gameStart:'',
-          gameEnd:'',
-          gameWinner: '',
-          ifFetching: true,
+          gamesData: [],
+          isFetching: true,
           isError: false
         };
       case "RETRIEVE_GAMES_SUCCESS":
+        console.log('retrieve game reducer success')
         return {
-          ...state,
-          gameID: action.data.Game_ID,
-          gameStart: action.data.Game_Date,
-          gameEnd:action.data.Game_End_Date,
-          gameWinner: action.data.Contestants_Contestant_ID_Winner,
-          ifFetching: false,
+          ...state,  
+          gamesData: action.data,
+          isFetching: false,
           isError: false
         };
       case "RETRIEVE_GAMES_FAILURE":
         return {
           ...state,
-          gameID:'',
-          gameStart:'',
-          gameEnd:'',
-          gameWinner: '',
+          gamesData: [],
           isFetching: false,
           isError: true
         };

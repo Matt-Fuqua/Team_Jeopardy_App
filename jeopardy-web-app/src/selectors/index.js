@@ -1,5 +1,10 @@
 import { get } from "lodash";
 
+// Delete Games Selectors
+export const deleteGamesStatus = state => get(state.deleteGames, "retrieveStatus");
+export const deleteGamesIsFetching = state => get(state.deleteGames, "isFetching");
+export const deleteGamesIsError = state => get(state.deleteGames, "isError");
+
 // Login Selectors
 export const loginStatus = state => get(state.login, "loginStatus");
 export const loginIsFetching = state => get(state.login, "isFetching");
@@ -25,13 +30,10 @@ export const registerIsFetching = state => get(state.registerUser, "isFetching")
 export const registerIsError = state => get(state.registerUser, "isError");
 
 // Retrieve Games Selectors
-export const retrieveStatus = state => get(state.retrieveGames, "retrieveStatus");
-export const retrieveIsFetching = state => get(state.retrieveGames, "isFetching");
-export const retrieveIsError = state => get(state.retrieveGames, "isError");
+export const retrieveGamesData = state => get(state.retrieveGames, "gamesData");
+export const retrieveGamesIsFetching = state => get(state.retrieveGames, "isFetching");
+export const retrieveGamesIsError = state => get(state.retrieveGames, "isError");
 
-// Delete Games Selectors
-export const deleteStatus = state => get(state.deleteGames, "retrieveStatus");
-export const deleteIsFetching = state => get(state.deleteGames, "isFetching");
-export const deleteIsError = state => get(state.deleteGames, "isError");
+
 
 
