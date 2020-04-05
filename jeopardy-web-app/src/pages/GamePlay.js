@@ -2,7 +2,7 @@ import React from 'react';
 import { useDispatch } from 'react-redux';
 
 import { Button, Column, Grid, Row } from 'carbon-components-react';
-import { Gameboard, PlayerDetails, QuestionModal } from '../components';
+import { Gameboard, /* PlayerDetails, */ QuestionModal } from '../components';
 
 import { newGameThunkAction } from '../actions/newGame';
 
@@ -15,7 +15,7 @@ const GamePlay = () => {
       <Grid>
         <Row>
           <Column>
-            <h1> LETS GET READY TO RUMBLE !!! </h1>
+            <h1> Welcome to Jeopardy! </h1>
           </Column>
           <Column>
             <Button 
@@ -36,10 +36,10 @@ const GamePlay = () => {
         </Row>
         <Row>
           <Column>
-            <PlayerDetails />
+            {/* <PlayerDetails /> */}
           </Column>
           <Column>
-            <PlayerDetails />
+            {/* <PlayerDetails /> */}
           </Column>
         </Row>
       </Grid>
