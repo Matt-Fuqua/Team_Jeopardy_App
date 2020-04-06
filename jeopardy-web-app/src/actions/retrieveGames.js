@@ -8,7 +8,6 @@ export const retrieveGamesStarted = () => {
 };
 
 export const retrieveGamesSuccess = get => {
-  //console.log('retrieve game action success', get) --- WORKING
   return {
     type: "RETRIEVE_GAMES_SUCCESS",
     data: get
