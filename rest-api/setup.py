@@ -213,6 +213,49 @@ def retrieveGames():
     result = cs411_game.getGames()
     return prepJSON(result)
 
+@app.route('/games/delete', methods=['GET'])
+def deleteCandidates():
+    """Returns a list of the games that can be deleted due to abandonment.
+    respnses:
+        200:
+            [
+                {
+                    "Game_ID": The id of the game,
+                    "Game_Date": The date of the game creation
+                },
+                {...},
+                {...}
+            ]"""
+    return prepJSON(cs411_game.getProposedDeletes())
+
+@app.route('/games/delete/abandoned', methods=['POST'])
+def executeDeleteCandidates():
+    """Deletes abandonded games.
+    responses:
+        200:
+            {
+                "message": Success,
+                "gamesDeleted": Number of games deleted
+            }
+    """
+    return prepJSON(cs411_game.executeDeletions())
+
+@app.route('/game/fakefinish', methods = ['POST'])
+def fakeFinish():
+    """Simulates random contestant winning the game to demonstrate how the schema
+    handles game-end events.
+
+    post:
+        "Game_ID":  The ID of the game to simualte
+
+    responses:
+        200: { "message" : "success" }
+        403: { "message" : "failure" }
+    """
+    result = cs411_game.fakeUpdate(request.form.get('Game_ID'))
+    if result == 1: return prepJSON({"message": "success"})
+    else: raise InvalidUsage(result["message"], 403)
+
 if __name__ == "__main__":
     app.run(host='0.0.0.0', port=5001)
     
