@@ -5,10 +5,24 @@ def newGame():
     cnx = cs411_db.getConnection()
     cursor = cnx.cursor()
 
-    cursor.callproc('SP_Generate_Categories_Prod', [])
+    cursor.callproc('SP_Generate_Categories_PROD', [])
     for result in cursor.stored_results():
             for r in result:
                 resultId = r[0]
+    cursor.close()
+    cnx.commit()
+    cnx.close()
+
+    # Randomly select 3 contestants to play in the game
+    # In the future, front-end should provide this
+    cnx = cs411_db.getConnection()
+    cursor = cnx.cursor()
+    query = """INSERT INTO Game_Contestants (Games_Game_ID, Contestants_Contestant_ID)
+                SELECT {0} AS Games_Game_ID, Contestant_ID AS Contestants_Contestant_ID
+                  FROM Contestants
+                 ORDER BY RAND()
+                 LIMIT 3""".format(resultId)
+    cursor.execute(query)
     cursor.close()
     cnx.commit()
     cnx.close()
@@ -37,6 +51,61 @@ def getGames():
     cursor.close()
     conn.close()
     return results
+
+# Returns a list of candidate games for deletion
+def getProposedDeletes():
+    cnx = cs411_db.getConnection()
+    cursor = cnx.cursor()
+
+    cursor.callproc('SP_Game_DELETE_Candidates_Prod', [])
+    results = []
+    for rows in cursor.stored_results():
+            for r in rows:
+                result = {"Game_ID": r[0], "Game_Date": r[1]}
+                results.append(result)                
+    cursor.close()
+    cnx.commit()
+    cnx.close()
+    return results
+
+# Executes deletion of games
+def executeDeletions():
+    cnx = cs411_db.getConnection()
+    cursor = cnx.cursor()
+
+    cursor.callproc('SP_Delete_All_Game_Records', [])
+    for rows in cursor.stored_results():
+            for r in rows:
+                result = r[0]
+    print(result)
+    cursor.close()
+    cnx.commit()
+    cnx.close()
+    return { "message": "success", "gamesDeleted": None }
+
+# RAndomly insert data to signify end of game
+#  This here for illustrative purposes only until the 
+#  front-end devleopment builds this functionality.
+def fakeUpdate(gameID):
+    # Randomly select winning contestant and update Game table to reflect
+    cnx = cs411_db.getConnection()
+    cursor = cnx.cursor()
+    query = """UPDATE Games
+        SET Contestants_Contestant_ID_Winner = (
+        SELECT Contestants_Contestant_ID
+          FROM Game_Contestants
+         WHERE Games_Game_ID = {0}
+         ORDER BY RAND()
+         LIMIT 1),
+                Game_End_Date = Now()
+                WHERE Game_ID = {0}""".format(gameID)
+    print(query)
+    cursor.execute(query)
+    r = cursor.rowcount
+    cnx.commit()
+    cursor.close()
+    cnx.close()
+    return r
 
 # Return questions for a specific game
 def getQuestions(questionID):
