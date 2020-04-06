@@ -14,7 +14,6 @@ const initialData = {
           isError: false
         };
       case "RETRIEVE_GAMES_SUCCESS":
-        console.log('retrieve game reducer success')
         return {
           ...state,  
           gamesData: action.data,
