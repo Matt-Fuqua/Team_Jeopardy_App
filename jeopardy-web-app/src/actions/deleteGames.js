@@ -25,8 +25,8 @@ export const deleteGamesThunkAction = () => {
   store.dispatch(deleteGamesStarted());
   return (dispatch) => {
     return axios({
-      method: 'get', //CHANGE THIS HERE WITH NEW ENDPOINT!!!!!!!!
-      url: 'http://cs411teambfs.web.illinois.edu/phase4_rdb_dev/games',
+      method: 'post', 
+      url: 'http://cs411teambfs.web.illinois.edu/phase4_rdb_dev/games/delete/abandoned',
     })
       .then(response => {
         console.log('delete games response: ', response.data);
