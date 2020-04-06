@@ -36,7 +36,8 @@ const headers = [
 
 const GamesTable = () => {
   const gamesData = useSelector(retrieveGamesData);
-  console.log('game info: ', gamesData)
+  gamesData.forEach((object, i) => object.id = (i + 1).toString());
+
   return(
     <DataTable
         rows={gamesData}
