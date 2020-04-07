@@ -34,6 +34,10 @@ export const retrieveGamesData = state => get(state.retrieveGames, "gamesData");
 export const retrieveGamesIsFetching = state => get(state.retrieveGames, "isFetching");
 export const retrieveGamesIsError = state => get(state.retrieveGames, "isError");
 
+// Simulated End Game Selectors
+export const simEndGameStatus = state => get(state.simEndGame, "simEndGameStatus");
+export const simEndGameIsFetching = state => get(state.simEndGame, "isFetching");
+export const simEndGameIsError = state => get(state.simEndGame, "isError");
 
 
 

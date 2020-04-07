@@ -28,6 +28,7 @@ export const loginThunkAction = (username, password) => {
     var bodyFormData = new FormData();
     bodyFormData.set('username', username);
     bodyFormData.set('password', password);
+    console.log('login body form ', bodyFormData);
 
     return axios({
       method: 'post',
