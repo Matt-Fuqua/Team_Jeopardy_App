@@ -44,31 +44,35 @@ const Admin = () => {
               Delete Games
             </Button>
           </Column>
-          <Column style={{ padding: "10px" }}>
-            <Form
-              onSubmit={handleFormSubmit}
-            >
-              <TextInput
-                id="game-select"
-                invalid={false}
-                invalidText="A valid value is required"
-                labelText="GameId"
-                light={true}
-                type="text"
-                value={gameID}
-                onChange={e => setGameID(e.target.value)}
-              />
-              <Button 
-                kind="primary"
-                type="submit"
-              >
-              Sim Game Ending
-              </Button>
-            </Form>
-          </Column>
         </Row>
         <Row>
-          <GamesTable />
+          <Column>
+            <GamesTable />
+          </Column>
+          <Column>
+            <div style={{ width: 200 }}>
+              <Form
+                onSubmit={handleFormSubmit}
+              >
+                <TextInput
+                  id="game-select"
+                  invalid={false}
+                  invalidText="A valid value is required"
+                  labelText="GameId"
+                  light={false}
+                  type="text"
+                  value={gameID}
+                  onChange={e => setGameID(e.target.value)}
+                />
+                <Button
+                  kind="primary"
+                  type="submit"
+                >
+                Sim Game Ending
+                </Button>
+              </Form>
+            </div>
+          </Column>
         </Row>
       </Grid>
     </div>
