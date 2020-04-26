@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
-import { Button, Column, Form, FormGroup, Grid, Row, TextInput } from 'carbon-components-react';
+import { useDispatch } from 'react-redux';
+import { Button, Column, Form, Grid, Row, TextInput } from 'carbon-components-react';
 
 import { deleteGamesThunkAction } from '../actions/deleteGames';
 import { retrieveGamesThunkAction } from '../actions/retrieveGames';
@@ -13,7 +13,6 @@ const Admin = () => {
   const dispatch = useDispatch();
 
   const [gameID, setGameID] = useState("");
-  //const loginResponse = useSelector(loginStatus);
 
   const handleFormSubmit = e => {
     e.preventDefault();
