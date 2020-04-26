@@ -1,5 +1,8 @@
 import { get } from "lodash";
 
+// Announcement
+export const announcementDisplayOpen = state => get(state.announcementDisplay, "open");
+
 // Delete Games Selectors
 export const deleteGamesStatus = state => get(state.deleteGames, "retrieveStatus");
 export const deleteGamesIsFetching = state => get(state.deleteGames, "isFetching");
