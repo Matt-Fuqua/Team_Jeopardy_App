@@ -1,5 +1,10 @@
 @import "./node_modules/carbon-components/scss/globals/scss/styles.scss";
 
+.bx--col {
+  padding-right: 0;
+  padding-left: 0;
+}
+
 .centered {
   display: flex;
   justify-content: center;
