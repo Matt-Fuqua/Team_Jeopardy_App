@@ -1,3 +1,4 @@
+export { default as AnnouncementModal } from './AnnouncementModal';
 export { default as AppHeader } from './AppHeader';
 export { default as AppFooter } from './AppFooter';
 export { default as GamesTable } from './GamesTable';
