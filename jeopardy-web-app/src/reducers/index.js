@@ -1,4 +1,5 @@
 import { combineReducers } from "redux";
+import announcementDisplay from './announcementDisplay';
 import deleteGames from './deleteGames';
 import login from './login';
 import newGame from './newGame';
@@ -7,4 +8,4 @@ import registerUser from './registerUser';
 import retrieveGames from './retrieveGames';
 import simEndGames from './simEndGame.js';
 
-export default combineReducers({ deleteGames, login, newGame, questionDisplay, registerUser, retrieveGames, simEndGames });
+export default combineReducers({ announcementDisplay, deleteGames, login, newGame, questionDisplay, registerUser, retrieveGames, simEndGames });
