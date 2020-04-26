@@ -1,5 +1,6 @@
 import store from '../store';
 import axios from 'axios';
+import { displayAnnouncementModal } from '../actions/announcementDisplay'
 
 export const registerUserStarted = () => {
   return {
@@ -40,6 +41,7 @@ export const registerUserThunkAction = (username, password, email, firstName, la
       })
         .then(response => {
           console.log('user registered: ', response.data);
+          dispatch(displayAnnouncementModal());
           dispatch(registerUserSuccess(response.data));
         })
         .catch(() => {
