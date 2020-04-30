@@ -133,7 +133,7 @@ def getQuestions(questionID):
     conn = cs411_db.getConnection()
     cursor = conn.cursor()
     
-    query = ("""SELECT Question_Text, Category, Value, Round, Questions_Question_ID
+    query = ("""SELECT Question_Text, Category, Value, Round, Game_Questions_ID
         FROM Game_Questions
         WHERE Games_Game_ID={}""".format(questionID))
     cursor.execute(query)
@@ -193,4 +193,5 @@ def getQuestions(questionID):
 
     cursor.close()
     conn.close()
+    print(new_result)
     return new_result
