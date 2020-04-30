@@ -16,14 +16,15 @@ def newGame():
     # Randomly select 3 contestants to play in the game
     # In the future, front-end should provide this
     cnx = cs411_db.getConnection()
-    cursor = cnx.cursor()
-    query = """INSERT INTO Game_Contestants (Games_Game_ID, Contestants_Contestant_ID)
-                SELECT {0} AS Games_Game_ID, Contestant_ID AS Contestants_Contestant_ID
-                  FROM Contestants
-                 WHERE Contestant_ID = 1000""".format(resultId)
-    cursor.execute(query)
-    cursor.close()
-    cnx.commit()
+
+    #cursor = cnx.cursor()
+    #query = """INSERT INTO Game_Contestants (Games_Game_ID, Contestants_Contestant_ID)
+    #            SELECT {0} AS Games_Game_ID, Contestant_ID AS Contestants_Contestant_ID
+    #              FROM Contestants
+    #             WHERE Contestant_ID = 1000""".format(resultId)
+    #cursor.execute(query)
+    #cursor.close()
+    #cnx.commit()
 
     cursor = cnx.cursor()
     query = """INSERT INTO Game_Contestants (Games_Game_ID, Contestants_Contestant_ID)
