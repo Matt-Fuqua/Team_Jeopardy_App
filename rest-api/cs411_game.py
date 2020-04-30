@@ -20,14 +20,34 @@ def newGame():
     query = """INSERT INTO Game_Contestants (Games_Game_ID, Contestants_Contestant_ID)
                 SELECT {0} AS Games_Game_ID, Contestant_ID AS Contestants_Contestant_ID
                   FROM Contestants
-                 ORDER BY RAND()
-                 LIMIT 3""".format(resultId)
+                 WHERE Contestant_ID = 1000""".format(resultId)
     cursor.execute(query)
     cursor.close()
     cnx.commit()
+
+    cursor = cnx.cursor()
+    query = """INSERT INTO Game_Contestants (Games_Game_ID, Contestants_Contestant_ID)
+                SELECT {0} AS Games_Game_ID, Contestant_ID AS Contestants_Contestant_ID
+                  FROM Contestants
+                 ORDER BY RAND()
+                 LIMIT 1""".format(resultId)
+    cursor.execute(query)
+    cursor.close()
+    cnx.commit()
+
+    cursor = cnx.cursor()
+    query = """SELECT Contestants_Contestant_ID
+                 FROM Game_Contestants
+                WHERE Games_Game_ID = {0}""".format(resultId)
+    cursor.execute(query)
+    results = []
+    for row in cursor:
+        results.append(row[0])
     cnx.close()
 
-    return getQuestions(resultId)
+    gQ = getQuestions(resultId)
+    gQ["Contestants"] = results
+    return gQ
 
 # Exposes a read-only view of the Games table
 def getGames():

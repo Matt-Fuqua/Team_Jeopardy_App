@@ -170,9 +170,12 @@ def newGame():
         200:
             description:  A game is created.   A dictionary of the form 
                 { "Games_Game_ID" :  integer,
+                  "Contestants": [id1, id2, ..]
                   "Answers":  { **phase3_output** }
                 }
 
+        Contestants is a list of the contestant IDs playing the game.  By convention, the ID
+         1000 is reserved for A.I. players.
         See /game/<gameID> documentaiton for explanation of *phase3_output*
     """
     result = cs411_game.newGame()
