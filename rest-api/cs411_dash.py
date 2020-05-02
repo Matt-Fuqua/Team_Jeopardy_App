@@ -4,11 +4,9 @@ import cs411_db
 def easyCategory():
     cnx = cs411_db.getConnection()
     cursor = cnx.cursor()
-
-    cnx = cs411_db.getConnection()
-    cursor = cnx.cursor()
     query = """SELECT Game_Questions_RPT.Category, COUNT(Category) AS "Correct Answers"
-                 FROM Game_Questions_RPT.Game_Questions_ID = Game_Answers_RPT.GameQuestion_ID
+                 FROM Game_Questions_RPT, Game_Answers_RPT
+                WHERE Game_Questions_RPT.Game_Questions_ID = Game_Answers_RPT.GameQuestions_ID
                   AND ContestantAnswer = "CORRECT"
                GROUP BY Category
                ORDER BY 2 DESC
@@ -24,11 +22,9 @@ def easyCategory():
 def toughCategory():
     cnx = cs411_db.getConnection()
     cursor = cnx.cursor()
-
-    cnx = cs411_db.getConnection()
-    cursor = cnx.cursor()
     query = """SELECT Game_Questions_RPT.Category, COUNT(Category) AS "Incorrect Answers"
-                 FROM Game_Questions_RPT.Game_Questions_ID = Game_Answers_RPT.GameQuestion_ID
+                 FROM Game_Questions_RPT, Game_Answers_RPT
+                WHERE Game_Questions_RPT.Game_Questions_ID = Game_Answers_RPT.GameQuestions_ID
                   AND ContestantAnswer = "WRONG"
                GROUP BY Category
                ORDER BY 2 DESC
@@ -42,9 +38,6 @@ def toughCategory():
 
 # Return the top 10 winningest contestants
 def bestContestants():
-    cnx = cs411_db.getConnection()
-    cursor = cnx.cursor()
-
     cnx = cs411_db.getConnection()
     cursor = cnx.cursor()
     query = """SELECT CONCAT(CFirst_Name, " ", CLast_Name) AS Name, no_wins AS "Total Number of Wins"
@@ -63,9 +56,6 @@ def bestContestants():
 def richContestants():
     cnx = cs411_db.getConnection()
     cursor = cnx.cursor()
-
-    cnx = cs411_db.getConnection()
-    cursor = cnx.cursor()
     query = """SELECT CONCAT(CFirst_Name, " ", CLast_Name) AS Name, CONCAT("$", Winnings) AS "Total Amount of Winnings"
                  FROM Contestants_RPT
                 WHERE Contestant_ID <> 1000
@@ -80,9 +70,6 @@ def richContestants():
 
 # Return the top 10 contestants in terms of questions answering
 def smartContestants():
-    cnx = cs411_db.getConnection()
-    cursor = cnx.cursor()
-
     cnx = cs411_db.getConnection()
     cursor = cnx.cursor()
     query = """SELECT CONCAT(CFirst_Name, " ", CLast_Name) AS Name, COUNT(*) AS "Number of Correct Guesses"
@@ -101,9 +88,6 @@ def smartContestants():
 
 # Return the top 10 contestants in terms of questions answering
 def dumbContestants():
-    cnx = cs411_db.getConnection()
-    cursor = cnx.cursor()
-
     cnx = cs411_db.getConnection()
     cursor = cnx.cursor()
     query = """SELECT CONCAT(CFirst_Name, " ", CLast_Name) AS Name, COUNT(*) AS "Number of Incorrect Guesses"
