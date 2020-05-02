@@ -1,5 +1,6 @@
 import os
 import mysql.connector 
+import cs411_dash
 import cs411_user
 import cs411_db
 import cs411_answers
@@ -258,6 +259,51 @@ def fakeFinish():
     result = cs411_game.fakeUpdate(request.form.get('Game_ID'))
     if result == 1: return prepJSON({"message": "success"})
     else: raise InvalidUsage(result["message"], 403)
+
+@app.route('/category/easy', methods = ['GET'])
+def easyCategory():
+    """Returns the top 10 easy categories.
+
+    responses:
+        200: [ {"category": xxx, "correct_answers", nnn}, .. ]
+    """
+    return prepJSON(cs411_dash.easyCategory())
+
+@app.route('/category/tough', methods = ['GET'])
+def toughCategory():
+    """Returns the top 10 easy categories.
+
+    responses:
+        200: [ {"category": xxx, "incorrect_answers", nnn}, .. ]
+    """
+    return prepJSON(cs411_dash.toughCategory())
+
+@app.route('/contestant/rich', methods = ['GET'])
+def richContestants():
+    """Returns the top 10 rich contestants.
+
+    responses:
+        200: [ {"contestant": xxx, "total_winnings", nnn}, .. ]
+    """
+    return prepJSON(cs411_dash.richContestants())
+
+@app.route('/contestant/smart', methods = ['GET'])
+def smartContestants():
+    """Returns the top 10 smart contestants.
+
+    responses:
+        200: [ {"contestant": xxx, "correct_guesses", nnn}, .. ]
+    """
+    return prepJSON(cs411_dash.smartContestants())
+
+@app.route('/contestant/dumb', methods = ['GET'])
+def dumbContestants():
+    """Returns the top 10 dumb contestants.
+
+    responses:
+        200: [ {"contestant": xxx, "incorrect_guesses", nnn}, .. ]
+    """
+    return prepJSON(cs411_dash.dumbContestants())
 
 if __name__ == "__main__":
     app.run(host='0.0.0.0', port=5001)
