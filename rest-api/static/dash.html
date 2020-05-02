@@ -20,20 +20,25 @@
             </div>
             <div class="row">
                 <div class="col">
+			<h4>Easiest Category</h4>
                     <canvas id="easyCategory"></canvas>
                 </div>
                 <div class="col">
+			<h4>Toughest Category</h4>
                     <canvas id="toughCategory"></canvas>
                 </div>
             </div>
             <div class="row">
                 <div class="col-sm">
+			<h4>Richest Contestants</h4>
                     <canvas id="richContestant"></canvas>
                 </div>
                 <div class="col">
+			<h4>Smartest Contestants</h4>
                     <canvas id="smartContestant"></canvas>
                 </div>
                 <div class="col">
+			<h4>Dumbest Contestants</h4>
                     <canvas id="dumbContestant"></canvas>
                 </div>
             </div>      
@@ -62,6 +67,19 @@
 
         function createChart(id, data, title) {
             var ctx = document.getElementById(id).getContext('2d');
+		/* Colors from https://colorbrewer2.org/#type=qualitative&scheme=Paired&n=10 */
+		var colors = [
+			    'rgba(166, 206, 227, 0.2)',
+			'rgba(31, 120, 180, 0.2)',
+			'rgba(178,223, 138, 0.2)',
+			'rgba(51, 160, 44, 0.2)',
+			'rgba(251, 154, 153, 0.2)',
+			'rgba(227, 26, 28, 0.2)',
+			'rgba(253, 191, 111, 0.2)',
+			'rgba(255, 127, 0, 0.2)',
+			'rgba(202, 178, 214, 0.2)',
+			'rgba(106, 61, 154, 0.2)'];
+
             var myChart = new Chart(ctx, {
                 type: 'bar',
                 data: {
@@ -69,22 +87,8 @@
                     datasets: [{
                         label: title,
                         data: Object.values(data),
-                        backgroundColor: [
-                            'rgba(255, 99, 132, 0.2)',
-                            'rgba(54, 162, 235, 0.2)',
-                            'rgba(255, 206, 86, 0.2)',
-                            'rgba(75, 192, 192, 0.2)',
-                            'rgba(153, 102, 255, 0.2)',
-                            'rgba(255, 159, 64, 0.2)'
-                        ],
-                        borderColor: [
-                            'rgba(255, 99, 132, 1)',
-                            'rgba(54, 162, 235, 1)',
-                            'rgba(255, 206, 86, 1)',
-                            'rgba(75, 192, 192, 1)',
-                            'rgba(153, 102, 255, 1)',
-                            'rgba(255, 159, 64, 1)'
-                        ],
+                        backgroundColor: colors,
+                        borderColor: colors,
                         borderWidth: 1
                     }]
                 },

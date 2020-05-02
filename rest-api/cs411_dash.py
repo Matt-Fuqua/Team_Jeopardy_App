@@ -14,7 +14,7 @@ def easyCategory():
     cursor.execute(query)
     results = {}
     for row in cursor:
-        results[row[0].decode] = row[1]
+        results[row[0].decode()] = row[1]
     cnx.close()
     return results
 
@@ -32,7 +32,7 @@ def toughCategory():
     cursor.execute(query)
     results = {}
     for row in cursor:
-        results[row[0].decode] = row[1]
+        results[row[0].decode()] = row[1]
     cnx.close()
     return results
 
@@ -48,7 +48,7 @@ def bestContestants():
     cursor.execute(query)
     results = {}
     for row in cursor:
-        results[row[0].decode] = row[1]
+        results[row[0].decode()] = row[1]
     cnx.close()
     return results
 
@@ -56,7 +56,7 @@ def bestContestants():
 def richContestants():
     cnx = cs411_db.getConnection()
     cursor = cnx.cursor()
-    query = """SELECT CONCAT(CFirst_Name, " ", CLast_Name) AS Name, CONCAT("$", Winnings) AS "Total Amount of Winnings"
+    query = """SELECT CONCAT(CFirst_Name, " ", CLast_Name) AS Name, Winnings AS "Total Amount of Winnings"
                  FROM Contestants_RPT
                 WHERE Contestant_ID <> 1000
                 ORDER BY 2 DESC
@@ -64,7 +64,7 @@ def richContestants():
     cursor.execute(query)
     results = {}
     for row in cursor:
-        results[row[0].decode] = row[1]
+        results[row[0].decode()] = row[1]
     cnx.close()
     return results
 
@@ -82,7 +82,7 @@ def smartContestants():
     cursor.execute(query)
     results = {}
     for row in cursor:
-        results[row[0].decode] = row[1]
+        results[row[0].decode()] = row[1]
     cnx.close()
     return results
 
@@ -100,6 +100,6 @@ def dumbContestants():
     cursor.execute(query)
     results = {}
     for row in cursor:
-        results[row[0].decode] = row[1]
+        results[row[0].decode()] = row[1]
     cnx.close()
     return results
