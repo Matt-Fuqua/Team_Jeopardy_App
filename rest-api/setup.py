@@ -265,7 +265,7 @@ def easyCategory():
     """Returns the top 10 easy categories.
 
     responses:
-        200: [ {"category": xxx, "correct_answers", nnn}, .. ]
+        200: { "category1...": nnn, "category2...": nnn}
     """
     return prepJSON(cs411_dash.easyCategory())
 
@@ -274,7 +274,7 @@ def toughCategory():
     """Returns the top 10 easy categories.
 
     responses:
-        200: [ {"category": xxx, "incorrect_answers", nnn}, .. ]
+        200: { "category1...": nnn, "category2...": nnn}
     """
     return prepJSON(cs411_dash.toughCategory())
 
@@ -283,7 +283,7 @@ def richContestants():
     """Returns the top 10 rich contestants.
 
     responses:
-        200: [ {"contestant": xxx, "total_winnings", nnn}, .. ]
+        200: { "contestant_1...": nnn, "contestant_2...": nnn}
     """
     return prepJSON(cs411_dash.richContestants())
 
@@ -292,7 +292,7 @@ def smartContestants():
     """Returns the top 10 smart contestants.
 
     responses:
-        200: [ {"contestant": xxx, "correct_guesses", nnn}, .. ]
+        200: { "contestant_1...": nnn, "contestant_2...": nnn}
     """
     return prepJSON(cs411_dash.smartContestants())
 
@@ -301,7 +301,7 @@ def dumbContestants():
     """Returns the top 10 dumb contestants.
 
     responses:
-        200: [ {"contestant": xxx, "incorrect_guesses", nnn}, .. ]
+        200: { "contestant_1...": nnn, "contestant_2...": nnn}
     """
     return prepJSON(cs411_dash.dumbContestants())
 

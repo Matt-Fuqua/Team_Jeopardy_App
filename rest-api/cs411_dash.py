@@ -12,9 +12,9 @@ def easyCategory():
                ORDER BY 2 DESC
                LIMIT 10"""
     cursor.execute(query)
-    results = []
+    results = {}
     for row in cursor:
-        results.append({"category": row[0].decode(), "correct_answers": row[1] })
+        results[row[0].decode] = row[1]
     cnx.close()
     return results
 
@@ -30,9 +30,9 @@ def toughCategory():
                ORDER BY 2 DESC
                LIMIT 10"""
     cursor.execute(query)
-    results = []
+    results = {}
     for row in cursor:
-        results.append({"category": row[0].decode(), "incorrect_answers": row[1] })
+        results[row[0].decode] = row[1]
     cnx.close()
     return results
 
@@ -46,9 +46,9 @@ def bestContestants():
                 ORDER BY 2 DESC
                 LIMIT 10"""
     cursor.execute(query)
-    results = []
+    results = {}
     for row in cursor:
-        results.append({"contestant": row[0].decode(), "total_wins": row[1] })
+        results[row[0].decode] = row[1]
     cnx.close()
     return results
 
@@ -62,9 +62,9 @@ def richContestants():
                 ORDER BY 2 DESC
                 LIMIT 10"""
     cursor.execute(query)
-    results = []
+    results = {}
     for row in cursor:
-        results.append({"contestant": row[0].decode(), "total_winnings": row[1] })
+        results[row[0].decode] = row[1]
     cnx.close()
     return results
 
@@ -80,9 +80,9 @@ def smartContestants():
              GROUP BY `Contestant_Contestant_ID`
              LIMIT 10"""
     cursor.execute(query)
-    results = []
+    results = {}
     for row in cursor:
-        results.append({"contestant": row[0].decode(), "correct_guesses": row[1] })
+        results[row[0].decode] = row[1]
     cnx.close()
     return results
 
@@ -98,8 +98,8 @@ def dumbContestants():
              GROUP BY `Contestant_Contestant_ID`
              LIMIT 10"""
     cursor.execute(query)
-    results = []
+    results = {}
     for row in cursor:
-        results.append({"contestant": row[0].decode(), "incorrect_guesses": row[1] })
+        results[row[0].decode] = row[1]
     cnx.close()
     return results
