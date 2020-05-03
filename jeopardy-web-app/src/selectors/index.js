@@ -3,6 +3,13 @@ import { get } from "lodash";
 // Announcement
 export const announcementDisplayOpen = state => get(state.announcementDisplay, "open");
 
+// Check Answer Selectors
+export const isAnswerCorrect = state => get(state.checkAnswer, "correct");
+export const correctAnswer = state => get(state.checkAnswer, "correctAnswer");
+export const checkAnswerStatus = state => get(state.checkAnswer, "checkAnswerStatus");
+export const checkAnswerIsFetching = state => get(state.checkAnswer, "isFetching");
+export const checkAnswerIsError = state => get(state.checkAnswer, "isError");
+
 // Delete Games Selectors
 export const deleteGamesStatus = state => get(state.deleteGames, "retrieveStatus");
 export const deleteGamesIsFetching = state => get(state.deleteGames, "isFetching");
@@ -41,6 +48,10 @@ export const retrieveGamesIsError = state => get(state.retrieveGames, "isError")
 export const simEndGameStatus = state => get(state.simEndGame, "simEndGameStatus");
 export const simEndGameIsFetching = state => get(state.simEndGame, "isFetching");
 export const simEndGameIsError = state => get(state.simEndGame, "isError");
+
+// Timer Selectors
+export const initialTimerDuration = state => get(state.questionDisplay, "initialTimerDuration")
+export const initialTimerEnabled = state => get(state.questionDisplay, "initialTimerRunning")
 
 
 
