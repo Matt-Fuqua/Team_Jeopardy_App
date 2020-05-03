@@ -1,20 +1,28 @@
-import React from 'react';
+import React, {useState} from 'react';
 import { useDispatch } from 'react-redux';
 import PropTypes from 'prop-types';
 import { displayQuestionModal } from '../actions/questionDisplay';
 
+
 const QuestionButton = props => {
-  const buttonColor = props.enabled ? '#0353e9' : '#F5F5F5';
+
+  const [disableButton, setDisableButton] = useState(false);
+  const [buttonOpacity, setButtonOpacity] = useState("1.0");
+  const [isAnswered, setIsAnswered] = useState(false);
 
   const dispatch = useDispatch();
+
   const presentModal = () => {
     dispatch(displayQuestionModal({ questionId: props.questionId, question: props.question, value: props.value }));
+    setDisableButton(true);
+    setButtonOpacity("0.3");
+    setIsAnswered(true);
   }
 
   return (
-    <button
-      style={{ backgroundColor: buttonColor, color: '#FFD700', fontSize: 'medium', fontWeight: 'bold', height: 90, width: 150 }}
-      type="button" 
+    <button 
+      style={{ opacity:buttonOpacity, backgroundColor: "#0353e9", color: '#FFD700', fontSize: 'medium', fontWeight: 'bold', height: 90, width: 175 }}
+      disabled = {disableButton}
       onClick={() => presentModal()}
     >
       {props.value}
