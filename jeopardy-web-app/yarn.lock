@@ -9295,6 +9295,13 @@ react-app-polyfill@^1.0.6:
     regenerator-runtime "^0.13.3"
     whatwg-fetch "^3.0.0"
 
+react-countdown-circle-timer@^2.0.5:
+  version "2.0.5"
+  resolved "https://registry.yarnpkg.com/react-countdown-circle-timer/-/react-countdown-circle-timer-2.0.5.tgz#2ca1cb13720a53e5739c8900ee0135d3dfa7f4df"
+  integrity sha512-gZ/ewUIJXQsHYGw/9S3SzMZfmZZLcqVvoKoBsgVmtC3pC5hY9pFVP2+pq+IcudcJXyiouv0ymbSEJ4WYolXZHQ==
+  dependencies:
+    use-elapsed-time "^1.2.1"
+
 react-dev-utils@^10.2.0:
   version "10.2.0"
   resolved "https://registry.yarnpkg.com/react-dev-utils/-/react-dev-utils-10.2.0.tgz#b11cc48aa2be2502fb3c27a50d1dfa95cfa9dfe0"
@@ -9445,10 +9452,10 @@ react-scripts@3.4.0:
   optionalDependencies:
     fsevents "2.1.2"
 
-react@^16.12.0:
-  version "16.13.0"
-  resolved "https://registry.yarnpkg.com/react/-/react-16.13.0.tgz#d046eabcdf64e457bbeed1e792e235e1b9934cf7"
-  integrity sha512-TSavZz2iSLkq5/oiE7gnFzmURKZMltmi193rm5HEoUDAXpzT9Kzw6oNZnGoai/4+fUnm7FqS5dwgUL34TujcWQ==
+react@^16.13.1:
+  version "16.13.1"
+  resolved "https://registry.yarnpkg.com/react/-/react-16.13.1.tgz#2e818822f1a9743122c063d6410d85c1e3afe48e"
+  integrity sha512-YMZQQq32xHLX0bz5Mnibv1/LHb3Sqzngu7xstSM+vrkE5Kzr9xE0yMByK5kMoTK30YVJE61WfbxIFFvfeDKT1w==
   dependencies:
     loose-envify "^1.1.0"
     object-assign "^4.1.1"
@@ -11286,6 +11293,11 @@ url@^0.11.0:
   dependencies:
     punycode "1.3.2"
     querystring "0.2.0"
+
+use-elapsed-time@^1.2.1:
+  version "1.2.1"
+  resolved "https://registry.yarnpkg.com/use-elapsed-time/-/use-elapsed-time-1.2.1.tgz#5c313ea78be9750a4d7173c7bfe900ee011af730"
+  integrity sha512-dbZ3XXOPMu8KPgr+4Vwhl4XU0m84s4KSIMq+M3mmKWnZrau28YyEi0QCsf/69QznXo1535FlWL8TILWe08IrhQ==
 
 use@^3.1.0:
   version "3.1.1"
