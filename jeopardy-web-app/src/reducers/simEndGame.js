@@ -1,5 +1,5 @@
 const initialData = {
-    loginStatus: {},
+    simEndGameStatus: {},
     isFetching: false,
     isError: false,
   };
@@ -16,10 +16,9 @@ const initialData = {
       case "SIM_END_GAME_SUCCESS":
         return {
           ...state,
-          simEndGameStatus: action.data,
+          simEndGameStatus: "success",
           ifFetching: false,
           isError: false
-          
         };
       case "SIM_END_GAME_FAILURE":
         return {
