@@ -6,7 +6,6 @@ import { Gameboard, /* PlayerDetails, */ QuestionModal } from '../components';
 
 import { newGameThunkAction } from '../actions/newGame';
 
-
 const GamePlay = () => {
   const dispatch = useDispatch();
 
@@ -14,7 +13,7 @@ const GamePlay = () => {
     <div>
       <Grid>
         <Row>
-          <Column>
+          <Column style={{ padding: "30px" }}>
             <h1> Welcome to Jeopardy! </h1>
           </Column>
           <Column>
