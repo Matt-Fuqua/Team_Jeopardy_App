@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { useHistory  } from "react-router-dom"
 import { useDispatch, useSelector } from 'react-redux';
 import { loginStatus } from '../selectors'
 
@@ -7,7 +8,7 @@ import { Button, Form, FormGroup, TextInput } from 'carbon-components-react';
 
 const UserLogin = () => {
   const dispatch = useDispatch();
-
+  const history = useHistory();
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const loginResponse = useSelector(loginStatus);
@@ -15,6 +16,10 @@ const UserLogin = () => {
   if(loginResponse === "error") {
     dispatch(setLoginDefault());
     alert("INVALID USER");
+  };
+
+  if(loginResponse === "success") {
+    history.push("/GamePlay");
   };
 
   const handleFormSubmit = e => {
