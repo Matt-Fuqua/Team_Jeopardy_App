@@ -20,6 +20,9 @@ export const loginStatus = state => get(state.login, "loginStatus");
 export const loginIsFetching = state => get(state.login, "isFetching");
 export const loginIsError = state => get(state.login, "isError");
 
+// Manage Question Count Selectors
+export const manageQuestionCount = state => get(state.manageQuestionCount, "questionsAnswered");
+
 // New Game Selectors
 export const newGameId = state => get(state.newGame, "gameId");
 export const newGameRoundOne = state => get(state.newGame, "roundOne");
