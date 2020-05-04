@@ -1,8 +1,8 @@
 import React, {useState} from 'react';
 import { useDispatch } from 'react-redux';
 import PropTypes from 'prop-types';
+import { incrementQuestionCount } from '../actions/manageQuestionCount';
 import { displayQuestionModal } from '../actions/questionDisplay';
-
 
 const QuestionButton = props => {
 
@@ -23,7 +23,10 @@ const QuestionButton = props => {
     <button 
       style={{ opacity:buttonOpacity, backgroundColor: "#0353e9", color: '#FFD700', fontSize: 'medium', fontWeight: 'bold', height: 90, width: 175 }}
       disabled = {disableButton}
-      onClick={() => presentModal()}
+      onClick={() => {
+        dispatch(incrementQuestionCount())
+        presentModal()
+      }}
     >
       {props.value}
     </button>
