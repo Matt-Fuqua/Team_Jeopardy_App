@@ -25,9 +25,11 @@ const QuestionModal = () => {
   const isCorrect = useSelector(isAnswerCorrect);
   const questionCount = useSelector(manageQuestionCount);
 
+  const [hideAnswer, setHideAnswer] = useState({ visibility:"hidden" });
+  const [timerActive, setTimerActive] = useState(true);
   // const modalQuestionValue = useSelector(questionDisplayValue);
 
-  var hideSetting = { visibility:"visible" }
+
   var contestantId = 1000;
   const [answerInput, setAnswerInput] = useState();
 
@@ -40,16 +42,21 @@ const QuestionModal = () => {
     e.preventDefault();
     dispatch(checkAnswerThunkAction(gameId, modalQuestionId, contestantId ,answerInput));
     setAnswerInput("");
+    setHideAnswer({ visibility:"hidden" })
   }
 
   const handleFormGuess = e => {
     console.log("guess button event");
+    setHideAnswer({ visibility:"visible" });
+    setTimerActive(false);
     e.preventDefault();
-    hideSetting =  { visibility:"visible" };
+
   }
 
   const guessTimeUp = e => {
     console.log("time up");
+    setHideAnswer({ visibility:"hidden" })
+   // dispatch(initialTimerActive)
 
   }
 
@@ -75,7 +82,7 @@ const QuestionModal = () => {
       secondaryButtonText="Guess"
       selectorPrimaryFocus="[data-modal-primary-focus]"
     >
-      <Form style ={ hideSetting }
+      <Form style ={ hideAnswer }
        // onSubmit={handleFormSubmit}
       >
         <FormGroup 
@@ -99,9 +106,16 @@ const QuestionModal = () => {
         <Row>
           <Column>
             <CountdownCircleTimer
-              isPlaying = {initialTimerActive}
+              isPlaying = {timerActive}
               duration={initialTimerLength}
               colors={[['#004777', 0.33], ['#F7B801', 0.33], ['#A30000']]}
+             // onComplete={guessTimeUp}
+             onComplete={() => {
+              guessTimeUp()
+              return [true, 1500] // repeat animation in 1.5 seconds
+            }}
+      
+              
             >
               {({ remainingTime }) => remainingTime}
             </CountdownCircleTimer>
