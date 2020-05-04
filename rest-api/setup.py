@@ -1,5 +1,6 @@
 import os
 import mysql.connector 
+import cs411_dash
 import cs411_user
 import cs411_db
 import cs411_answers
@@ -170,9 +171,12 @@ def newGame():
         200:
             description:  A game is created.   A dictionary of the form 
                 { "Games_Game_ID" :  integer,
+                  "Contestants": [id1, id2, ..]
                   "Answers":  { **phase3_output** }
                 }
 
+        Contestants is a list of the contestant IDs playing the game.  By convention, the ID
+         1000 is reserved for A.I. players.
         See /game/<gameID> documentaiton for explanation of *phase3_output*
     """
     result = cs411_game.newGame()
@@ -255,6 +259,51 @@ def fakeFinish():
     result = cs411_game.fakeUpdate(request.form.get('Game_ID'))
     if result == 1: return prepJSON({"message": "success"})
     else: raise InvalidUsage(result["message"], 403)
+
+@app.route('/category/easy', methods = ['GET'])
+def easyCategory():
+    """Returns the top 10 easy categories.
+
+    responses:
+        200: { "category1...": nnn, "category2...": nnn}
+    """
+    return prepJSON(cs411_dash.easyCategory())
+
+@app.route('/category/tough', methods = ['GET'])
+def toughCategory():
+    """Returns the top 10 easy categories.
+
+    responses:
+        200: { "category1...": nnn, "category2...": nnn}
+    """
+    return prepJSON(cs411_dash.toughCategory())
+
+@app.route('/contestant/rich', methods = ['GET'])
+def richContestants():
+    """Returns the top 10 rich contestants.
+
+    responses:
+        200: { "contestant_1...": nnn, "contestant_2...": nnn}
+    """
+    return prepJSON(cs411_dash.richContestants())
+
+@app.route('/contestant/smart', methods = ['GET'])
+def smartContestants():
+    """Returns the top 10 smart contestants.
+
+    responses:
+        200: { "contestant_1...": nnn, "contestant_2...": nnn}
+    """
+    return prepJSON(cs411_dash.smartContestants())
+
+@app.route('/contestant/dumb', methods = ['GET'])
+def dumbContestants():
+    """Returns the top 10 dumb contestants.
+
+    responses:
+        200: { "contestant_1...": nnn, "contestant_2...": nnn}
+    """
+    return prepJSON(cs411_dash.dumbContestants())
 
 if __name__ == "__main__":
     app.run(host='0.0.0.0', port=5001)

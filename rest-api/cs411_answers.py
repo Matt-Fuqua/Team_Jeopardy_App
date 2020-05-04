@@ -56,9 +56,9 @@ def checkAnswer(questionID, questionGuess):
     conn = cs411_db.getConnection()
     curs = conn.cursor()
 
-    query = """SELECT Question_Answer
-        FROM Questions
-        WHERE Question_ID = {0}""" .format(questionID)
+    query = """SELECT Answer_Text
+        FROM Game_Questions
+        WHERE Game_Questions_ID = {0}""" .format(questionID)
     curs.execute(query)
     result = curs.fetchone()
     print(result)

@@ -1,0 +1,115 @@
+<html>
+    <head>
+        <title>CS411 Team BFS Dashboard</title>
+
+        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+        <script src="https://code.jquery.com/jquery-3.5.0.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
+        <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js" integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.3/Chart.js"></script>
+    </head>
+    <body onload="loadAllData();">
+        <div class="jumbotron text-center">
+            <h1>CS411 TeamBFS - Advanced Functionality</h1>
+            <h2>Jeopardy! Analytic Reporting</h2>
+            <p>TODO insert links to front-end, github repo, final report</p>
+        </div>
+        <div class="container-fluid">
+            <div class="row">
+
+            </div>
+            <div class="row">
+                <div class="col">
+			<h4>Easiest Category</h4>
+                    <canvas id="easyCategory"></canvas>
+                </div>
+                <div class="col">
+			<h4>Toughest Category</h4>
+                    <canvas id="toughCategory"></canvas>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-sm">
+			<h4>Richest Contestants</h4>
+                    <canvas id="richContestant"></canvas>
+                </div>
+                <div class="col">
+			<h4>Smartest Contestants</h4>
+                    <canvas id="smartContestant"></canvas>
+                </div>
+                <div class="col">
+			<h4>Dumbest Contestants</h4>
+                    <canvas id="dumbContestant"></canvas>
+                </div>
+            </div>      
+        </div>
+    </body>
+    <script>
+        function loadData(id, title, url) {
+            var xhr = new XMLHttpRequest();
+            xhr.open("GET", url, true);
+            xhr.onload = function (e) {
+                if (xhr.readyState === 4) {
+                    if (xhr.status === 200) {
+                        var data = JSON.parse(xhr.responseText);
+                        console.log(data);
+                        createChart(id, data, title);
+                    } else {
+                        console.error(xhr.statusText);
+                    }
+                }
+            };
+            xhr.onerror = function (e) {
+                console.error(xhr.statusText);
+            };
+            xhr.send(null);
+        }
+
+        function createChart(id, data, title) {
+            var ctx = document.getElementById(id).getContext('2d');
+		/* Colors from https://colorbrewer2.org/#type=qualitative&scheme=Paired&n=10 */
+		var colors = [
+			    'rgba(166, 206, 227, 0.2)',
+			'rgba(31, 120, 180, 0.2)',
+			'rgba(178,223, 138, 0.2)',
+			'rgba(51, 160, 44, 0.2)',
+			'rgba(251, 154, 153, 0.2)',
+			'rgba(227, 26, 28, 0.2)',
+			'rgba(253, 191, 111, 0.2)',
+			'rgba(255, 127, 0, 0.2)',
+			'rgba(202, 178, 214, 0.2)',
+			'rgba(106, 61, 154, 0.2)'];
+
+            var myChart = new Chart(ctx, {
+                type: 'bar',
+                data: {
+                    labels: Object.keys(data),
+                    datasets: [{
+                        label: title,
+                        data: Object.values(data),
+                        backgroundColor: colors,
+                        borderColor: colors,
+                        borderWidth: 1
+                    }]
+                },
+                options: {
+                    scales: {
+                        yAxes: [{
+                            ticks: {
+                                beginAtZero: true
+                            }
+                        }]
+                    }
+                }
+            });            
+        }
+
+        function loadAllData() {
+            loadData("easyCategory", "# of Questions Correct",   "http://cs411teambfs.web.illinois.edu/phase4_rdb_dev/category/easy");
+            loadData("richContestant", "Total $ of Winnings", "http://cs411teambfs.web.illinois.edu/phase4_rdb_dev/contestant/rich");
+            loadData("toughCategory", "# of Questions Incorrect",  "http://cs411teambfs.web.illinois.edu/phase4_rdb_dev/category/tough");
+            loadData("smartContestant", "# of Questions Correct","http://cs411teambfs.web.illinois.edu/phase4_rdb_dev/contestant/smart");
+            loadData("dumbContestant", "# of Questions Incorrect", "http://cs411teambfs.web.illinois.edu/phase4_rdb_dev/contestant/dumb");
+        }
+    </script>
+</html>

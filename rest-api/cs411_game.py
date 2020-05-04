@@ -16,18 +16,39 @@ def newGame():
     # Randomly select 3 contestants to play in the game
     # In the future, front-end should provide this
     cnx = cs411_db.getConnection()
+
+    #cursor = cnx.cursor()
+    #query = """INSERT INTO Game_Contestants (Games_Game_ID, Contestants_Contestant_ID)
+    #            SELECT {0} AS Games_Game_ID, Contestant_ID AS Contestants_Contestant_ID
+    #              FROM Contestants
+    #             WHERE Contestant_ID = 1000""".format(resultId)
+    #cursor.execute(query)
+    #cursor.close()
+    #cnx.commit()
+
     cursor = cnx.cursor()
     query = """INSERT INTO Game_Contestants (Games_Game_ID, Contestants_Contestant_ID)
                 SELECT {0} AS Games_Game_ID, Contestant_ID AS Contestants_Contestant_ID
                   FROM Contestants
                  ORDER BY RAND()
-                 LIMIT 3""".format(resultId)
+                 LIMIT 1""".format(resultId)
     cursor.execute(query)
     cursor.close()
     cnx.commit()
+
+    cursor = cnx.cursor()
+    query = """SELECT Contestants_Contestant_ID
+                 FROM Game_Contestants
+                WHERE Games_Game_ID = {0}""".format(resultId)
+    cursor.execute(query)
+    results = []
+    for row in cursor:
+        results.append(row[0])
     cnx.close()
 
-    return getQuestions(resultId)
+    gQ = getQuestions(resultId)
+    gQ["Contestants"] = results
+    return gQ
 
 # Exposes a read-only view of the Games table
 def getGames():
@@ -112,7 +133,7 @@ def getQuestions(questionID):
     conn = cs411_db.getConnection()
     cursor = conn.cursor()
     
-    query = ("""SELECT Question_Text, Category, Value, Round, Questions_Question_ID
+    query = ("""SELECT Question_Text, Category, Value, Round, Game_Questions_ID
         FROM Game_Questions
         WHERE Games_Game_ID={}""".format(questionID))
     cursor.execute(query)
@@ -172,4 +193,5 @@ def getQuestions(questionID):
 
     cursor.close()
     conn.close()
+    print(new_result)
     return new_result
