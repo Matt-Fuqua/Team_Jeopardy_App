@@ -40,7 +40,7 @@ const Gameboard = () => {
             mapIndexToArrayName(index+1).push(<div style={{ height: 75 }}><p style={{fontSize: "20px"}}>{element.category}</p></div>);
             const questions = element.questions;
             questions.forEach(item => {
-                mapIndexToArrayName(index+1).push(<QuestionButton enabled={true} value={item.value.toString()} question={item.question.toString()} questionId={item.question_id.toString()} />);
+                mapIndexToArrayName(index+1).push(<QuestionButton value={item.value.toString()} question={item.question.toString()} questionId={item.question_id.toString()} />);
                 mapIndexToArrayName(index+1).push(<br />);
             });
         });
