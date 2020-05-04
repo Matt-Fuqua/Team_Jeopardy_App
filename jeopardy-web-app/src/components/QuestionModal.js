@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Form, FormGroup, Modal, TextInput } from 'carbon-components-react';
 import { Column, Grid, Row } from 'carbon-components-react';
@@ -6,8 +6,7 @@ import { Column, Grid, Row } from 'carbon-components-react';
 import { checkAnswerThunkAction } from '../actions/checkAnswer';
 import { closeQuestionModal } from '../actions/questionDisplay';
 import { newGameId, questionDisplayOpen, questionDisplayQuestion, questionDisplayQuestionId, /*questionDisplayValue */ } from '../selectors/index';
-import { initialTimerDuration, initialTimerEnabled }  from '../selectors/index';
-import { correctAnswer, isAnswerCorrect } from '../selectors/index';
+import { initialTimerDuration, initialTimerEnabled, correctAnswer, isAnswerCorrect, manageQuestionCount }  from '../selectors/index';
 import { CountdownCircleTimer } from 'react-countdown-circle-timer'
 // https://www.npmjs.com/package/react-countdown-circle-timer
 // yarn add react-countdown-circle-timer
@@ -22,9 +21,9 @@ const QuestionModal = () => {
   const initialTimerActive = useSelector(initialTimerEnabled);
   const initialTimerLength = useSelector(initialTimerDuration);
   const modalQuestionId = useSelector(questionDisplayQuestionId);
-
   const actualAnswer = useSelector(correctAnswer);
   const isCorrect = useSelector(isAnswerCorrect);
+  const questionCount = useSelector(manageQuestionCount);
 
   // const modalQuestionValue = useSelector(questionDisplayValue);
 
@@ -54,6 +53,11 @@ const QuestionModal = () => {
 
   }
 
+  useEffect(() => {
+    if(modalOpen === false && questionCount >= 30) {
+      alert('game over');
+    }
+  }, [modalOpen]);
 
   return (
     <Modal
