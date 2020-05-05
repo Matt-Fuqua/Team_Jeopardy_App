@@ -1,12 +1,13 @@
 import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { Form, FormGroup, Modal, TextInput } from 'carbon-components-react';
+import { Form, FormGroup, Modal, TextInput, Loading } from 'carbon-components-react';
 import { Column, Grid, Row } from 'carbon-components-react';
-
+import QuestionButton from './QuestionButton';
 import { checkAnswerThunkAction } from '../actions/checkAnswer';
 import { closeQuestionModal } from '../actions/questionDisplay';
-import { newGameId, questionDisplayOpen, questionDisplayQuestion, questionDisplayQuestionId, /*questionDisplayValue */ } from '../selectors/index';
-import { initialTimerDuration, initialTimerEnabled, correctAnswer, isAnswerCorrect, manageQuestionCount }  from '../selectors/index';
+import { newGameId, questionDisplayOpen, questionDisplayQuestion, questionDisplayQuestionId, checkAnswerStatus, questionDisplayValue  } from '../selectors/index';
+import { correctAnswer, isAnswerCorrect, playerOneScore, playerTwoScore, manageQuestionCount }  from '../selectors/index';
+
 import { CountdownCircleTimer } from 'react-countdown-circle-timer'
 // https://www.npmjs.com/package/react-countdown-circle-timer
 // yarn add react-countdown-circle-timer
@@ -15,54 +16,78 @@ import { CountdownCircleTimer } from 'react-countdown-circle-timer'
  
 const QuestionModal = () => {
   const dispatch = useDispatch();
+  const checkAnswserResponse = useSelector(checkAnswerStatus);
   const gameId = useSelector(newGameId);
   const modalOpen = useSelector(questionDisplayOpen);
   const modalQuestion = useSelector(questionDisplayQuestion);
-  const initialTimerActive = useSelector(initialTimerEnabled);
-  const initialTimerLength = useSelector(initialTimerDuration);
   const modalQuestionId = useSelector(questionDisplayQuestionId);
   const actualAnswer = useSelector(correctAnswer);
   const isCorrect = useSelector(isAnswerCorrect);
   const questionCount = useSelector(manageQuestionCount);
+  const modalQuestionValue = useSelector(questionDisplayValue);
 
   const [hideAnswer, setHideAnswer] = useState({ visibility:"hidden" });
-  const [timerActive, setTimerActive] = useState(true);
-  // const modalQuestionValue = useSelector(questionDisplayValue);
+  const [loaderActive, setLoaderActive] = useState(false);
+  const [disableModalPrimaryBtn, setDisableModalPrimaryBtn] = useState(true);
+  
 
 
   var contestantId = 1000;
   const [answerInput, setAnswerInput] = useState();
+  const [runTimer, setRunTimer] = useState(false);
+
+  const reviewAnswerResonse = e => {
+    setLoaderActive(false);
+    console.log ("answer is: "+ actualAnswer );
+    dispatch(closeQuestionModal());
+    if(checkAnswserResponse === "success")
+      console.log("check answer success. correct answer is: " + actualAnswer)
+    
+    //  alert("question answered");
+  }
+
+  //async function test(){
+  //  dispatch(checkAnswerThunkAction(gameId, modalQuestionId, contestantId ,answerInput));
+  //} 
 
   const handleFormSubmit = e => {
-    console.log("submit button event");
-    console.log("game id: " + gameId);
-    console.log("question ID: " + modalQuestionId);
-    console.log("contestant ID is: " + contestantId);
-    console.log("answer given: " + answerInput);
     e.preventDefault();
     dispatch(checkAnswerThunkAction(gameId, modalQuestionId, contestantId ,answerInput));
     setAnswerInput("");
-    setHideAnswer({ visibility:"hidden" })
+    setHideAnswer({ visibility:"hidden" });
+    setLoaderActive(true);
+    setDisableModalPrimaryBtn(true);
+    setTimeout(() => { reviewAnswerResonse(); }, 3000);
+    //test().then(()=>{});
   }
 
   const handleFormGuess = e => {
     console.log("guess button event");
     setHideAnswer({ visibility:"visible" });
-    setTimerActive(false);
+    setRunTimer(false);
+    setDisableModalPrimaryBtn(false);
+    //console.log("question value: " + modalQuestionValue)
     e.preventDefault();
-
   }
 
   const guessTimeUp = e => {
     console.log("time up");
-    setHideAnswer({ visibility:"hidden" })
-   // dispatch(initialTimerActive)
+    setHideAnswer({ visibility:"hidden" });
+    dispatch(closeQuestionModal());
+  }
 
+  const gameOver = e => {
+    alert('game over');
   }
 
   useEffect(() => {
-    if(modalOpen === false && questionCount >= 30) {
-      alert('game over');
+    if(modalOpen === false && questionCount >= 5) {
+      gameOver();
+    }
+
+    if(modalOpen){
+      setHideAnswer({ visibility:"hidden" });
+      setRunTimer(true);
     }
   }, [modalOpen]);
 
@@ -77,13 +102,14 @@ const QuestionModal = () => {
       onSecondarySubmit={ handleFormGuess }
       open={modalOpen}
       passiveModal={false}
-      primaryButtonDisabled={false}
+      primaryButtonDisabled={disableModalPrimaryBtn}
       primaryButtonText="Submit"
+      secondaryBut
       secondaryButtonText="Guess"
       selectorPrimaryFocus="[data-modal-primary-focus]"
+      shouldSubmitOnEnter={true}
     >
       <Form style ={ hideAnswer }
-       // onSubmit={handleFormSubmit}
       >
         <FormGroup 
           invalid={false}
@@ -105,22 +131,24 @@ const QuestionModal = () => {
       <Grid>
         <Row>
           <Column>
-            <CountdownCircleTimer
-              isPlaying = {timerActive}
-              duration={initialTimerLength}
+            <CountdownCircleTimer 
+              key = {modalQuestionId}
+              isPlaying = {runTimer}
+              duration={10}
               colors={[['#004777', 0.33], ['#F7B801', 0.33], ['#A30000']]}
-             // onComplete={guessTimeUp}
-             onComplete={() => {
-              guessTimeUp()
-              return [true, 1500] // repeat animation in 1.5 seconds
-            }}
-      
               
+              onComplete={() => {
+                guessTimeUp()
+            }}
             >
               {({ remainingTime }) => remainingTime}
             </CountdownCircleTimer>
           </Column>
-   
+          <Column>
+            <Loading
+              active={loaderActive}
+            />
+          </Column>
         </Row>
       </Grid>
     </Modal>
