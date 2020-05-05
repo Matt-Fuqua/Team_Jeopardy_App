@@ -2,8 +2,6 @@ const initialData = {
   open: false,
   question: "",
   questionId: "",
-  initialTimerDuration: 10,
-  initialTimerRunning: false,
   value: ""
 };
 
@@ -15,9 +13,7 @@ const questionDisplayReducer = (state = initialData, action) => {
         open: true,
         question: action.data.question,
         questionId: action.data.questionId,
-        initialTimerDuration: 10,
-        initialTimerRunning: true,
-        value: action.data.questionValue
+        value: action.data.value
       };
     case "CLOSE_QUESTION_MODAL":
       return {
@@ -25,8 +21,6 @@ const questionDisplayReducer = (state = initialData, action) => {
         open: false,
         question: "",
         questionId: "",
-        initialTimerDuration: 50,
-        initialTimerRunning: false,
         value: ""
       };
     default:
