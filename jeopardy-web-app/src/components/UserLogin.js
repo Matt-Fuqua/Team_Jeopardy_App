@@ -11,7 +11,7 @@ const UserLogin = () => {
   const history = useHistory();
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
-  const loginResponse = useSelector(loginStatus);
+  const loginResponse = useSelector(loginStatus); 
 
   if(loginResponse === "error") {
     dispatch(setLoginDefault());
