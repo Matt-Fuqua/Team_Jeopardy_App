@@ -1,5 +1,5 @@
 const initialData = {
-  questionsAnswered: 0,
+  questionsAnswered: 0
 };
 
 const manageQuestionCount = (state = initialData, action) => {
