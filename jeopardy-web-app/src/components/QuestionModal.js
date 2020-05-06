@@ -4,6 +4,7 @@ import { Form, FormGroup, Modal, TextInput, Loading } from 'carbon-components-re
 import { Column, Grid, Row } from 'carbon-components-react';
 import QuestionButton from './QuestionButton';
 import { checkAnswerThunkAction } from '../actions/checkAnswer';
+import { addPlayerOneScore, substractPlayerOneScore } from '../actions/managePlayerScore';
 import { closeQuestionModal } from '../actions/questionDisplay';
 import { newGameId, questionDisplayOpen, questionDisplayQuestion, questionDisplayQuestionId, checkAnswerStatus, questionDisplayValue  } from '../selectors/index';
 import { correctAnswer, isAnswerCorrect, playerOneScore, playerTwoScore, manageQuestionCount }  from '../selectors/index';
@@ -36,29 +37,15 @@ const QuestionModal = () => {
   const [answerInput, setAnswerInput] = useState();
   const [runTimer, setRunTimer] = useState(false);
 
-  const reviewAnswerResonse = e => {
-    setLoaderActive(false);
-    console.log ("answer is: "+ actualAnswer );
-    dispatch(closeQuestionModal());
-    if(checkAnswserResponse === "success")
-      console.log("check answer success. correct answer is: " + actualAnswer)
-    
-    //  alert("question answered");
-  }
-
-  //async function test(){
-  //  dispatch(checkAnswerThunkAction(gameId, modalQuestionId, contestantId ,answerInput));
-  //} 
-
   const handleFormSubmit = e => {
     e.preventDefault();
-    dispatch(checkAnswerThunkAction(gameId, modalQuestionId, contestantId ,answerInput));
+    setLoaderActive(true);
     setAnswerInput("");
     setHideAnswer({ visibility:"hidden" });
-    setLoaderActive(true);
     setDisableModalPrimaryBtn(true);
-    setTimeout(() => { reviewAnswerResonse(); }, 3000);
-    //test().then(()=>{});
+    setTimeout(() => {
+      dispatch(checkAnswerThunkAction(gameId, modalQuestionId, contestantId ,answerInput));
+    }, 2000);
   }
 
   const handleFormGuess = e => {
@@ -66,7 +53,6 @@ const QuestionModal = () => {
     setHideAnswer({ visibility:"visible" });
     setRunTimer(false);
     setDisableModalPrimaryBtn(false);
-    //console.log("question value: " + modalQuestionValue)
     e.preventDefault();
   }
 
@@ -91,6 +77,19 @@ const QuestionModal = () => {
     }
   }, [modalOpen]);
 
+  useEffect(() =>{
+    setLoaderActive(false);
+    if(checkAnswserResponse === "success") {
+      if(isCorrect == "Y") {
+        dispatch(addPlayerOneScore(parseInt(modalQuestionValue)));
+      } else {
+        dispatch(substractPlayerOneScore(parseInt(modalQuestionValue)));
+      }
+      console.log(isCorrect);
+      console.log("check answer success. correct answer is: " + actualAnswer)
+    }
+  }, [actualAnswer])
+
   return (
     <Modal
       hasScrollingContent={false}
@@ -104,7 +103,6 @@ const QuestionModal = () => {
       passiveModal={false}
       primaryButtonDisabled={disableModalPrimaryBtn}
       primaryButtonText="Submit"
-      secondaryBut
       secondaryButtonText="Guess"
       selectorPrimaryFocus="[data-modal-primary-focus]"
       shouldSubmitOnEnter={true}
