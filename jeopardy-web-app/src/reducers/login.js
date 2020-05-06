@@ -2,6 +2,7 @@ const initialData = {
   loginStatus: {},
   isFetching: false,
   isError: false,
+  userName: '',
 };
 
 const loginReducer = (state = initialData, action) => {
@@ -11,21 +12,24 @@ const loginReducer = (state = initialData, action) => {
         ...state,
         loginStatus: {},
         isFetching: true,
-        isError: false
+        isError: false,
+        userName: '',
       };
     case "LOGIN_SUCCESS":
       return {
         ...state,
         loginStatus: "success",
         ifFetching: false,
-        isError: false
+        isError: false,
+        userName: action.data.User_ID,
       };
     case "LOGIN_FAILURE":
       return {
         ...state,
         loginStatus: "error",
         isFetching: false,
-        isError: true
+        isError: true,
+        userName: '',
       };
     case "SET_LOGIN_DEFAULT":
       return {
@@ -33,6 +37,7 @@ const loginReducer = (state = initialData, action) => {
         loginStatus: {},
         isFetching: false,
         isError: false,
+        userName: '',
       };
     default:
       return state;
