@@ -8,7 +8,7 @@ def validateLogin(username, password):
 
     # This syntax prevents SQL injection attacks on username and password
     # TODO: Matt B change trigger to return these attributes instead of success/fail
-    query = """SELECT Create_Date, Account_Admin, UFirst_Name, ULast_Name, Email
+    query = """SELECT Create_Date, Account_Admin, UFirst_Name, ULast_Name, Email, User_ID
                  FROM Users
                 WHERE Account_Active = 'Y' AND User_ID = %(username)s AND Password = %(password)s"""
 
@@ -25,7 +25,8 @@ def validateLogin(username, password):
             "Account_Admin": result[1].decode(),
             "UFirst_Name": result[2].decode(),
             "ULast_Name": result[3].decode(),
-            "Email": result[4].decode()
+            "Email": result[4].decode(),
+	    "User_ID": result[5].decode()
         }
 
 def changePassword(username, password, newpassword):
