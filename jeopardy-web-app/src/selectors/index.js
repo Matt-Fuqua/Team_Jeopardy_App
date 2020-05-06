@@ -19,11 +19,11 @@ export const deleteGamesIsError = state => get(state.deleteGames, "isError");
 export const loginStatus = state => get(state.login, "loginStatus");
 export const loginIsFetching = state => get(state.login, "isFetching");
 export const loginIsError = state => get(state.login, "isError");
+export const userName = state => get(state.login, "userName");
 
 // Manage Player Score Selectors
 export const playerOneScore = state => get(state.managePlayerScore, "playerOneScore");
 export const playerTwoScore = state => get(state.managePlayerScore, "playerTwoScore");
-
 
 // Manage Question Count Selectors
 export const manageQuestionCount = state => get(state.manageQuestionCount, "questionsAnswered");
@@ -56,10 +56,3 @@ export const retrieveGamesIsError = state => get(state.retrieveGames, "isError")
 export const simEndGameStatus = state => get(state.simEndGame, "simEndGameStatus");
 export const simEndGameIsFetching = state => get(state.simEndGame, "isFetching");
 export const simEndGameIsError = state => get(state.simEndGame, "isError");
-
-// Timer Selectors
-//export const initialTimerDuration = state => get(state.questionDisplay, "initialTimerDuration")
-//export const initialTimerEnabled = state => get(state.questionDisplay, "initialTimerRunning")
-
-
-
