@@ -59,6 +59,7 @@ def login():
                     "UFirst_Name": Their first name.
                     "ULast_Name": Their last name.
                     "Email": Their email.
+		    "User_ID":  The username. You passed this in.
             401:
                 description: User is not authenticated.  There is no error message or explanation given.
     """
