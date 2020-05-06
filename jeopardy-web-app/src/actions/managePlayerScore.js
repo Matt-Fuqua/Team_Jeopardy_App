@@ -13,3 +13,17 @@ export const addPlayerTwoScore = post => {
     data: post
   };
 };
+
+export const substractPlayerOneScore = post => {
+  return {
+    type: "SUBTRACT_PLAYER_ONE_SCORE",
+    data: post
+  };
+};
+
+export const substractPlayerTwoScore = post => {
+  return {
+    type: "SUBTRACT_PLAYER_TWO_SCORE",
+    data: post
+  };
+};
