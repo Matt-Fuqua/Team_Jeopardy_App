@@ -19,7 +19,10 @@ import {
   playerTwoScore,
   manageQuestionCount 
 } from '../selectors';
- 
+
+let playerOneGuessing = false;
+let gameResponse = "";
+
 const QuestionModal = () => {
   const dispatch = useDispatch();
   const checkAnswserResponse = useSelector(checkAnswerStatus);
@@ -42,6 +45,26 @@ const QuestionModal = () => {
   const [winnerStatus, setWinnerStatus] = useState(false);
   const [disableModalPrimaryBtn, setDisableModalPrimaryBtn] = useState(true);
   const [guessButtonStatus, setGuessButtonStauts] = useState("Guess");
+  const [circleTimerVisibilty, setCircleTimerVisibility] = useState("visible");
+  const [displayAnswerVisibilty, setDisplayAnswerVisiblity] = useState("hidden");
+  const [endOfTurn, setEndOfTurn] = useState(false);
+
+  const handleFormGuess = e => {
+
+    if(endOfTurn) {
+      dispatch(closeQuestionModal());
+      setEndOfTurn(false);
+      setGuessButtonStauts("Guess");
+      setDisplayAnswerVisiblity("hidden");
+    }
+    else {
+    playerOneGuessing = true;
+    setHideAnswer({ visibility:"visible" });
+    setRunTimer(false);
+    setDisableModalPrimaryBtn(false);
+    }
+    e.preventDefault();
+  }
 
   const handleFormSubmit = e => {
     e.preventDefault();
@@ -50,32 +73,34 @@ const QuestionModal = () => {
     setAnswerInput("");
     setHideAnswer({ visibility:"hidden" });
     setDisableModalPrimaryBtn(true);
+    setCircleTimerVisibility("hidden");
     setTimeout(() => {
       dispatch(checkAnswerThunkAction(gameId, modalQuestionId, computerId ,answerInput));
     }, 2000);
   }
 
   const computerGuessing = e => {
-    console.log ("computer is guess");
     setRunTimer(false);
-    setGuessButtonStauts("Computer is guessing")
-    // model modified to show computer is attempting to guess
-          // random number to determine if computer will be correct
-            // if correct, modify modal to show computer correct and update score
-            // if not correct, modify modal to advise computer is wrong and update score
-        // close modal and user can click next button
+    setGuessButtonStauts("Computer is guessing");
+    setLoaderActive(true);
+    setTimeout(() => {setLoaderActive(false)}, 2000);
+      // random number to determine if computer will be correct
+      // if correct, modify modal to show computer correct and update score
+      // if not correct, modify modal to advise computer is wrong and update score
+      // close modal and user can click next button
     
   }
 
   const computerAttemptAnswer = e => {
-    var vpTimer = Math.floor(Math.random() * Math.floor(10)+5);
-    
-    console.log("timer to guess: " + vpTimer)
-    // start a timer
-    // if timer hit before user hits guess, then new event 
-    var timer = 10;
-     var countdownTimer = setInterval(function() {
+    let vpTimer = Math.floor(Math.random() * Math.floor(5)+5); //!!!!!!!!!!!!!!! NEED TO CHANGE !!
+    console.log("computer time to guess: " + vpTimer);
+    console.log(playerOneGuessing);
+    let timer = 10;
+    let countdownTimer = setInterval(function() {
       console.log("timer: " + timer);
+      if(playerOneGuessing){
+        clearInterval(countdownTimer);
+      }
       if(timer === (10-vpTimer)) {
         clearInterval(countdownTimer);
         computerGuessing();
@@ -89,13 +114,6 @@ const QuestionModal = () => {
       }
     },1000)
   }
-  const handleFormGuess = e => {
-    console.log("guess button event");
-    setHideAnswer({ visibility:"visible" });
-    setRunTimer(false);
-    setDisableModalPrimaryBtn(false);
-    e.preventDefault();
-  }
 
   const guessTimeUp = e => {
     console.log("time up");
@@ -107,7 +125,7 @@ const QuestionModal = () => {
     if(p1Score > p2Score){
       setEndGameAnimation(true);
       setWinnerStatus(true);
-    } else{
+    } else {
       setEndGameAnimation(true);
       setWinnerStatus(false);
     }
@@ -117,14 +135,17 @@ const QuestionModal = () => {
   }
 
   useEffect(() => {
-    if(modalOpen === false && questionCount >= 2) {
+    if(modalOpen === false && questionCount >= 5) {
       gameOver();
     }
 
     if(modalOpen){
+      setGuessButtonStauts("Guess");
       setHideAnswer({ visibility:"hidden" });
       setRunTimer(true);
-      // computerAttemptAnswer();
+      setCircleTimerVisibility("visible");
+      playerOneGuessing = false;
+      computerAttemptAnswer();
     }
   }, [modalOpen]);
 
@@ -133,11 +154,15 @@ const QuestionModal = () => {
     if(checkAnswserResponse === "success") {
       if(isCorrect === "Y") {
         dispatch(addPlayerOneScore(parseInt(modalQuestionValue)));
+        gameResponse = "NICE JOB!"
       } else {
         dispatch(substractPlayerOneScore(parseInt(modalQuestionValue)));
+        setCircleTimerVisibility("hidden");
+        gameResponse = "Sorry that is not correct"
       }
-      console.log(isCorrect);
-      console.log("check answer success. correct answer is: " + actualAnswer)
+      setEndOfTurn(true);
+      setDisplayAnswerVisiblity("visible");
+      setGuessButtonStauts("Click to proceed");
     }
   }, [actualAnswer])
 
@@ -157,7 +182,6 @@ const QuestionModal = () => {
         primaryButtonDisabled={ disableModalPrimaryBtn }
         primaryButtonText="Submit"
         secondaryButtonText= { guessButtonStatus }
-        //secondaryButtonText="Guess"
         selectorPrimaryFocus="[data-modal-primary-focus]"
         shouldSubmitOnEnter={true}
       >
@@ -179,22 +203,30 @@ const QuestionModal = () => {
               onChange={e => setAnswerInput(e.target.value)}
             />
           </FormGroup>
+ 
         </Form>
+        <div style={{visibility: displayAnswerVisibilty }}>
+          <h2> { gameResponse }</h2>
+          <h2> The correct answer is: </h2>
+          <h2> {actualAnswer} </h2>
+        </div>
         <Grid>
           <Row>
             <Column>
-              <CountdownCircleTimer 
-                key = {modalQuestionId}
-                isPlaying = {runTimer}
-                duration={10}
-                colors={[['#004777', 0.33], ['#F7B801', 0.33], ['#A30000']]}
-                
-                onComplete={() => {
-                  guessTimeUp()
-              }}
-              >
-                {({ remainingTime }) => remainingTime}
-              </CountdownCircleTimer>
+              <div style={{visibility: circleTimerVisibilty }}> 
+                <CountdownCircleTimer
+                  key = {modalQuestionId}
+                  isPlaying = {runTimer}
+                  duration={10}
+                  colors={[['#004777', 0.33], ['#F7B801', 0.33], ['#A30000']]}
+                  
+                  onComplete={() => {
+                    guessTimeUp()
+                }}
+                >
+                  {({ remainingTime }) => remainingTime}
+                </CountdownCircleTimer>
+              </div>
             </Column>
             <Column>
               <Loading
