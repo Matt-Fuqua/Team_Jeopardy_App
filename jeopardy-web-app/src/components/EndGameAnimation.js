@@ -6,7 +6,7 @@ import { Modal } from 'carbon-components-react';
 
 const EndGameAnimation = props => {
   const visibilityStatus = props.visibility ? "visible" : "hidden";
-  const winnerMessage = props.winnerStatus ? "Congrats Winner & Thank you for playing!" : "Try again & Thank you for playing!";
+  const winnerMessage = props.winnerStatus ? "Congrats Winner!" : "Try again";
   const fxProps = {
     count:  3,
     interval: 200,
@@ -29,8 +29,8 @@ const EndGameAnimation = props => {
         onSecondarySubmit={  ()=>{}  }
         open={props.visibility}
         passiveModal={false}
-        primaryButtonText=""
-        secondaryButtonText=""
+        primaryButtonText="End Game"
+        secondaryButtonText="Thank you for playing!"
       />
     </div>
   );
