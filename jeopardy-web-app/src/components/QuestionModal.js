@@ -26,11 +26,13 @@ const QuestionModal = () => {
   const isCorrect = useSelector(isAnswerCorrect);
   const questionCount = useSelector(manageQuestionCount);
   const modalQuestionValue = useSelector(questionDisplayValue);
+  const p1Score = useSelector(playerOneScore, "playerOneScore");
+  const p2Score = useSelector(playerTwoScore, "playerTwoScore");
 
   const [hideAnswer, setHideAnswer] = useState({ visibility:"hidden" });
   const [loaderActive, setLoaderActive] = useState(false);
   const [disableModalPrimaryBtn, setDisableModalPrimaryBtn] = useState(true);
-  
+  const [guessButtonStatus, setGuessButtonStauts] = useState("Guess");
 
 
   var contestantId = 1000;
@@ -48,6 +50,40 @@ const QuestionModal = () => {
     }, 2000);
   }
 
+  const computerGuessing = e => {
+    console.log ("computer is guess");
+    setRunTimer(false);
+    setGuessButtonStauts("Computer is guessing")
+    // model modified to show computer is attempting to guess
+          // random number to determine if computer will be correct
+            // if correct, modify modal to show computer correct and update score
+            // if not correct, modify modal to advise computer is wrong and update score
+        // close modal and user can click next button
+    
+  }
+
+  const computerAttemptAnswer = e => {
+    var vpTimer = Math.floor(Math.random() * Math.floor(10)+5);
+    
+    console.log("timer to guess: " + vpTimer)
+    // start a timer
+    // if timer hit before user hits guess, then new event 
+    var timer = 10;
+     var countdownTimer = setInterval(function() {
+      console.log("timer: " + timer);
+      if(timer === (10-vpTimer)) {
+        clearInterval(countdownTimer);
+        computerGuessing();
+      }
+
+      timer = timer-1;
+      if (timer <= 0) 
+      {
+          console.log("Time Up!");
+          clearInterval(countdownTimer);
+      }
+    },1000)
+  }
   const handleFormGuess = e => {
     console.log("guess button event");
     setHideAnswer({ visibility:"visible" });
@@ -63,24 +99,34 @@ const QuestionModal = () => {
   }
 
   const gameOver = e => {
-    alert('game over');
+    console.log("player one score: " + p1Score);
+    console.log("player two score: " + p2Score);
+    if(p1Score > p2Score){
+      alert('YOU WIN!!!');
+    }
+    else{
+      alert('GAME OVER. BETTER LUCK NEXT TIME')
+    }
+
+    
   }
 
   useEffect(() => {
-    if(modalOpen === false && questionCount >= 5) {
+    if(modalOpen === false && questionCount >= 2) {
       gameOver();
     }
 
     if(modalOpen){
       setHideAnswer({ visibility:"hidden" });
       setRunTimer(true);
+      //computerAttemptAnswer();
     }
   }, [modalOpen]);
 
   useEffect(() =>{
     setLoaderActive(false);
     if(checkAnswserResponse === "success") {
-      if(isCorrect == "Y") {
+      if(isCorrect === "Y") {
         dispatch(addPlayerOneScore(parseInt(modalQuestionValue)));
       } else {
         dispatch(substractPlayerOneScore(parseInt(modalQuestionValue)));
@@ -101,9 +147,10 @@ const QuestionModal = () => {
       onSecondarySubmit={ handleFormGuess }
       open={modalOpen}
       passiveModal={false}
-      primaryButtonDisabled={disableModalPrimaryBtn}
+      primaryButtonDisabled={ disableModalPrimaryBtn }
       primaryButtonText="Submit"
-      secondaryButtonText="Guess"
+      secondaryButtonText= { guessButtonStatus }
+      //secondaryButtonText="Guess"
       selectorPrimaryFocus="[data-modal-primary-focus]"
       shouldSubmitOnEnter={true}
     >
