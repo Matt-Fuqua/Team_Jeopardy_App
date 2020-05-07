@@ -1,19 +1,24 @@
 import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { Form, FormGroup, Modal, TextInput, Loading } from 'carbon-components-react';
-import { Column, Grid, Row } from 'carbon-components-react';
-import QuestionButton from './QuestionButton';
+import { CountdownCircleTimer } from 'react-countdown-circle-timer'
+import { EndGameAnimation } from '../components'
 import { checkAnswerThunkAction } from '../actions/checkAnswer';
 import { addPlayerOneScore, substractPlayerOneScore } from '../actions/managePlayerScore';
 import { closeQuestionModal } from '../actions/questionDisplay';
-import { newGameId, questionDisplayOpen, questionDisplayQuestion, questionDisplayQuestionId, checkAnswerStatus, questionDisplayValue  } from '../selectors/index';
-import { correctAnswer, isAnswerCorrect, playerOneScore, playerTwoScore, manageQuestionCount }  from '../selectors/index';
-
-import { CountdownCircleTimer } from 'react-countdown-circle-timer'
-// https://www.npmjs.com/package/react-countdown-circle-timer
-// yarn add react-countdown-circle-timer
-// props: https://github.com/vydimitrov/react-countdown-circle-timer#props-for-both-reactreact-native
-
+import { Column, Grid, Row, Form, FormGroup, Modal, TextInput, Loading } from 'carbon-components-react';
+import { 
+  newGameId,
+  questionDisplayOpen,
+  questionDisplayQuestion,
+  questionDisplayQuestionId,
+  checkAnswerStatus,
+  questionDisplayValue,
+  correctAnswer,
+  isAnswerCorrect,
+  playerOneScore,
+  playerTwoScore,
+  manageQuestionCount 
+} from '../selectors';
  
 const QuestionModal = () => {
   const dispatch = useDispatch();
@@ -31,22 +36,22 @@ const QuestionModal = () => {
 
   const [hideAnswer, setHideAnswer] = useState({ visibility:"hidden" });
   const [loaderActive, setLoaderActive] = useState(false);
+  const [answerInput, setAnswerInput] = useState();
+  const [runTimer, setRunTimer] = useState(false);
+  const [endGameAnimation, setEndGameAnimation] = useState(false);
+  const [winnerStatus, setWinnerStatus] = useState(false);
   const [disableModalPrimaryBtn, setDisableModalPrimaryBtn] = useState(true);
   const [guessButtonStatus, setGuessButtonStauts] = useState("Guess");
 
-
-  var contestantId = 1000;
-  const [answerInput, setAnswerInput] = useState();
-  const [runTimer, setRunTimer] = useState(false);
-
   const handleFormSubmit = e => {
     e.preventDefault();
+    const computerId = 1000;
     setLoaderActive(true);
     setAnswerInput("");
     setHideAnswer({ visibility:"hidden" });
     setDisableModalPrimaryBtn(true);
     setTimeout(() => {
-      dispatch(checkAnswerThunkAction(gameId, modalQuestionId, contestantId ,answerInput));
+      dispatch(checkAnswerThunkAction(gameId, modalQuestionId, computerId ,answerInput));
     }, 2000);
   }
 
@@ -98,17 +103,17 @@ const QuestionModal = () => {
     dispatch(closeQuestionModal());
   }
 
-  const gameOver = e => {
-    console.log("player one score: " + p1Score);
-    console.log("player two score: " + p2Score);
+  const gameOver = () => {
     if(p1Score > p2Score){
-      alert('YOU WIN!!!');
+      setEndGameAnimation(true);
+      setWinnerStatus(true);
+    } else{
+      setEndGameAnimation(true);
+      setWinnerStatus(false);
     }
-    else{
-      alert('GAME OVER. BETTER LUCK NEXT TIME')
-    }
-
-    
+    setTimeout(()=>{
+      setEndGameAnimation(false);
+    }, 5000); 
   }
 
   useEffect(() => {
@@ -119,7 +124,7 @@ const QuestionModal = () => {
     if(modalOpen){
       setHideAnswer({ visibility:"hidden" });
       setRunTimer(true);
-      //computerAttemptAnswer();
+      // computerAttemptAnswer();
     }
   }, [modalOpen]);
 
@@ -137,66 +142,69 @@ const QuestionModal = () => {
   }, [actualAnswer])
 
   return (
-    <Modal
-      hasScrollingContent={false}
-      iconDescription="Close the modal"
-      modalAriaLabel="A label to be read by screen readers on the modal root node"
-      modalHeading={modalQuestion}
-      onRequestClose={() => dispatch(closeQuestionModal())}
-      onRequestSubmit={ handleFormSubmit }      
-      onSecondarySubmit={ handleFormGuess }
-      open={modalOpen}
-      passiveModal={false}
-      primaryButtonDisabled={ disableModalPrimaryBtn }
-      primaryButtonText="Submit"
-      secondaryButtonText= { guessButtonStatus }
-      //secondaryButtonText="Guess"
-      selectorPrimaryFocus="[data-modal-primary-focus]"
-      shouldSubmitOnEnter={true}
-    >
-      <Form style ={ hideAnswer }
+    <>
+      <EndGameAnimation visibility={endGameAnimation} winnerStatus={winnerStatus}/>
+      <Modal
+        hasScrollingContent={false}
+        iconDescription="Close the modal"
+        modalAriaLabel="A label to be read by screen readers on the modal root node"
+        modalHeading={modalQuestion}
+        onRequestClose={() => dispatch(closeQuestionModal())}
+        onRequestSubmit={ handleFormSubmit }      
+        onSecondarySubmit={ handleFormGuess }
+        open={modalOpen}
+        passiveModal={false}
+        primaryButtonDisabled={ disableModalPrimaryBtn }
+        primaryButtonText="Submit"
+        secondaryButtonText= { guessButtonStatus }
+        //secondaryButtonText="Guess"
+        selectorPrimaryFocus="[data-modal-primary-focus]"
+        shouldSubmitOnEnter={true}
       >
-        <FormGroup 
-          invalid={false}
-          message={false}
-          legendText=""
+        <Form style ={ hideAnswer }
         >
-          <TextInput
-            id="answer-input"
+          <FormGroup 
             invalid={false}
-            invalidText="A valid value is required"
-            labelText="Answer"
-            light={true}
-            type="text"
-            value={answerInput}
-            onChange={e => setAnswerInput(e.target.value)}
-          />
-        </FormGroup>
-      </Form>
-      <Grid>
-        <Row>
-          <Column>
-            <CountdownCircleTimer 
-              key = {modalQuestionId}
-              isPlaying = {runTimer}
-              duration={10}
-              colors={[['#004777', 0.33], ['#F7B801', 0.33], ['#A30000']]}
-              
-              onComplete={() => {
-                guessTimeUp()
-            }}
-            >
-              {({ remainingTime }) => remainingTime}
-            </CountdownCircleTimer>
-          </Column>
-          <Column>
-            <Loading
-              active={loaderActive}
+            message={false}
+            legendText=""
+          >
+            <TextInput
+              id="answer-input"
+              invalid={false}
+              invalidText="A valid value is required"
+              labelText="Answer"
+              light={true}
+              type="text"
+              value={answerInput}
+              onChange={e => setAnswerInput(e.target.value)}
             />
-          </Column>
-        </Row>
-      </Grid>
-    </Modal>
+          </FormGroup>
+        </Form>
+        <Grid>
+          <Row>
+            <Column>
+              <CountdownCircleTimer 
+                key = {modalQuestionId}
+                isPlaying = {runTimer}
+                duration={10}
+                colors={[['#004777', 0.33], ['#F7B801', 0.33], ['#A30000']]}
+                
+                onComplete={() => {
+                  guessTimeUp()
+              }}
+              >
+                {({ remainingTime }) => remainingTime}
+              </CountdownCircleTimer>
+            </Column>
+            <Column>
+              <Loading
+                active={loaderActive}
+              />
+            </Column>
+          </Row>
+        </Grid>
+      </Modal>
+    </>
   );
 };
 
