@@ -20,12 +20,11 @@ export const checkAnswerFailure = () => {
   };
 };
 
-export const checkAnswerThunkAction = (gameID, questionID, contestantID, questionGuess) => {
+export const checkAnswerThunkAction = (gameId, questionID, contestantID, questionGuess) => {
   store.dispatch(checkAnswerStarted());
   return (dispatch) => {
-
     var bodyFormData = new FormData();
-    bodyFormData.set('Games_Game_ID', gameID);
+    bodyFormData.set('Games_Game_ID', gameId);
     bodyFormData.set('GameQuestions_ID', questionID);
     bodyFormData.set('Contestant_Coontestant_ID', contestantID);
     bodyFormData.set('questionGuess', questionGuess);
@@ -33,14 +32,14 @@ export const checkAnswerThunkAction = (gameID, questionID, contestantID, questio
       method: 'post',
       url: 'http://cs411teambfs.web.illinois.edu/phase4_rdb_dev/submitAnswer',
       data: bodyFormData,
-      headers: {'Content-Type': 'multipart/form-data' }
+      headers: {'Content-Type': 'multipart/form-data'}
+    })
+      .then(response => {
+        console.log('check answer response', response.data);
+        dispatch(checkAnswerSuccess(response.data));
       })
-        .then(response => {
-          console.log('check answer response ', response.data);
-          dispatch(checkAnswerSuccess(response.data));
-        })
-        .catch(() => {
-          dispatch(checkAnswerFailure());
-        });
+      .catch(() => {
+        dispatch(checkAnswerFailure());
+      });
   };
 };
