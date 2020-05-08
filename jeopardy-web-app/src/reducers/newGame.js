@@ -1,5 +1,6 @@
 const initialData = {
   gameId: '',
+  contestants: [],
   roundOne: [],
   roundTwo: [],
   final: {},
@@ -13,6 +14,7 @@ const newGameReducer = (state = initialData, action) => {
       return {
         ...state,
         gameId: '',
+        contestants: [],
         roundOne: [],
         roundTwo: [],
         final: {},
@@ -23,6 +25,7 @@ const newGameReducer = (state = initialData, action) => {
       return {
         ...state,
         gameId: action.data.Games_Game_ID,
+        contestants: action.data.Contestants,
         roundOne: action.data.round1,
         roundTwo: action.data.round2,
         final: action.data.final,
@@ -33,6 +36,7 @@ const newGameReducer = (state = initialData, action) => {
       return {
         ...state,
         gameId: '',
+        contestants: [],
         roundOne: [],
         roundTwo: [],
         final: {},
