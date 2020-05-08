@@ -162,7 +162,7 @@ const QuestionModal = () => {
   }
 
   useEffect(() => {
-    if(modalOpen === false && questionCount >= 2) {
+    if(modalOpen === false && questionCount >= 30) {
       gameOver();
     }
     if(modalOpen){
