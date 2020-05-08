@@ -3,6 +3,7 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
+    "@carbon/icons": "^10.10.2",
     "@carbon/icons-react": "^10.9.1",
     "@testing-library/jest-dom": "^4.2.4",
     "@testing-library/react": "^9.3.2",
@@ -12,6 +13,7 @@
     "carbon-components-react": "^7.10.1",
     "fireworks": "^2.2.5",
     "lodash": "^4.17.15",
+    "node-sass": "^4.14.1",
     "react": "^16.13.1",
     "react-countdown-circle-timer": "^2.0.5",
     "react-dom": "^16.12.0",
