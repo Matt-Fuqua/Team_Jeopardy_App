@@ -128,6 +128,24 @@ def fakeUpdate(gameID):
     cnx.close()
     return r
 
+# RAndomly insert data to signify end of game
+#  This here for illustrative purposes only until the 
+#  front-end devleopment builds this functionality.
+def gameEnd(gameID, contestantID):
+    # Randomly select winning contestant and update Game table to reflect
+    cnx = cs411_db.getConnection()
+    cursor = cnx.cursor()
+    query = """UPDATE Games
+        SET Contestants_Contestant_ID_Winner = {0}
+        WHERE Games_Game_ID = {1}""".format(contestantID, gameID)
+    print(query)
+    cursor.execute(query)
+    r = cursor.rowcount
+    cnx.commit()
+    cursor.close()
+    cnx.close()
+    return r
+
 # Return questions for a specific game
 def getQuestions(questionID):
     conn = cs411_db.getConnection()

@@ -261,6 +261,24 @@ def fakeFinish():
     if result == 1: return prepJSON({"message": "success"})
     else: raise InvalidUsage(result["message"], 403)
 
+
+@app.route('/game/finish', methods = ['POST'])
+def gameEnd():
+    """Updates the game-end with the winner.
+
+    post:
+        "Games_Game_ID":  The ID of the game to simualte
+	"Contestant_Coontestant_ID": The contestant ID of the winning contestant
+
+    responses:
+        200: { "message" : "success" }
+        403: { "message" : "failure" }
+    """
+    result = cs411_game.gameEnd(request.form.get('Games_Game_ID'),
+	request.form.get('Contestant_Coontestant_ID'))
+    if result == 1: return prepJSON({"message": "success"})
+    else: raise InvalidUsage(result["message"], 403)
+
 @app.route('/category/easy', methods = ['GET'])
 def easyCategory():
     """Returns the top 10 easy categories.
