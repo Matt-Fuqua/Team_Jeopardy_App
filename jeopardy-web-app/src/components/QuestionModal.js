@@ -1,35 +1,40 @@
 import React, { useEffect, useState } from 'react';
+import { useHistory  } from "react-router-dom"
 import { useDispatch, useSelector } from 'react-redux';
 import { CountdownCircleTimer } from 'react-countdown-circle-timer'
 import { EndGameAnimation } from '../components'
 import { checkAnswerThunkAction } from '../actions/checkAnswer';
-import { addPlayerOneScore, substractPlayerOneScore, addPlayerTwoScore, substractPlayerTwoScore } from '../actions/managePlayerScore';
+import { endGameThunkAction } from '../actions/endGame';
 import { closeQuestionModal } from '../actions/questionDisplay';
-import { Column, Grid, Row, Form, FormGroup, Modal, TextInput, Loading } from 'carbon-components-react';
+import { addPlayerOneScore, addPlayerTwoScore, substractPlayerOneScore, substractPlayerTwoScore } from '../actions/managePlayerScore';
+import { Column, Form, FormGroup,Grid, Loading, Modal, Row, TextInput } from 'carbon-components-react';
 import { 
+  checkAnswerStatus,
+  correctAnswer,
+  isAnswerCorrect,
+  manageQuestionCount,
+  newGameContestants,
   newGameId,
+  playerOneScore,
+  playerTwoScore,
   questionDisplayOpen,
   questionDisplayQuestion,
   questionDisplayQuestionId,
-  checkAnswerStatus,
-  questionDisplayValue,
-  correctAnswer,
-  isAnswerCorrect,
-  playerOneScore,
-  playerTwoScore,
-  manageQuestionCount 
+  questionDisplayValue
 } from '../selectors';
 
 let playerOneGuessing = false;
-let gameResponse = "";
 
 const QuestionModal = () => {
   const dispatch = useDispatch();
-  const checkAnswserResponse = useSelector(checkAnswerStatus);
+  const history = useHistory();
+
   const gameId = useSelector(newGameId);
+  const checkAnswserResponse = useSelector(checkAnswerStatus);
   const modalOpen = useSelector(questionDisplayOpen);
   const modalQuestion = useSelector(questionDisplayQuestion);
   const modalQuestionId = useSelector(questionDisplayQuestionId);
+  const gameContestants = useSelector(newGameContestants);
   const actualAnswer = useSelector(correctAnswer);
   const isCorrect = useSelector(isAnswerCorrect);
   const questionCount = useSelector(manageQuestionCount);
@@ -37,6 +42,7 @@ const QuestionModal = () => {
   const p1Score = useSelector(playerOneScore, "playerOneScore");
   const p2Score = useSelector(playerTwoScore, "playerTwoScore");
 
+  const [gameResponse, setGameResponse] = useState("");
   const [hideAnswer, setHideAnswer] = useState({ visibility:"hidden" });
   const [loaderActive, setLoaderActive] = useState(false);
   const [answerInput, setAnswerInput] = useState();
@@ -51,21 +57,19 @@ const QuestionModal = () => {
   const [endOfTurn, setEndOfTurn] = useState(false);
 
   const handleFormGuess = e => {
-
+    e.preventDefault();
     if(endOfTurn) {
       dispatch(closeQuestionModal());
       setEndOfTurn(false);
       setGuessButtonStauts("Guess");
       setDisplayAnswerVisiblity("hidden");
       setDisplayGameResponse("hidden");
+    } else {
+      playerOneGuessing = true;
+      setHideAnswer({ visibility:"visible" });
+      setRunTimer(false);
+      setDisableModalPrimaryBtn(false);
     }
-    else {
-    playerOneGuessing = true;
-    setHideAnswer({ visibility:"visible" });
-    setRunTimer(false);
-    setDisableModalPrimaryBtn(false);
-    }
-    e.preventDefault();
   }
 
   const handleFormSubmit = e => {
@@ -85,13 +89,11 @@ const QuestionModal = () => {
     setLoaderActive(false);
     let computerCorrect = isComputerCorrecct(75);
     if(computerCorrect){
-      gameResponse = "Computer is correct"
+      setGameResponse("Computer is correct");
       dispatch(addPlayerTwoScore(parseInt(modalQuestionValue)));
-      console.log("computer is correct");
     } else {
-      gameResponse = "Computer is incorrect"
+      setGameResponse("Computer is incorrect");
       dispatch(substractPlayerTwoScore(parseInt(modalQuestionValue)));
-      console.log("computer is not corret");
     }
     setGuessButtonStauts("Click to proceed");
     setDisplayAnswerVisiblity("hidden");
@@ -99,35 +101,27 @@ const QuestionModal = () => {
     setEndOfTurn(true);
   }
 
-  const computerGuessing = e => {
+  const computerGuessing = () => {
     setRunTimer(false);
     setCircleTimerVisibility("hidden");
     setGuessButtonStauts("Computer is guessing");
     setLoaderActive(true);
     setTimeout(() => {completeComputerTurn()}, 2000);
-    
-      // if correct, modify modal to show computer correct and update score
-      // if not correct, modify modal to advise computer is wrong and update score
-      // close modal and user can click next button
-    
   }
 
-  const isComputerCorrecct = (p) => {
+  const isComputerCorrecct = p => {
     let temp = Math.floor(Math.random() * 100);
-    console.log("probability: " + p + " random num is " + temp);
-    if(temp<=p)
-        return true;
-    else
-        return false;
+    if(temp<=p) {
+      return true;
+    } else {
+      return false;
+    }
 }
 
-  const computerAttemptAnswer = e => {
+  const computerAttemptAnswer = () => {
     let vpTimer = Math.floor(Math.random() * Math.floor(5)+5); 
-    console.log("computer time to guess: " + vpTimer);
-    console.log(playerOneGuessing);
     let timer = 10;
     let countdownTimer = setInterval(function() {
-      console.log("timer: " + timer);
       if(playerOneGuessing){
         clearInterval(countdownTimer);
       }
@@ -139,36 +133,38 @@ const QuestionModal = () => {
       timer = timer-1;
       if (timer <= 0) 
       {
-          console.log("Time Up!");
-          clearInterval(countdownTimer);
+        clearInterval(countdownTimer);
       }
     },1000)
   }
 
-  const guessTimeUp = e => {
-    console.log("time up");
+  const guessTimeUp = () => {
     setHideAnswer({ visibility:"hidden" });
     dispatch(closeQuestionModal());
   }
 
   const gameOver = () => {
+    let contestantId = 0;
     if(p1Score > p2Score){
+      contestantId = gameContestants[0];
       setEndGameAnimation(true);
       setWinnerStatus(true);
     } else {
+      contestantId = gameContestants[1];
       setEndGameAnimation(true);
       setWinnerStatus(false);
     }
     setTimeout(()=>{
       setEndGameAnimation(false);
-    }, 5000); 
+      dispatch(endGameThunkAction(gameId, contestantId));
+      // history.push("/HomePage");
+    }, 2000); 
   }
 
   useEffect(() => {
-    if(modalOpen === false && questionCount >= 5) {
+    if(modalOpen === false && questionCount >= 2) {
       gameOver();
     }
-
     if(modalOpen){
       setGuessButtonStauts("Guess");
       setHideAnswer({ visibility:"hidden" });
@@ -184,11 +180,11 @@ const QuestionModal = () => {
     if(checkAnswserResponse === "success") {
       if(isCorrect === "Y") {
         dispatch(addPlayerOneScore(parseInt(modalQuestionValue)));
-        gameResponse = "NICE JOB!"
+        setGameResponse("NICE JOB!");
       } else {
         dispatch(substractPlayerOneScore(parseInt(modalQuestionValue)));
         setCircleTimerVisibility("hidden");
-        gameResponse = "Sorry that is not correct"
+        setGameResponse("Sorry that is not correct");
       }
       setEndOfTurn(true);
       setDisplayAnswerVisiblity("visible");
@@ -237,7 +233,7 @@ const QuestionModal = () => {
  
         </Form>
         <div style={{ visibility: displayGameResponse }}>
-          <h2> { gameResponse }</h2>
+          <h2> {gameResponse}</h2>
         </div>
         <div style={{ visibility: displayAnswerVisibilty }}>
           <h2> The correct answer is: </h2>
@@ -252,7 +248,6 @@ const QuestionModal = () => {
                   isPlaying = {runTimer}
                   duration={10}
                   colors={[['#004777', 0.33], ['#F7B801', 0.33], ['#A30000']]}
-                  
                   onComplete={() => {
                     guessTimeUp()
                 }}
@@ -262,9 +257,7 @@ const QuestionModal = () => {
               </div>
             </Column>
             <Column>
-              <Loading
-                active={loaderActive}
-              />
+              <Loading active={loaderActive}/>
             </Column>
           </Row>
         </Grid>
