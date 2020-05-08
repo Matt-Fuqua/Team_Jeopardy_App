@@ -3,7 +3,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { CountdownCircleTimer } from 'react-countdown-circle-timer'
 import { EndGameAnimation } from '../components'
 import { checkAnswerThunkAction } from '../actions/checkAnswer';
-import { addPlayerOneScore, substractPlayerOneScore } from '../actions/managePlayerScore';
+import { addPlayerOneScore, substractPlayerOneScore, addPlayerTwoScore, substractPlayerTwoScore } from '../actions/managePlayerScore';
 import { closeQuestionModal } from '../actions/questionDisplay';
 import { Column, Grid, Row, Form, FormGroup, Modal, TextInput, Loading } from 'carbon-components-react';
 import { 
@@ -47,6 +47,7 @@ const QuestionModal = () => {
   const [guessButtonStatus, setGuessButtonStauts] = useState("Guess");
   const [circleTimerVisibilty, setCircleTimerVisibility] = useState("visible");
   const [displayAnswerVisibilty, setDisplayAnswerVisiblity] = useState("hidden");
+  const [displayGameResponse, setDisplayGameResponse] = useState("hidden");
   const [endOfTurn, setEndOfTurn] = useState(false);
 
   const handleFormGuess = e => {
@@ -56,6 +57,7 @@ const QuestionModal = () => {
       setEndOfTurn(false);
       setGuessButtonStauts("Guess");
       setDisplayAnswerVisiblity("hidden");
+      setDisplayGameResponse("hidden");
     }
     else {
     playerOneGuessing = true;
@@ -79,20 +81,48 @@ const QuestionModal = () => {
     }, 2000);
   }
 
+  const completeComputerTurn = e =>{
+    setLoaderActive(false);
+    let computerCorrect = isComputerCorrecct(75);
+    if(computerCorrect){
+      gameResponse = "Computer is correct"
+      dispatch(addPlayerTwoScore(parseInt(modalQuestionValue)));
+      console.log("computer is correct");
+    } else {
+      gameResponse = "Computer is incorrect"
+      dispatch(substractPlayerTwoScore(parseInt(modalQuestionValue)));
+      console.log("computer is not corret");
+    }
+    setGuessButtonStauts("Click to proceed");
+    setDisplayAnswerVisiblity("hidden");
+    setDisplayGameResponse("visible");
+    setEndOfTurn(true);
+  }
+
   const computerGuessing = e => {
     setRunTimer(false);
+    setCircleTimerVisibility("hidden");
     setGuessButtonStauts("Computer is guessing");
     setLoaderActive(true);
-    setTimeout(() => {setLoaderActive(false)}, 2000);
-      // random number to determine if computer will be correct
+    setTimeout(() => {completeComputerTurn()}, 2000);
+    
       // if correct, modify modal to show computer correct and update score
       // if not correct, modify modal to advise computer is wrong and update score
       // close modal and user can click next button
     
   }
 
+  const isComputerCorrecct = (p) => {
+    let temp = Math.floor(Math.random() * 100);
+    console.log("probability: " + p + " random num is " + temp);
+    if(temp<=p)
+        return true;
+    else
+        return false;
+}
+
   const computerAttemptAnswer = e => {
-    let vpTimer = Math.floor(Math.random() * Math.floor(5)+5); //!!!!!!!!!!!!!!! NEED TO CHANGE !!
+    let vpTimer = Math.floor(Math.random() * Math.floor(5)+5); 
     console.log("computer time to guess: " + vpTimer);
     console.log(playerOneGuessing);
     let timer = 10;
@@ -162,6 +192,7 @@ const QuestionModal = () => {
       }
       setEndOfTurn(true);
       setDisplayAnswerVisiblity("visible");
+      setDisplayGameResponse("visible");
       setGuessButtonStauts("Click to proceed");
     }
   }, [actualAnswer])
@@ -205,8 +236,10 @@ const QuestionModal = () => {
           </FormGroup>
  
         </Form>
-        <div style={{visibility: displayAnswerVisibilty }}>
+        <div style={{ visibility: displayGameResponse }}>
           <h2> { gameResponse }</h2>
+        </div>
+        <div style={{ visibility: displayAnswerVisibilty }}>
           <h2> The correct answer is: </h2>
           <h2> {actualAnswer} </h2>
         </div>
