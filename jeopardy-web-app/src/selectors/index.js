@@ -30,6 +30,7 @@ export const manageQuestionCount = state => get(state.manageQuestionCount, "ques
 
 // New Game Selectors
 export const newGameId = state => get(state.newGame, "gameId");
+export const newGameContestants= state => get(state.newGame, "contestants")
 export const newGameRoundOne = state => get(state.newGame, "roundOne");
 export const newGameRoundTwo = state => get(state.newGame, "roundTwo");
 export const newGameFinal = state => get(state.newGame, "final");

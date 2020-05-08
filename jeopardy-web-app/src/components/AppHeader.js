@@ -15,9 +15,6 @@ const AppHeader = () => (
       <HeaderMenuItem id="home-menu-item" href="/">
         Home
       </HeaderMenuItem>
-      <HeaderMenuItem id="about-menu-item" href="/about">
-        About
-      </HeaderMenuItem>
       <HeaderMenuItem id="admin-menu-item" href="/admin">
         Admin
       </HeaderMenuItem>

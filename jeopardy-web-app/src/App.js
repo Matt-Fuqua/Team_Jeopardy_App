@@ -2,7 +2,7 @@ import React from 'react';
 import './App.css';
 import { AppHeader } from './components';
 import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
-import { About, Admin, Dashboard, GamePlay, Home } from './pages';
+import { Admin, Dashboard, GamePlay, Home } from './pages';
 import { Content } from "carbon-components-react/lib/components/UIShell";
 
 function App() {
@@ -12,9 +12,6 @@ function App() {
       <Content>
         <Router>
           <Switch>
-            <Route path="/about">
-              <About />
-            </Route>
             <Route path="/admin">
               <Admin />
             </Route>
