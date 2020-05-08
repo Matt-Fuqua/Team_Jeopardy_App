@@ -1,6 +1,7 @@
 export { default as AnnouncementModal } from './AnnouncementModal';
 export { default as AppHeader } from './AppHeader';
 export { default as AppFooter } from './AppFooter';
+export { default as EndGameAnimation } from './EndGameAnimation';
 export { default as GamesTable } from './GamesTable';
 export { default as LoadingIndicator } from './LoadingIndicator';
 export { default as Gameboard } from './Gameboard';
