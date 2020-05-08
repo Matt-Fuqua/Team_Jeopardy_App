@@ -17,6 +17,7 @@ const EndGameAnimation = props => {
       y: 200 + Math.random() * 100 - 50 + (i === 2 ? -80 : 0)
     })
   }
+
   return(
     <div style={{ visibility: visibilityStatus }}>
       <Fireworks {...fxProps} />
