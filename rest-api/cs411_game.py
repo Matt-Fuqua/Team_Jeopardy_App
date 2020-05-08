@@ -136,8 +136,9 @@ def gameEnd(gameID, contestantID):
     cnx = cs411_db.getConnection()
     cursor = cnx.cursor()
     query = """UPDATE Games
-        SET Contestants_Contestant_ID_Winner = {0}
-        WHERE Games_Game_ID = {1}""".format(contestantID, gameID)
+        SET Contestants_Contestant_ID_Winner = {0},
+	    Game_End_Date = Now()
+        WHERE Game_ID = {1}""".format(contestantID, gameID)
     print(query)
     cursor.execute(query)
     r = cursor.rowcount
