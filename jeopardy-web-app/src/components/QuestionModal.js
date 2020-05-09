@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from 'react';
-import { useHistory  } from "react-router-dom"
 import { useDispatch, useSelector } from 'react-redux';
 import { CountdownCircleTimer } from 'react-countdown-circle-timer'
 import { EndGameAnimation } from '../components'
@@ -28,7 +27,6 @@ let timeUp = false;
 
 const QuestionModal = () => {
   const dispatch = useDispatch();
-  const history = useHistory();
 
   const gameId = useSelector(newGameId);
   const checkAnswserResponse = useSelector(checkAnswerStatus);
@@ -124,7 +122,7 @@ const QuestionModal = () => {
     let vpTimer = Math.floor(Math.random() * Math.floor(5)+6); 
     let timer = 10;
     let countdownTimer = setInterval(function() {
-      if(playerOneGuessing){
+      if(playerOneGuessing || timeUp) {
         clearInterval(countdownTimer);
       }
       if(timer === (10-vpTimer)) {
