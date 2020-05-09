@@ -24,6 +24,7 @@ import {
 } from '../selectors';
 
 let playerOneGuessing = false;
+let timeUp = false;
 
 const QuestionModal = () => {
   const dispatch = useDispatch();
@@ -64,6 +65,7 @@ const QuestionModal = () => {
       setGuessButtonStauts("Guess");
       setDisplayAnswerVisiblity("hidden");
       setDisplayGameResponse("hidden");
+      timeUp = false;
     } else {
       playerOneGuessing = true;
       setHideAnswer({ visibility:"visible" });
@@ -119,7 +121,7 @@ const QuestionModal = () => {
 }
 
   const computerAttemptAnswer = () => {
-    let vpTimer = Math.floor(Math.random() * Math.floor(5)+5); 
+    let vpTimer = Math.floor(Math.random() * Math.floor(5)+6); 
     let timer = 10;
     let countdownTimer = setInterval(function() {
       if(playerOneGuessing){
@@ -140,7 +142,13 @@ const QuestionModal = () => {
 
   const guessTimeUp = () => {
     setHideAnswer({ visibility:"hidden" });
+    setDisplayAnswerVisiblity ("hidden");
+    setDisplayGameResponse ("hidden");
+    setRunTimer(false);
     dispatch(closeQuestionModal());
+    timeUp = true;
+    
+   // setEndOfTurn(true);
   }
 
   const gameOver = () => {
@@ -170,7 +178,10 @@ const QuestionModal = () => {
       setHideAnswer({ visibility:"hidden" });
       setRunTimer(true);
       setCircleTimerVisibility("visible");
+      setDisplayAnswerVisiblity("hidden");
+      setDisplayGameResponse("hidden");
       playerOneGuessing = false;
+      timeUp = false;
       computerAttemptAnswer();
     }
   }, [modalOpen]);
