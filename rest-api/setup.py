@@ -125,6 +125,13 @@ def checkAnswer(questionID):
     """This is a debug routine. Front shouldn't need except for debugging. """
     questionGuess = request.args.get('questionGuess', 'FORM ERROR')
     print("{0} {1}".format(questionID, questionGuess))
+    return prepJSON(cs411_answers.checkAnswer2(questionID, questionGuess))
+
+@app.route('/checkQuestion2/<questionID>', methods=['GET'])
+def checkAnswer2(questionID):
+    """This is a debug routine. Front shouldn't need except for debugging. """
+    questionGuess = request.args.get('questionGuess', 'FORM ERROR')
+    print("{0} {1}".format(questionID, questionGuess))
     return prepJSON(cs411_answers.checkAnswer(questionID, questionGuess))
 
 @app.route('/submitAnswer', methods=['POST'])

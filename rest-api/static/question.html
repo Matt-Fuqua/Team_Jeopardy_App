@@ -34,7 +34,7 @@
                 var guess = document.getElementById("guess").value
                 var request = new XMLHttpRequest()
 
-                url = urlRoot + "/checkQuestion/" + questionID + "?questionGuess=" + encodeURIComponent(guess);
+                url = urlRoot + "/checkQuestion2/" + questionID + "?questionGuess=" + encodeURIComponent(guess);
                 request.open('GET', url, true)
                 request.onload = function() {
                     var data = JSON.parse(this.response);

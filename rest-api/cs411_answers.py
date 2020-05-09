@@ -83,6 +83,46 @@ def checkAnswer(questionID, questionGuess):
     }
     return result
     
+def checkAnswer2(questionID, questionGuess):
+    """Checks the guessed answer for a given ID.  Return a dictionary containing:
+        Question_ID:  The ID of the Question asked.  (You passed this in)
+        CorrectQuestion: The actual correct question according to the archives.
+        ParsedQuestion:  The actual correct question ran through text cleaning.
+        YourGuess:  The text of the user guess (You passed this in)
+        ParsedGuess:  The text of the user guess ran through the text cleaning.
+        CorrectGuess:  A score between 0 and 1 that indicates how correct your guess is.
+        ConsideredCorrect: a Y or N that removes any doubt about whether the question should be considered correct.
+    """
+    conn = cs411_db.getConnection()
+    curs = conn.cursor()
+
+    query = """SELECT Answer_Text
+        FROM Game_Questions
+        WHERE Game_Questions_ID = {0}""" .format(questionID)
+    curs.execute(query)
+    result = curs.fetchone()
+    print(result)
+    if result != None: question = result[0].decode()
+    else: question = "Question with ID {0} does not exist in the database.".format(questionID)
+    curs.close()
+    conn.close()
+
+    questionParsed = textCleaning(question)
+    questionGuessParsed = textCleaning(questionGuess)
+    score = answerCorrect(questionParsed, questionGuessParsed)
+    correct = (score >= 0.5)
+
+    result = {
+        "Question_ID": questionID,
+        "CorrectQuestion": question,
+        "ParsedQuestion": str(questionParsed),
+        "YourGuess": questionGuess,
+        "ParsedGuess": questionGuessParsed,
+        "Correctness": score,
+        "ConsideredCorrect": 'Y' if correct else 'N'
+    }
+    return result
+    
 def submitAnswer(Games_Game_ID, GameQuestions_ID, Contestant_Coontestant_ID, questionGuess):
     """Submits the guessed answer for a given ID.  Return a dictionary containing:
 
@@ -95,7 +135,7 @@ def submitAnswer(Games_Game_ID, GameQuestions_ID, Contestant_Coontestant_ID, que
         ConsideredCorrect: a Y or N that if the question is considered correct.
     """
 
-    check = checkAnswer(GameQuestions_ID, questionGuess)
+    check = checkAnswer2(GameQuestions_ID, questionGuess)
 
     conn = cs411_db.getConnection()
     curs = conn.cursor()
